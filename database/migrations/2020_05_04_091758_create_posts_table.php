@@ -8,27 +8,30 @@ class CreatePostsTable extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
     public function up()
     {
         Schema::create('posts', function (Blueprint $table) {
-            $table->Increments('id');
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('user_id');
             $table->string('title');
             $table->string('slug')->unique();
+            $table->string('cover_image')->nullable()->default(defaultPostImage());
             $table->longText('content');
-            $table->longText('cover_image')->nullable();
-            $table->boolean('is_approved')->default(0)->nullable();
+            $table->boolean('is_approved')->default(false);
+            $table->timestamps();
             $table->softDeletes();
+
+            $table->foreign('user_id')
+                ->references('id')->on('users')
+                ->onDelete('cascade')
+            ;
             $table->timestamps();
         });
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
     public function down()
     {
