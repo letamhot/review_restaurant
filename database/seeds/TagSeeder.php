@@ -13,8 +13,8 @@ class TagSeeder extends Seeder
      */
     public function run()
     {
-        \DB::table('tags')->delete();
-        \DB::table('tags')->insert(array(
+        DB::table('tags')->delete();
+        DB::table('tags')->insert(array(
             0 =>
             array(
                 'name' => 'seafood',
@@ -28,7 +28,7 @@ class TagSeeder extends Seeder
             2 =>
             array(
                 'name' => 'hamburger',
-                'slug' => Str::slug('ham bur ger'),
+                'slug' => Str::slug('hamburger'),
             ),
             3 =>
             array(
