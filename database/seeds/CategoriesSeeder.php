@@ -13,8 +13,8 @@ class CategoriesSeeder extends Seeder
      */
     public function run()
     {
-        \DB::table('categories')->delete();
-        \DB::table('categories')->insert(array(
+        DB::table('categories')->delete();
+        DB::table('categories')->insert(array(
             0 =>
             array(
                 'name' => 'Nhà hàng Thái Lan',
@@ -28,7 +28,7 @@ class CategoriesSeeder extends Seeder
             2 =>
             array(
                 'name' => 'Nhà hàng Hàn Quốc',
-                'slug' => Str::slug('thái lan'),
+                'slug' => Str::slug('nhà hàng hàn quốc'),
             ),
             3 =>
             array(
