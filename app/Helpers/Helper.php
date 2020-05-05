@@ -1,7 +1,5 @@
 <?php
 
-namespace App\Helpers;
-
 if (!function_exists('customDateFormat')) {
     function customDateFormat($value)
     {
