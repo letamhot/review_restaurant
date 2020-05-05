@@ -13,7 +13,7 @@ class CreateFollowTagTable extends Migration
     {
         Schema::create('follow_tag_user', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('tag_id');
+            $table->unsignedInteger('tag_id');
             $table->unsignedBigInteger('user_id');
             $table->timestamps();
 

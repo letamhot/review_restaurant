@@ -13,18 +13,12 @@ class CreateBookmarkTable extends Migration
     {
         Schema::create('bookmark_post_user', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('post_id');
+            $table->unsignedBigInteger('post_id');
             $table->unsignedBigInteger('user_id');
             $table->timestamps();
 
-            $table->foreign('user_id')
-                ->references('id')->on('users')
-                ->onDelete('cascade')
-            ;
-            $table->foreign('post_id')
-                ->references('id')->on('posts')
-                ->onDelete('cascade')
-            ;
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('post_id')->references('id')->on('posts')->onDelete('cascade');
         });
     }
 
