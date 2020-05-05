@@ -13,11 +13,11 @@ class RolesSeeder extends Seeder
     public function run()
     {
         DB::table('roles')->delete();
-    DB::table('roles')->insert(array(
+        DB::table('roles')->insert(array(
             0 =>
             array(
                 'name' => 'Admin',
-                'description' => 'Quyền admin',
+                'description' => 'Quyền Admin',
             ),
             1 =>
             array(
@@ -27,7 +27,7 @@ class RolesSeeder extends Seeder
             2 =>
             array(
                 'name' => 'User',
-                'description' => 'Quyền user',
+                'description' => 'Quyền User',
             ),
         ));
     }
