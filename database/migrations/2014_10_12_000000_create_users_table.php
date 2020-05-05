@@ -8,10 +8,12 @@ class CreateUsersTable extends Migration
 {
     /**
      * Run the migrations.
+     *
+     * @return void
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+         Schema::create('users', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedInteger('role_id')->default(3); // user role
             $table->string('name');
@@ -33,6 +35,8 @@ class CreateUsersTable extends Migration
 
     /**
      * Reverse the migrations.
+     *
+     * @return void
      */
     public function down()
     {
