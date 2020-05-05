@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFollowTagTable extends Migration
+class CreateFollowTagUserTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateFollowTagTable extends Migration
     {
         Schema::create('follow_tag_user', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedInteger('tag_id');
+            $table->unsignedBigInteger('tag_id');
             $table->unsignedBigInteger('user_id');
             $table->timestamps();
 
