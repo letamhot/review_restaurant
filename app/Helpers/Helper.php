@@ -1,5 +1,8 @@
 <?php
 
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\URL;
+
 if (!function_exists('customDateFormat')) {
     function customDateFormat($value)
     {
