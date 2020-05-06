@@ -169,6 +169,10 @@ return [
         App\Providers\RouteServiceProvider::class,
         // Custom Helper
         App\Providers\HelperServiceProvider::class,
+        // Category Provider
+        App\Providers\CategoryServiceProvider::class,
+        // Post Provider
+        // Tag Provider
     ],
 
     /*
