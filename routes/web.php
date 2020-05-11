@@ -21,4 +21,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::resource('tag', 'TagController');
+// tag deleted
+Route::get('/tagdel', 'TagController@showdeletedtags')->name('tagdel');
+Route::get('/tagdel/restore/{id}', 'TagController@restoreDeletedTags')->name('restoreTag');
