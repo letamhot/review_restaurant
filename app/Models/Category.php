@@ -17,7 +17,9 @@ class Category extends Model
      *
      * @var array
      */
-    protected $hidden = ['created_at', 'updated_at'];
+    // protected $hidden = ['created_at', 'updated_at'];
+
+    // protected $guarded = [];
 
     protected $fillable = [
         'name', 'slug',
