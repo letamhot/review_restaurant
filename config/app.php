@@ -66,7 +66,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Asia/Ho_Chi_Minh',
 
     /*
     |--------------------------------------------------------------------------
@@ -172,6 +172,7 @@ return [
         // Category Provider
         App\Providers\CategoryServiceProvider::class,
         // Post Provider
+        App\Providers\PostServiceProvider::class,
         // Tag Provider
         App\Providers\TagServiceProvider::class,
         //
