@@ -20,14 +20,34 @@ abstract class BaseServiceImpl implements BaseService
         $this->modelRepository = app()->make($this->getModelRepository());
     }
 
-    public function getAll()
+    public function getAll($type = null)
     {
-        return $this->modelRepository->getAll();
+        return $this->modelRepository->getAll($type);
     }
 
-    public function findByID($id)
+    public function getAllWithTrashed()
     {
-        return $this->modelRepository->findByID($id);
+        return $this->modelRepository->getAllWithTrashed();
+    }
+
+    public function getAllOnlyTrashed()
+    {
+        return $this->modelRepository->getAllOnlyTrashed();
+    }
+
+    public function findById($id)
+    {
+        return $this->modelRepository->findById($id);
+    }
+
+    public function findByIdWithTrashed($id)
+    {
+        return $this->modelRepository->findByIdWithTrashed($id);
+    }
+
+    public function findByIdOnlyTrashed($id)
+    {
+        return $this->modelRepository->findByIdOnlyTrashed($id);
     }
 
     public function create($request)
@@ -48,5 +68,15 @@ abstract class BaseServiceImpl implements BaseService
     public function forceDestroy($id)
     {
         return $this->modelRepository->forceDestroy($id);
+    }
+
+    public function restoreSoftDelete($object)
+    {
+        return $this->modelRepository->restoreSoftDelete($object);
+    }
+
+    public function permanentDestroySoftDeleted($object)
+    {
+        return $this->modelRepository->permanentDestroySoftDeleted($object);
     }
 }
