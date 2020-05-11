@@ -158,6 +158,8 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         Yoeunes\Toastr\ToastrServiceProvider::class,
+        Yajra\Datatables\DatatablesServiceProvider::class,
+
 
         // Package Service Providers...
 
