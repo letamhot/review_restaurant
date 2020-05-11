@@ -62,8 +62,7 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Category $category)
-    {
-    }
+    { }
 
     /**
      * Show the form for editing the specified resource.

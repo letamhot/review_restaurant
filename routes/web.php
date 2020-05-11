@@ -21,6 +21,12 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Auth::routes();
 
+
+Route::resource('tag', 'TagController');
+// tag deleted
+Route::get('/tagdel', 'TagController@showdeletedtags')->name('tagdel');
+Route::get('/tagdel/restore/{id}', 'TagController@restoreDeletedTags')->name('restoreTag');
+=======
 Route::get('/home', 'HomeController@index')->name('home');
 
 
@@ -51,4 +57,5 @@ Route::post('post/update/{id}', 'PostController@update');
 
 // Route::put('/post/{postId}', 'PostController@update')->name('post.update');
 // Route::get('/post/delete/{postId}', 'PostController@destroy')->name('post.destroy');
+
 
