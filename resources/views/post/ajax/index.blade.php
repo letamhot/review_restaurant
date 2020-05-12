@@ -103,7 +103,6 @@
         </div>
     </div>
 </body>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script>
     var post = post || {};
     post.drawData = function() {
@@ -210,7 +209,6 @@
             }
         });
         $('#addform').on('submit', function(e) {
-            {{-- var isChecked = $("#is_approved").is(":checked") ? 1:0; --}}
             if ($('#postid').val() != 0) {
             e.preventDefault();
             var formData = new FormData(this);
@@ -272,6 +270,7 @@
 </script>
 <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
     crossorigin="anonymous"></script>
+    
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"

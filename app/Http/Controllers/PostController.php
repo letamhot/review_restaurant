@@ -91,6 +91,7 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // return $request;
         // $result = $this->postService->update($request, $post);
         $obj = $this->postService->findByID($id);
 

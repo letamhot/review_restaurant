@@ -78,4 +78,15 @@ class Post extends Model
         $this->attributes['slug'] = $slug;
     }
 
+    public function setIs_Approvedttribute($key, $value)
+    {
+        if($value) {
+            $this->attributes['is_approved'] = true;
+        }
+        
+        else {
+            $this->attributes['is_approved'] = false;
+        }
+    }
+
 }

@@ -54,16 +54,12 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
                 $post->slug = $title;
                 $post->cover_image = $imageName;
                 $post->content = $request->content;
-                // nếu user là Admin thì post được is_approved
-                // ngược lại là false chờ approved
-                if (1 === $userID) {
-                    $post->is_approved = true;
+                if($request->is_approved == 'on')
+                {
+                    $post->is_approved = 1;
                 } else {
-                    $post->is_approved = false;
-                    // thông báo post chờ duyệt cho admin , mod
+                    $post->is_approved = 0;
                 }
-                $post->is_approved = $request->is_approved;
-
                 $post->save();
                 $post->categories()->sync($request->categories, false); // syncWithoutDetaching
                 $post->tags()->sync($request->tags, false);
@@ -77,6 +73,7 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
 
     public function update($request, $post)
     {
+        // dd($request->all());
         // dump($post);
         try {
             $image = $request->cover_image;
@@ -114,22 +111,14 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
             // using the mutator setSlugAttribute()
             $post->slug = $title;
             $post->cover_image = $imageName;
-            $post->content = $request->content;
-            // nếu user là Admin thì post được is_approved
-            // ngược lại là false chờ approved
-            // if (1 === $userID) {
-            //     $post->is_approved = true;
-            // } else {
-            //     $post->is_approved = false;
-            //     // thông báo post chờ duyệt cho admin , mod
-            // }
-            // $post->is_approved = $request->is_approved;
             
-    if($post->is_approved == 1){
-        $post->is_approved = 0;
-    } else {
-        $post->is_approved = 1;
-    }
+            $post->content = $request->content;
+            if($request->is_approved == 'on')
+            {
+                $post->is_approved = 1;
+            } else {
+                $post->is_approved = 0;
+            }
 
             $post->update();
             $post->categories()->sync($request->categories, false); // syncWithoutDetaching
@@ -148,6 +137,10 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
     {
         try {
             $post = $this->getPost()::findOrFail($id);
+            // dd($post);
+            // update new value for each post before delete Post
+            // $post->user()->wherePostId($id)->update(['user_id' => 1]);
+            // $post->user()->detach();
             $post->delete();
         } catch (\Exception $e) {
             return null;
