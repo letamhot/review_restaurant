@@ -24,11 +24,10 @@
                                     <input type="file" id="cover_image" name="cover_image" class="form-control">
                                 </div>
                                 <div class="form-group">
-                                    <textarea class="form-control" rows="5" id="content" name="content" id="content"
-                                        class="form-control" placeholder="Content"></textarea>
+                                    <textarea class="form-control" rows="5" id="content" name="content" placeholder="Content"></textarea>
                                 </div>
                                 <div class="form-group custom-checkbox">
-                                    <input type="checkbox" value="0" class="form-control-input checkbox" id="is_approved"
+                                    <input type="checkbox" class="form-control-input checkbox" id="is_approved"
                                         name="is_approved" checked="checked">
                                     <label class="form-control-label" for="is_approved">Active</label>
                                 </div>
@@ -43,10 +42,6 @@
 
             </div>
         </div>
-        {{-- <a href="{{route('post.create')}}" class="btn btn-success">Create New Post</a> --}}
-        {{-- <button type="button" class="btn btn-primary" onclick="post.showModal();" data-toggle="modal" data-target="#addpostmodal">
-            Create Post
-        </button> --}}
         <a href="javascript:;" class="btn btn-info" onclick="post.showModal();" data-toggle="modal"
             data-target="#addpostmodal">Create</a>
         @foreach ($errors->all() as $error)
@@ -66,7 +61,7 @@
                     <th>Slug</th>
                     <th>Cover_image</th>
                     <th>Content</th>
-                    <th>Active</th>
+                    <th id="active">Active</th>
                     <th>Created_at</th>
                     <th>Updated_at</th>
                     <th>Action</th>

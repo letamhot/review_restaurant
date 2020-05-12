@@ -116,16 +116,4 @@ class PostController extends Controller
 
         return redirect()->route('post.index');
     }
-    // NOT AJAX
-    // protected function goTo($result)
-    // {
-    //     if ($result) {
-    //         // Toastr::success('Successfully! :)', 'Success');
-
-    //         return redirect()->route('post.index');
-    //     }
-    //     // Toastr::error('Something went wrong!', 'Error');
-
-    //     return back();
-    // }
 }

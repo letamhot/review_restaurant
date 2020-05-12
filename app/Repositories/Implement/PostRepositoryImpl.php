@@ -54,16 +54,12 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
                 $post->slug = $title;
                 $post->cover_image = $imageName;
                 $post->content = $request->content;
-                // nếu user là Admin thì post được is_approved
-                // ngược lại là false chờ approved
-                if (1 === $userID) {
-                    $post->is_approved = true;
+                if($request->is_approved == 'on')
+                {
+                    $post->is_approved = 1;
                 } else {
-                    $post->is_approved = false;
-                    // thông báo post chờ duyệt cho admin , mod
+                    $post->is_approved = 0;
                 }
-                $post->is_approved = $request->is_approved;
-
                 $post->save();
                 $post->categories()->sync($request->categories, false); // syncWithoutDetaching
                 $post->tags()->sync($request->tags, false);
@@ -77,7 +73,6 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
 
     public function update($request, $post)
     {
-        // dump($post);
         try {
             $image = $request->cover_image;
             // dd($image);
@@ -92,12 +87,8 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
                     if (!File::exists($path)) {
                         File::makeDirectory($path, 0777, true);
                     }
-                    // xoá ảnh cũ nếu có
-                    // để cập nhật ảnh mới
                     
                     $oldPath = public_path()."/posts/".$post->cover_image;
-                    // dump(File::exists($oldPath));
-                    // dd($oldPath);
                     if (File::exists($oldPath)) {
                         File::delete($oldPath);
                     }
@@ -115,26 +106,16 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
             $post->slug = $title;
             $post->cover_image = $imageName;
             $post->content = $request->content;
-            // nếu user là Admin thì post được is_approved
-            // ngược lại là false chờ approved
-            // if (1 === $userID) {
-            //     $post->is_approved = true;
-            // } else {
-            //     $post->is_approved = false;
-            //     // thông báo post chờ duyệt cho admin , mod
-            // }
-            // $post->is_approved = $request->is_approved;
-            
-    if($post->is_approved == 1){
-        $post->is_approved = 0;
-    } else {
-        $post->is_approved = 1;
-    }
+            if($request->is_approved == 'on')
+            {
+                $post->is_approved = 1;
+            } else {
+                $post->is_approved = 0;
+            }
 
             $post->update();
             $post->categories()->sync($request->categories, false); // syncWithoutDetaching
             $post->tags()->sync($request->tags, false);
-            // $post->update($request);
 
             
         } catch (\Exception $e) {

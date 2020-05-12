@@ -21,7 +21,7 @@ interface BaseRepository
     public function update($request, $object);
 
     public function destroy($object);
-
+    
     public function forceDestroy($object);
 
     public function restoreSoftDelete($id);
