@@ -74,6 +74,7 @@ abstract class EloquentRepository implements BaseRepository
         }
     }
 
+
     public function create($request)
     {
         try {

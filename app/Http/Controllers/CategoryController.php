@@ -75,6 +75,7 @@ class CategoryController extends Controller
     {
         // NOT DEFINE YET WHEN USING AJAX
     }
+    { }
 
     /**
      * Show the form for editing the specified resource.
