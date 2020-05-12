@@ -19,10 +19,34 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+// ADMIN - Category CRUD
+Route::resource('/category', 'CategoryController');
+Route::delete('/category/{category}/emptyTrash', 'CategoryController@emptyTrash')->name('category.emptyTrash');
+Route::patch('/category/{category}/restoreTrash', 'CategoryController@restoreTrash')->name('category.restoreTrash');
+Route::get('/category/trash/sd', 'CategoryController@getTrashRecords')->name('category.trash');
 Auth::routes();
+
+
+Route::resource('tag', 'TagController');
+// tag deleted
+Route::get('/tagdel', 'TagController@showdeletedtags')->name('tagdel');
+Route::get('/tagdel/restore/{id}', 'TagController@restoreDeletedTags')->name('restoreTag');
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+
+// Category testing
+Route::resource('/category', 'CategoryController');
+Route::get('categories', 'CategoryController@ajaxIndex')->name('category.ajaxIndex');
+Route::post('categories', 'CategoryController@ajaxStore')->name('category.ajaxStore');
+
+Route::get('categories/{category}/edit', 'CategoryController@ajaxEdit')->name('category.ajaxEdit');
+Route::put('categories/{category}', 'CategoryController@ajaxUpdate')->name('category.ajaxUpdate');
+
+Route::delete('categories/{category}', 'CategoryController@ajaxDelete')->name('category.ajaxDelete');
+Route::delete('categories/{category}/hardDelete', 'CategoryController@ajaxHardDelete')->name('category.ajaxHardDelete');
+Route::patch('categories/{category}/restoreDelete', 'CategoryController@ajaxRestoreDelete')->name('category.ajaxRestoreDelete');
+Route::get('categories/trash', 'CategoryController@getTrashRecords')->name('category.getTrashRecords');
 
 Route::resource('api/post', 'PostController');
 
@@ -34,4 +58,5 @@ Route::post('/post/add', 'PostController@store')->name('post.store');
 Route::post('post/delete/{id}', 'PostController@destroy');
 Route::get('post/get/{id}', 'PostController@edit');
 Route::post('post/update/{id}', 'PostController@update');
+
 

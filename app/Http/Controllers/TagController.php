@@ -4,17 +4,25 @@ namespace App\Http\Controllers;
 
 use App\Models\Tag;
 use Illuminate\Http\Request;
+use App\Services\TagService;
 
 class TagController extends Controller
 {
+    protected $tagService;
+
+    public function __construct(TagService $tagService)
+    {
+        $this->tagService = $tagService;
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        // return view('tags.index');
+        return $this->tagService->ajaxIndex($request);
     }
 
     /**
@@ -24,7 +32,7 @@ class TagController extends Controller
      */
     public function create()
     {
-        //
+        return view('tags.create');
     }
 
     /**
@@ -35,7 +43,9 @@ class TagController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return  $this->tagService->ajaxStore($request);
+        // $this->tagService->create($request);
+        // return redirect()->route('tag.index');
     }
 
     /**
@@ -46,7 +56,7 @@ class TagController extends Controller
      */
     public function show(Tag $tag)
     {
-        //
+        return $tag;
     }
 
     /**
@@ -57,7 +67,8 @@ class TagController extends Controller
      */
     public function edit(Tag $tag)
     {
-        //
+        return $tag;
+        // return view('tags.edit', ["tag" => $tag]);
     }
 
     /**
@@ -67,10 +78,11 @@ class TagController extends Controller
      * @param  \App\Models\Tag  $tag
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Tag $tag)
-    {
-        //
-    }
+    // public function update($id)
+    // {
+
+    //     return  $this->tagService->ajaxUpdate($id);
+    // }
 
     /**
      * Remove the specified resource from storage.
@@ -78,8 +90,33 @@ class TagController extends Controller
      * @param  \App\Models\Tag  $tag
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Tag $tag)
+    public function destroy($id)
     {
-        //
+        $this->tagService->AjaxDestroy($id);
+    }
+
+    protected function goTo($result)
+    {
+        if ($result) {
+            // Toastr::success('Successfully! :)', 'Success');
+
+            return redirect()->route('tag.index');
+        }
+        // Toastr::error('Something went wrong!', 'Error');
+
+        return back();
+    }
+
+    public function showdeletedtags()
+    {
+        $delete = $this->tagService->showdeleted();
+        return view('deletedtags.index', ["delete" => $delete]);
+    }
+
+
+    public function restoreDeletedTags($id)
+    {
+        $this->tagService->restoreDelete($id);
+        return redirect('/tag');
     }
 }

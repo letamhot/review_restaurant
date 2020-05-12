@@ -22,13 +22,58 @@ abstract class EloquentRepository implements BaseRepository
 
     public function getAll()
     {
-        return $this->model->all();
+        try {
+            return $this->model->all();
+        } catch (\Exception $e) {
+            return null;
+        }
     }
 
-    public function findByID($id)
+    public function getAllWithTrashed()
     {
-        return $this->model->findOrFail($id);
+        try {
+            return $this->model->withTrashed()->get();
+        } catch (\Exception $e) {
+            return null;
+        }
     }
+
+    public function getAllOnlyTrashed()
+    {
+        try {
+            return $this->model->onlyTrashed()->get();
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
+    public function findById($id)
+    {
+        try {
+            return $this->model->findOrFail($id);
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
+    public function findByIdWithTrashed($id)
+    {
+        try {
+            return $this->model->withTrashed()->findOrFail($id);
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
+    public function findByIdOnlyTrashed($id)
+    {
+        try {
+            return $this->model->onlyTrashed()->findOrFail($id);
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
 
     public function create($request)
     {
@@ -42,7 +87,7 @@ abstract class EloquentRepository implements BaseRepository
     public function update($request, $object)
     {
         try {
-            $object->update($request);
+            return $object->update($request);
         } catch (\Exception $e) {
             return null;
         }
@@ -51,7 +96,7 @@ abstract class EloquentRepository implements BaseRepository
     public function destroy($object)
     {
         try {
-            $object->delete();
+            return $object->delete();
         } catch (\Exception $e) {
             return null;
         }
@@ -60,7 +105,27 @@ abstract class EloquentRepository implements BaseRepository
     public function forceDestroy($object)
     {
         try {
-            $object->forceDelete();
+            return $object->forceDelete();
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
+    public function restoreSoftDelete($id)
+    {
+        try {
+            return $this->findByIdOnlyTrashed($id)->restore();
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
+    public function permanentDestroySoftDeleted($id)
+    {
+        try {
+            $object = $this->findByIdOnlyTrashed($id);
+
+            return $this->forceDestroy($object);
         } catch (\Exception $e) {
             return null;
         }

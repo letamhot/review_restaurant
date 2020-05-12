@@ -2,7 +2,10 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Symfony\Component\HttpFoundation\Response;
 
 class CategoryRequest extends FormRequest
 {
@@ -26,8 +29,8 @@ class CategoryRequest extends FormRequest
         return [
             'name' => [
                 'required',
-                'min:3',
-                'max:33',
+                'min:2',
+                'max:50',
                 'unique:categories',
             ],
         ];
@@ -44,4 +47,9 @@ class CategoryRequest extends FormRequest
             'name.required' => 'Vui lòng nhập tên!?',
         ];
     }
+
+    // protected function failedValidation(Validator $validator)
+    // {
+    //     throw new HttpResponseException(response($validator->errors(), Response::HTTP_UNPROCESSABLE_ENTITY));
+    // }
 }

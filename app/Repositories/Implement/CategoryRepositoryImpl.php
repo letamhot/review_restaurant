@@ -5,7 +5,7 @@ namespace App\Repositories\Implement;
 use App\Models\Category;
 use App\Repositories\CategoryRepository;
 use App\Repositories\Eloquent\EloquentRepository;
-use Illuminate\Support\Str;
+use Yajra\DataTables\DataTables;
 
 class CategoryRepositoryImpl extends EloquentRepository implements CategoryRepository
 {
@@ -19,50 +19,88 @@ class CategoryRepositoryImpl extends EloquentRepository implements CategoryRepos
         return Category::class;
     }
 
-    public function create($request)
-    {
-        try {
-            $category = $this->getCategory();
-            $category->name = $request->name;
-            $category->slug = Str::slug($request->name);
-            $category->save();
-        } catch (\Exception $e) {
-            return null;
-        }
-
-        return true;
-    }
-
-    public function update($request, $category)
-    {
-        try {
-            $category->update($request->all());
-            // $category->name = $request->name;
-            // $category->slug = Str::slug($request->name);
-            // create unique slug using the mutator setSlugAttribute() no need Str::slug
-            // $category->slug = $request->name;
-            // $category->update();
-        } catch (\Exception $e) {
-            return null;
-        }
-
-        return true;
-    }
-
+    /**
+     * Re-define getAllOnlyTrashed() function for dataTable AJAX.
+     *  Using for CategoryController@destroy.
+     *
+     * @param mixed $id
+     */
     public function destroy($id)
     {
         try {
-            $category = $this->getCategory()::findOrFail($id);
-            // dd($category);
+            $category = $this->findById($id);
             // update new value for each post before delete category
             $category->posts()->whereCategoryId($id)->update(['category_id' => 1]);
             $category->posts()->detach();
-            $category->delete();
+
+            return $category->delete();
         } catch (\Exception $e) {
             return null;
         }
     }
 
+    /**
+     * Re-define getAll() function for dataTable AJAX.
+     * Using for CategoryController@index.
+     */
+    public function getAll()
+    {
+        try {
+            $data = $this->getCategory()::select('*');
+
+            return DataTables::of($data)
+                ->addColumn('action', 'backend.admin.categories.partials.btn_action')
+                ->rawColumns(['action'])
+                ->addIndexColumn()
+                ->make(true)
+            ;
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
+    /**
+     * Re-define getAllOnlyTrashed() function for dataTable AJAX.
+     *  Using for CategoryController@getTrashRecords.
+     */
+    public function getAllOnlyTrashed()
+    {
+        try {
+            $data = $this->getCategory()::select('*')->onlyTrashed();
+
+            return DataTables::of($data)
+                ->addColumn('action', 'backend.admin.categories.partials.btn_trash')
+                ->rawColumns(['action'])
+                ->addIndexColumn()
+                ->make(true)
+            ;
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
+    /**
+     * Update or Create new record to database.
+     *
+     * @param mixed $request
+     */
+    public function ajaxStore($request)
+    {
+        try {
+            $categoryId = $request->category_id;
+
+            return $this->getCategory()::updateOrCreate(
+                ['id' => $categoryId],
+                ['name' => $request->name, 'slug' => $request->name]
+            );
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
+    /**
+     * Make Model class.
+     */
     protected function getCategory()
     {
         return app()->make($this->getModel());
