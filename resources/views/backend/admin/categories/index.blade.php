@@ -12,9 +12,6 @@
 </style>
 @endpush
 
-@push('head_js')
-@endpush
-
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
@@ -38,17 +35,19 @@
     </div>
 </div>
 
-@include('categories.ajax.ajax')
+<!-- Show bootstrap modal -->
+@include('backend.admin.categories.partials.modal')
+
 @endsection
 
 @push('bot_js')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" ></script>
-<script  src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <script defer type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
 <script defer type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js"></script>
 
-<script src="{{ asset('js/ajax.js')}}"></script>
+<script src="{{ asset('assets/backend/js/ajax_CRUD_category.js')}}"></script>
 @endpush

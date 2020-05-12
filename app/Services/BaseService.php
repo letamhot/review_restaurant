@@ -4,7 +4,7 @@ namespace App\Services;
 
 interface BaseService
 {
-    public function getAll($type);
+    public function getAll();
 
     public function getAllWithTrashed();
 
@@ -20,11 +20,11 @@ interface BaseService
 
     public function update($request, $object);
 
-    public function destroy($id);
+    public function destroy($object);
 
-    public function forceDestroy($id);
+    public function forceDestroy($object);
 
-    public function restoreSoftDelete($object);
+    public function restoreSoftDelete($id);
 
-    public function permanentDestroySoftDeleted($object);
+    public function permanentDestroySoftDeleted($id);
 }

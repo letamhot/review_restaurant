@@ -4,7 +4,7 @@ namespace App\Repositories;
 
 interface BaseRepository
 {
-    public function getAll($type);
+    public function getAll();
 
     public function getAllWithTrashed();
 
@@ -24,7 +24,7 @@ interface BaseRepository
 
     public function forceDestroy($object);
 
-    public function restoreSoftDelete($object);
+    public function restoreSoftDelete($id);
 
-    public function permanentDestroySoftDeleted($object);
+    public function permanentDestroySoftDeleted($id);
 }
