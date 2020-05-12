@@ -19,7 +19,7 @@ post.drawData = function() {
                             <td>${value.updated_at}</td>
 
                             <td>
-                                <a href="javascript:;" onclick="post.getDetail(${value.id})"><i class="fa fa-edit"></i></a>
+                                <a id= '' href="javascript:;" onclick="post.getDetail(${value.id})"><i class="fa fa-edit"></i></a>
                                 <a href="javascript:;" onclick="post.remove(${value.id})"><i class="fa fa-trash"></i></a>
                             </td>
                         </tr>
@@ -30,20 +30,16 @@ post.drawData = function() {
             $('#tbUser').DataTable();
         }
     });
-};
+}
 
 
 $('#addform').on('submit', function(e) {
     e.preventDefault();
-    var isChecked = $('#is_approved').is(':checked') ? 1 : 0;
-
     if ($('#postid').val() == 0) {
-
         $.ajax({
             type: 'POST',
             url: '/post/add',
             data: new FormData(this),
-            isChecked,
             cache: false,
             contentType: false,
             processData: false,
@@ -75,14 +71,13 @@ post.getDetail = function(id) {
             $('#coverimage').prop('src', '/posts/' + data.cover_image);
             $('#content').val(data.content);
             data.is_approved == 1 ? $('#is_approved').prop('checked', true) : $('#is_approved').prop('checked', false);
-            // $('#is_approved').val(data.is_approved);
             $('#postid').val(data.id);
             $('#addpostmodal').find('#exampleModalLongTitle').text('Update to Post');
             $('.modal-footer').find('#submit').text('Update');
             $('#addpostmodal').modal('show');
         }
     });
-};
+}
 
 $('#addform').on('submit', function(e) {
     var objEdit = {};

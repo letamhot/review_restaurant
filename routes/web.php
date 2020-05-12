@@ -35,5 +35,3 @@ Route::post('post/delete/{id}', 'PostController@destroy');
 Route::get('post/get/{id}', 'PostController@edit');
 Route::post('post/update/{id}', 'PostController@update');
 
-// Route::put('/post/{postId}', 'PostController@update')->name('post.update');
-// Route::get('/post/delete/{postId}', 'PostController@destroy')->name('post.destroy');

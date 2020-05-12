@@ -42,10 +42,6 @@
 
             </div>
         </div>
-        {{-- <a href="{{route('post.create')}}" class="btn btn-success">Create New Post</a> --}}
-        {{-- <button type="button" class="btn btn-primary" onclick="post.showModal();" data-toggle="modal" data-target="#addpostmodal">
-            Create Post
-        </button> --}}
         <a href="javascript:;" class="btn btn-info" onclick="post.showModal();" data-toggle="modal"
             data-target="#addpostmodal">Create</a>
         @foreach ($errors->all() as $error)

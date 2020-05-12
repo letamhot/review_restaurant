@@ -73,7 +73,6 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
 
     public function update($request, $post)
     {
-        // dd($request->all());
         // dump($post);
         try {
             $image = $request->cover_image;
@@ -111,7 +110,6 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
             // using the mutator setSlugAttribute()
             $post->slug = $title;
             $post->cover_image = $imageName;
-            
             $post->content = $request->content;
             if($request->is_approved == 'on')
             {
