@@ -19,8 +19,8 @@ post.drawData = function() {
                             <td>${value.updated_at}</td>
 
                             <td>
-                                <a id= '' href="javascript:;" onclick="post.getDetail(${value.id})"><i class="fa fa-edit"></i></a>
-                                <a href="javascript:;" onclick="post.remove(${value.id})"><i class="fa fa-trash"></i></a>
+                                <a id= "edit" href="javascript:;" onclick="post.getDetail(${value.id})"><i class="fa fa-edit"></i></a>
+                                <a id = "delete" href="javascript:;" onclick="post.remove(${value.id})"><i class="fa fa-trash"></i></a>
                             </td>
                         </tr>
 
@@ -142,9 +142,6 @@ post.remove = function(id) {
         }
     })
 };
-
-
-
 post.init = function() {
     post.drawData();
 };

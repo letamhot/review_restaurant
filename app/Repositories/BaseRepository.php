@@ -14,6 +14,5 @@ interface BaseRepository
 
     public function destroy($object);
     
-
     public function forceDestroy($object);
 }

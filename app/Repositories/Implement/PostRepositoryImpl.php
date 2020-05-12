@@ -73,7 +73,6 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
 
     public function update($request, $post)
     {
-        // dump($post);
         try {
             $image = $request->cover_image;
             // dd($image);
@@ -88,12 +87,8 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
                     if (!File::exists($path)) {
                         File::makeDirectory($path, 0777, true);
                     }
-                    // xoá ảnh cũ nếu có
-                    // để cập nhật ảnh mới
                     
                     $oldPath = public_path()."/posts/".$post->cover_image;
-                    // dump(File::exists($oldPath));
-                    // dd($oldPath);
                     if (File::exists($oldPath)) {
                         File::delete($oldPath);
                     }
@@ -121,7 +116,6 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
             $post->update();
             $post->categories()->sync($request->categories, false); // syncWithoutDetaching
             $post->tags()->sync($request->tags, false);
-            // $post->update($request);
 
             
         } catch (\Exception $e) {
@@ -135,10 +129,6 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
     {
         try {
             $post = $this->getPost()::findOrFail($id);
-            // dd($post);
-            // update new value for each post before delete Post
-            // $post->user()->wherePostId($id)->update(['user_id' => 1]);
-            // $post->user()->detach();
             $post->delete();
         } catch (\Exception $e) {
             return null;
