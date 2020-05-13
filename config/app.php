@@ -66,7 +66,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Asia/Ho_Chi_Minh',
 
     /*
     |--------------------------------------------------------------------------
@@ -158,6 +158,8 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         Yoeunes\Toastr\ToastrServiceProvider::class,
+        Yajra\Datatables\DatatablesServiceProvider::class,
+
 
         // Package Service Providers...
 
@@ -172,7 +174,11 @@ return [
         // Category Provider
         App\Providers\CategoryServiceProvider::class,
         // Post Provider
+        App\Providers\PostServiceProvider::class,
         // Tag Provider
+        App\Providers\TagServiceProvider::class,
+        //
+        Yajra\DataTables\DataTablesServiceProvider::class,
     ],
 
     /*
@@ -222,5 +228,6 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+        'DataTables' => Yajra\DataTables\Facades\DataTables::class,
     ],
 ];
