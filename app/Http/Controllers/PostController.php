@@ -3,10 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Http\Requests\PostRequest;
+use App\Services\PostService;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
+    protected $postService;
+
+    public function __construct(PostService $postService)
+    {
+        $this->postService = $postService;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +22,14 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        $posts = $this->postService->getAll();
+        return response()->json($posts);
+    }
+
+    public function showindex()
+    {
+        $posts = $this->postService->getAll();
+        return view('post.ajax.index', compact('posts'));
     }
 
     /**
@@ -24,7 +39,8 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return view('post.create');
+
     }
 
     /**
@@ -33,9 +49,12 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
+    public function store(PostRequest $request)
+    {   
+        
+        $this->postService->create($request);
+
+        return redirect()->route('post.index');
     }
 
     /**
@@ -55,9 +74,12 @@ class PostController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function edit(Post $post)
+    public function edit($id)
     {
-        //
+        $obj = $this->postService->findByID($id);
+        return response()->json($obj, 200);
+        // return view('post.edit', compact('post'));
+        
     }
 
     /**
@@ -67,9 +89,19 @@ class PostController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $post)
+    public function update(Request $request, $id)
     {
-        //
+        // $result = $this->postService->update($request, $post);
+        $obj = $this->postService->findByID($id);
+
+        try {
+            $this->postService->update($request, $obj);
+        } catch (\Throwable $th) {
+            return back();
+        }
+       
+        return redirect()->route('post.index');
+        // return $this->goTo($result);
     }
 
     /**
@@ -78,8 +110,10 @@ class PostController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Post $post)
+    public function destroy($id)
     {
-        //
+         $this->postService->destroy($id);
+
+        return redirect()->route('post.index');
     }
 }
