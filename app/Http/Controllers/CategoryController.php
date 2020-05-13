@@ -15,7 +15,7 @@ class CategoryController extends Controller
     public function __construct(CategoryService $categoryService)
     {
         $this->categoryService = $categoryService;
-        $this->path = 'backend/admin/categories.';
+        $this->path = 'backend.categories.';
     }
 
     /**

@@ -18,7 +18,6 @@ Route::get('/', function () {
 Auth::routes();
 
 
-
 // ADMIN - Category CRUD
 Route::resource('/category', 'CategoryController');
 Route::delete('/category/{category}/emptyTrash', 'CategoryController@emptyTrash')->name('category.emptyTrash');
