@@ -1,6 +1,6 @@
 <!-- Create/Update Modal -->
-<div class="modal fade" id="categoryModal" aria-hidden="true">
-    <div class="modal-dialog modal-md">
+<div class="modal fade" id="categoryModal" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="categoryModalTitle"></h4>

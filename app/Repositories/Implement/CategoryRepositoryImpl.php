@@ -47,12 +47,18 @@ class CategoryRepositoryImpl extends EloquentRepository implements CategoryRepos
     {
         try {
             $data = $this->getCategory()::select('*');
+            $trash = $this->getCategory()::select('*')->onlyTrashed();
+            $allCategory = $this->getCategory()::select('*')->withTrashed();
 
             return DataTables::of($data)
-                ->addColumn('action', 'backend.admin.categories.partials.btn_action')
-                ->rawColumns(['action'])
+                ->with('all_count', function () use ($allCategory) {
+                    return $allCategory->count();
+                })
+                ->with('trash_count', function () use ($trash) {
+                    return $trash->count();
+                })
                 ->addIndexColumn()
-                ->make(true)
+                ->toJson()
             ;
         } catch (\Exception $e) {
             return null;
@@ -67,12 +73,17 @@ class CategoryRepositoryImpl extends EloquentRepository implements CategoryRepos
     {
         try {
             $data = $this->getCategory()::select('*')->onlyTrashed();
+            $allCategory = $this->getCategory()::select('*')->withTrashed();
 
             return DataTables::of($data)
-                ->addColumn('action', 'backend.admin.categories.partials.btn_trash')
-                ->rawColumns(['action'])
                 ->addIndexColumn()
-                ->make(true)
+                ->with('all_count', function () use ($allCategory) {
+                    return $allCategory->count();
+                })
+                ->with('trash_count', function () use ($data) {
+                    return $data->count();
+                })
+                ->toJson()
             ;
         } catch (\Exception $e) {
             return null;
