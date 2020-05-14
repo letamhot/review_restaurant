@@ -28,13 +28,13 @@
                                 </div>
                                 <div class="form-group custom-checkbox">
                                     <input type="checkbox" class="form-control-input checkbox" id="is_approved"
-                                        name="is_approved" checked="checked">
+                                        name="is_approved" checked>
                                     <label class="form-control-label" for="is_approved">Active</label>
                                 </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button id="submit" type="submit" class="btn btn-primary">Save Post</button>
+                                <button id="submit" type="submit" class="btn btn-primary">Create</button>
 
                             </div>
                     </div>
@@ -44,6 +44,7 @@
         </div>
         <a href="javascript:;" class="btn btn-info" onclick="post.showModal();" data-toggle="modal"
             data-target="#addpostmodal">Create</a>
+        {{-- <a href="javascript:;" class="btn btn-info" onclick="post.showTrash();">Trash</a> --}}
         @foreach ($errors->all() as $error)
         <p class="alert alert-danger">{{ $error }}</p>
         @endforeach

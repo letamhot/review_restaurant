@@ -116,4 +116,74 @@ class PostController extends Controller
 
         return redirect()->route('post.index');
     }
+
+    public function getTrashRecords()
+    {
+        try {
+            return $this->postService->getAllOnlyTrashed();
+        } catch (\Exception $e) {
+            return $this->errorExceptionMessage();
+        }
+    }
+    public function restoreTrash($id)
+    {
+        try {
+            $result = $this->postService->restoreSoftDelete($id);
+            if ($result) {
+                return response()->json(['success' => 'Item restored successfully.']);
+            }
+
+            return $this->errorFailMessage();
+        } catch (\Exception $e) {
+            return $this->errorExceptionMessage();
+        }
+    }
+    public function emptyTrash($id)
+    {
+        try {
+            $result = $this->postService->permanentDestroySoftDeleted($id);
+
+            if ($result) {
+                return response()->json(['success' => 'Role permanently deleted successfully']);
+            }
+
+            return $this->errorFailMessage();
+        } catch (\Exception $e) {
+            return $this->errorMessage();
+        }
+    }
+
+    protected function errorValidateMessage()
+    {
+        return response()->json(['errors' => PostRequest::errors()->all()]);
+    }
+
+    /**
+     * Display exception errors of request.
+     */
+    protected function errorExceptionMessage()
+    {
+        $msg = [
+            'status' => 500,
+            'errors' => ['Failed!', 'Something went wrong!'],
+            'success' => false,
+        ];
+
+        return response()->json($msg);
+    }
+
+    /**
+     * Display failed errors of request.
+     */
+    protected function errorFailMessage()
+    {
+        $msg = [
+            'status' => 500,
+            'errors' => ['Failed!', 'Unknown error!'],
+            'success' => false,
+        ];
+
+        return response()->json($msg);
+    }
+
 }
