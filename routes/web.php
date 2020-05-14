@@ -54,9 +54,16 @@ Route::get('/post', function () {
     return view('post.index');
 });
 Route::post('/post/add', 'PostController@store')->name('post.store');
-
 Route::post('post/delete/{id}', 'PostController@destroy');
 Route::get('post/get/{id}', 'PostController@edit');
 Route::post('post/update/{id}', 'PostController@update');
+Route::delete('/post/{post}/emptyTrash', 'PostController@emptyTrash')->name('post.emptyTrash');
+Route::patch('/post/{post}/restoreTrash', 'PostController@restoreTrash')->name('post.restoreTrash');
+Route::get('/post/trash/sd', 'PostController@getTrashRecords')->name('post.trash');
+
+Route::resource('/role', 'RoleController');
+Route::delete('/role/{role}/emptyTrash', 'RoleController@emptyTrash')->name('role.emptyTrash');
+Route::patch('/role/{role}/restoreTrash', 'RoleController@restoreTrash')->name('role.restoreTrash');
+Route::get('/role/trash/sd', 'RoleController@getTrashRecords')->name('role.trash');
 
 

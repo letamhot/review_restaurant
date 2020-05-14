@@ -18,7 +18,7 @@
 </head>
 
 <body>
-    @include('post.create')
+    @include('post.modal')
 
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
@@ -42,4 +42,7 @@
     var imgURL = "{{ asset('posts/') }}";
 </script>
 <script src="{{ asset('js/post.js') }}"></script>
+{{-- <script src="{{ asset('js/test.js') }}"></script> --}}
+
+
 </html>

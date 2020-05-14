@@ -5,7 +5,6 @@ post.drawData = function() {
         url: 'api/post',
         success: function(res) {
             $('#reloadtbody').empty();
-            console.log(res);
             $.each(res, function(index, value) {
                 $('#reloadtbody').append(
                     `
@@ -17,7 +16,6 @@ post.drawData = function() {
                             <td>${value.is_approved ? 'active' : 'inactive'} </td>
                             <td>${value.created_at}</td>
                             <td>${value.updated_at}</td>
-
                             <td>
                                 <a id= "edit" href="javascript:;" onclick="post.getDetail(${value.id})"><i class="fa fa-edit"></i></a>
                                 <a id = "delete" href="javascript:;" onclick="post.remove(${value.id})"><i class="fa fa-trash"></i></a>
@@ -31,7 +29,6 @@ post.drawData = function() {
         }
     });
 }
-
 
 $('#addform').on('submit', function(e) {
     e.preventDefault();
@@ -56,17 +53,14 @@ $('#addform').on('submit', function(e) {
 
 post.showModal = function() {
     post.resetForm();
-    console.log($('#postid').val());
     $('#addpostmodal').modal('show');
 }
-
-
 post.getDetail = function(id) {
     $.ajax({
         type: 'GET',
         url: '/post/get/' + id,
         success: function(data) {
-            console.log(data);
+            console.log(data.is_approved);
             $('#title').val(data.title);
             $('#coverimage').prop('src', '/posts/' + data.cover_image);
             $('#content').val(data.content);
@@ -83,6 +77,7 @@ $('#addform').on('submit', function(e) {
     var objEdit = {};
     objEdit.id = $('#postid').val();
     e.preventDefault();
+
     if ($('#postid').val() != 0) {
         $.ajax({
             type: 'POST',
@@ -93,7 +88,6 @@ $('#addform').on('submit', function(e) {
             processData: false,
             dataType: "json",
             success: function(data) {
-                console.log(data);
                 $('#addpostmodal').modal('hide');
                 bootbox.alert('Update successfully');
                 post.drawData();
@@ -106,12 +100,12 @@ post.resetForm = function() {
     $('#title').val('');
     $('#coverimage').prop('');
     $('#content').val('');
-    $('#is_approved').val('');
+    $('#is_approved').prop('');
     $('#postid').val('0')
     $('#addpostmodal').find('#exampleModalLongTitle').text('Create New Post');
     $('.modal-footer').find('#submit').text('Create');
     $('#addform').validate().resetForm();
-};
+}
 
 
 post.remove = function(id) {
@@ -141,10 +135,10 @@ post.remove = function(id) {
             }
         }
     })
-};
+}
 post.init = function() {
     post.drawData();
-};
+}
 
 $(document).ready(function() {
     post.init();

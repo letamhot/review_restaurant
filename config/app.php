@@ -159,6 +159,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Yoeunes\Toastr\ToastrServiceProvider::class,
         Yajra\Datatables\DatatablesServiceProvider::class,
+        // yajra\laravel-datatables-oracle\src\DataTablesServiceProvider::class,
 
 
         // Package Service Providers...
@@ -177,7 +178,9 @@ return [
         App\Providers\PostServiceProvider::class,
         // Tag Provider
         App\Providers\TagServiceProvider::class,
-        //
+        //Role Provider
+        App\Providers\RoleServiceProvider::class,
+
         Yajra\DataTables\DataTablesServiceProvider::class,
     ],
 
