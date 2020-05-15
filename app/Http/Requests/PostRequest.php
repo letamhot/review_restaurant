@@ -2,7 +2,12 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Validation\Rule;
+
 
 class PostRequest extends FormRequest
 {
@@ -26,9 +31,8 @@ class PostRequest extends FormRequest
         return [
             'title' => [
                 'required',
-                'min:3',
-                'max:33',
-                'unique:posts',
+                Rule::unique('posts')->ignore($this->id),
+                'regex:/^[a-zA-Z0-9]+$/'
             ],
             'cover_image' => 'required'
         ];

@@ -4,6 +4,13 @@ post.drawTrash = function() {
         type: 'GET',
         url: '/post/trash/sd',
         success: function(res) {
+            $('#post').text('Post Trashed');
+            $('#create').hide();
+            $('#trash').hide();
+            $('#list').show();
+
+
+
             $('#reloadtbody').empty();
             console.log(res);
             $.each(res, function(index, value) {
@@ -18,8 +25,8 @@ post.drawTrash = function() {
                             <td>${value.created_at}</td>
                             <td>${value.updated_at}</td>
                             <td>
-                                <a  href="javascript:;" onclick="post.restore(${value.id})"><i class="fa fa-edit"></i></a>
-                                <a  href="javascript:;" onclick="post.delete(${value.id})"><i class="fa fa-trash"></i></a>
+                                <a  href="javascript:;" class = "btn btn-primary" onclick="post.restore(${value.id})"><i class="fa fa-window-restore"></i></a>
+                                <a  href="javascript:;" class = "btn btn-danger" onclick="post.delete(${value.id})"><i class="fa fa-trash"></i></a>
                             </td>
                         </tr>
 
@@ -94,12 +101,12 @@ post.delete = function(id) {
         }
     })
 };
-post.init = function() {
-    post.drawTrash();
-};
+// post.init = function() {
+//     post.drawTrash();
+// };
 
 $(document).ready(function() {
-    post.init();
+    // post.init();
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

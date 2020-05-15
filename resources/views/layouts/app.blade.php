@@ -21,6 +21,7 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     @stack('css')
     @stack('head_js')
+    @stack('css-post')
 </head>
 
 <body>
@@ -87,5 +88,7 @@
     @stack('bot_js')
 </body>
 @stack('js')
+@stack('js-post')
+@stack('js-role')
 
 </html>

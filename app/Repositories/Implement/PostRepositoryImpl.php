@@ -137,11 +137,18 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
             return null;
         }
     }
+
+
     public function findByIdOnlyTrashed($id)
     {
         $result = $this->getPost()->onlyTrashed()->find($id);
         return $result;
     }
+
+    public function getAll(){
+        return $this->getPost()->orderBy('created_at','desc')->get();
+    }
+
 
     protected function getPost()
     {

@@ -21,7 +21,7 @@ class RoleRepositoryImpl extends EloquentRepository implements RoleRepository
 
     /**
      * Re-define getAllOnlyTrashed() function for dataTable AJAX.
-     *  Using for CategoryController@destroy.
+     *  Using for RoleController@destroy.
      *
      * @param mixed $id
      */
@@ -41,18 +41,24 @@ class RoleRepositoryImpl extends EloquentRepository implements RoleRepository
 
     /**
      * Re-define getAll() function for dataTable AJAX.
-     * Using for CategoryController@index.
+     * Using for RoleController@index.
      */
     public function getAll()
     {
         try {
             $data = $this->getRole()::select('*');
+            $trash = $this->getRole()::select('*')->onlyTrashed();
+            $allRole = $this->getRole()::select('*')->withTrashed();
 
             return DataTables::of($data)
-                ->addColumn('action', 'role.btn_action')
-                ->rawColumns(['action'])
+                ->with('all_count', function () use ($allRole) {
+                    return $allRole->count();
+                })
+                ->with('trash_count', function () use ($trash) {
+                    return $trash->count();
+                })
                 ->addIndexColumn()
-                ->make(true)
+                ->toJson()
             ;
         } catch (\Exception $e) {
             return null;
@@ -61,18 +67,23 @@ class RoleRepositoryImpl extends EloquentRepository implements RoleRepository
 
     /**
      * Re-define getAllOnlyTrashed() function for dataTable AJAX.
-     *  Using for CategoryController@getTrashRecords.
+     *  Using for RoleController@getTrashRecords.
      */
     public function getAllOnlyTrashed()
     {
         try {
             $data = $this->getRole()::select('*')->onlyTrashed();
+            $allRole = $this->getRole()::select('*')->withTrashed();
 
             return DataTables::of($data)
-                ->addColumn('action', 'role.btn_trash')
-                ->rawColumns(['action'])
                 ->addIndexColumn()
-                ->make(true)
+                ->with('all_count', function () use ($allRole) {
+                    return $allRole->count();
+                })
+                ->with('trash_count', function () use ($data) {
+                    return $data->count();
+                })
+                ->toJson()
             ;
         } catch (\Exception $e) {
             return null;
@@ -91,7 +102,7 @@ class RoleRepositoryImpl extends EloquentRepository implements RoleRepository
 
             return $this->getRole()::updateOrCreate(
                 ['id' => $roleId],
-                ['name' => $request->name, 'description' => $request->description ]
+                ['name' => $request->name, 'description' => $request->description]
             );
         } catch (\Exception $e) {
             return null;
@@ -105,4 +116,5 @@ class RoleRepositoryImpl extends EloquentRepository implements RoleRepository
     {
         return app()->make($this->getModel());
     }
+    
 }
