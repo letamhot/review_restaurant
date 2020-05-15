@@ -11,7 +11,7 @@ $(function() {
             },
             serverSide: true,
             ajax: {
-                url: SITEURL + "/role" + string,
+                url: SITEURL + string,
                 type: "GET",
             },
             columns: [
@@ -20,18 +20,38 @@ $(function() {
                 { data: "description", name: "description" },
                 { data: "created_at", name: "created_at" },
                 { data: "updated_at", name: "updated_at" },
-                { data: "action", name: "action" }, // 5
+                {
+                    data: "action",
+                    name: "action",
+                    render: function(data, type, row, meta) {
+                        if (row.deleted_at == null) {
+                            $btn = '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' + row.id + '" data-original-title="Edit" id="edit_role" class="btn btn-info"> <i class="fa fa-edit" aria-hidden="true"></i></a>';
+
+                            $btn = $btn + '<a href="javascript:void(0);" id="delete_role" data-toggle="tooltip" data-original-title="Delete" data-id="' + row.id + '" class="btn btn-danger"> <i class="fa fa-trash" aria-hidden="true"></i></a>';
+
+                            return $btn;
+                        } else {
+                            $btn = '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' + row.id + '" data-original-title="Restore" id="restore_role" class="btn btn-warning"><i class="fa fa-undo" aria-hidden="true"></i></a>';
+
+                            $btn = $btn + '<a href="javascript:void(0);" data-toggle="tooltip" data-id="' + row.id + '" data-original-title="Delete Permanently" id="permanent_delete_role" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></a>';
+
+                            return $btn;
+                        }
+                    }
+                }, // 5
             ],
             columnDefs: [
                 { orderable: false, targets: [0, 5] },
-                { searchable: false, targets: [0, 3, 4, 5] },
-                { width: "13%", targets: [5] },
-                { width: "10%", targets: [0, 3, 4] },
-
+                { searchable: false, targets: [0, 3, 4, 5] }
             ],
             order: [
                 [0, "desc"]
             ],
+            drawCallback: function(settings, start, end, max, total, pre) {
+                var json = this.api().ajax.json();
+                $("#role_count").text(json.all_count);
+                $("#trash_count").text(json.trash_count);
+            },
         });
     };
 });
@@ -43,7 +63,7 @@ $(document).ready(function() {
             "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
         },
     });
-    $.data_table();
+    $.data_table("/role");
 });
 
 /* Show all record or soft delete records */
@@ -51,9 +71,16 @@ $("body").on("click", "#trash_role,#list_role", function() {
     $("#role_datatable").DataTable().clear();
     let data_type = $(this).attr("id");
     if (data_type == "trash_role") {
-        $.data_table("/trash/sd");
+        $(this).hide();
+        $('#create_new_role').hide();
+        $('#list_role').show();
+        $.data_table("/roles/trash/sd");
+        // console.log('aa');
     } else {
-        $.data_table();
+        $(this).hide();
+        $('#trash_role').show();
+        $('#create_new_role').show();
+        $.data_table("/role/");
     }
 });
 
@@ -110,14 +137,17 @@ $("body").on("click", "#delete_role,#restore_role,#permanent_delete_role", funct
 
 /* Confirmation related to delete or restore role */
 $("#btn_ok").click(function() {
+    var url = '/role/';
     var url_action = "";
     var url_type = "DELETE";
     var msg = "Deleting...";
     switch (url_delete) {
         case "permanent_delete_role":
+            var url = '/roles/';
             url_action = "/emptyTrash";
             break;
         case "restore_role":
+            var url = '/roles/';
             url_action = "/restoreTrash";
             url_type = "PATCH";
             msg = "Restoring...";
@@ -127,7 +157,7 @@ $("#btn_ok").click(function() {
     }
     $.ajax({
         type: url_type,
-        url: SITEURL + "/role/" + role_id + url_action,
+        url: SITEURL + url + role_id + url_action,
         beforeSend: function() {
             $("#btn_ok").text(msg);
         },
@@ -235,23 +265,36 @@ $(function() {
 /* Toast Nofitication*/
 $(function() {
     $.msgNotification = function(msgType, msgText) {
-        $.toast({
-            text: msgText, // Text that is to be shown in the toast
-            heading: $.jsUcFirst(msgType), // Optional heading to be shown on the toast
-            icon: msgType, // Type of toast icon
-            showHideTransition: "fade", // fade, slide or plain
-            allowToastClose: true, // Boolean value true or false
-            hideAfter: 3000, // false to make it sticky or number representing the miliseconds as time after which toast needs to be hidden
-            stack: 5, // false if there should be only one toast at a time or a number representing the maximum number of toasts to be shown at a time
-            position: "top-right", // bottom-left or bottom-right or bottom-center or top-left or top-right or top-center or mid-center or an object representing the left, right, top, bottom values
+        switch (msgType) {
+            case "error":
+                return iziToast.error({
+                    title: $.jsUcFirst(msgType),
+                    message: msgText,
+                    position: 'topRight'
+                });
+                break;
+            case "success":
+                return iziToast.success({
+                    title: $.jsUcFirst(msgType),
+                    message: msgText,
+                    position: 'topRight'
+                });
+                break;
+            case "warning":
+                return iziToast.warning({
+                    title: $.jsUcFirst(msgType),
+                    message: msgText,
+                    position: 'topRight'
+                });
+                break;
 
-            textAlign: "left", // Text alignment i.e. left, right or center
-            loader: true, // Whether to show loader or not. True by default
-            loaderBg: "#90EE90", // Background color of the toast loader
-            beforeShow: function() {}, // will be triggered before the toast is shown
-            afterShown: function() {}, // will be triggered after the toat has been shown
-            beforeHide: function() {}, // will be triggered before the toast gets hidden
-            afterHidden: function() {}, // will be triggered after the toast has been hidden
-        });
+            default:
+                return iziToast.info({
+                    title: $.jsUcFirst(msgType),
+                    message: msgText,
+                    position: 'topRight'
+                });
+                break;
+        }
     };
 });

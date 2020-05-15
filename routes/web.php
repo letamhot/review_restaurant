@@ -48,8 +48,8 @@ Route::patch('/post/{post}/restoreTrash', 'PostController@restoreTrash')->name('
 Route::get('/post/trash/sd', 'PostController@getTrashRecords')->name('post.trash');
 
 Route::resource('/role', 'RoleController');
-Route::delete('/role/{role}/emptyTrash', 'RoleController@emptyTrash')->name('role.emptyTrash');
-Route::patch('/role/{role}/restoreTrash', 'RoleController@restoreTrash')->name('role.restoreTrash');
-Route::get('/role/trash/sd', 'RoleController@getTrashRecords')->name('role.trash');
+Route::delete('/roles/{role}/emptyTrash', 'RoleController@emptyTrash')->name('role.emptyTrash');
+Route::patch('/roles/{role}/restoreTrash', 'RoleController@restoreTrash')->name('role.restoreTrash');
+Route::get('/roles/trash/sd', 'RoleController@getTrashRecords')->name('role.trash');
 
 

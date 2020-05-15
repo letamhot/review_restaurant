@@ -1,6 +1,7 @@
+
 <div class="container">
     <div class="col-md-5">
-        <h4 class="page-header">Post List </h4>
+        
         <!-- Modal -->
         <div class="modal fade" id="addpostmodal" tabindex="-1" role="dialog"
             aria-labelledby="exampleModalLongTitle" aria-hidden="true">
@@ -42,37 +43,7 @@
 
             </div>
         </div>
-        <a href="javascript:;" class="btn btn-info" onclick="post.showModal();" data-toggle="modal"
-            data-target="#addpostmodal">Create</a>
-        {{-- <a href="javascript:;" class="btn btn-info" onclick="post.showTrash();">Trash</a> --}}
-        @foreach ($errors->all() as $error)
-        <p class="alert alert-danger">{{ $error }}</p>
-        @endforeach
-        @if (session('status'))
-        <div class="alert alert-success alert-dismissable">
-            <a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
-            {{ session('status')}}
-        </div>
-        @endif
+        
 
-        <table id="tbUser" class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>Slug</th>
-                    <th>Cover_image</th>
-                    <th>Content</th>
-                    <th id="active">Active</th>
-                    <th>Created_at</th>
-                    <th>Updated_at</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-
-            <tbody id="reloadtbody">
-
-            </tbody>
-
-        </table>
     </div>
 </div>

@@ -26,11 +26,11 @@ class PostController extends Controller
         return response()->json($posts);
     }
 
-    public function showindex()
-    {
-        $posts = $this->postService->getAll();
-        return view('post.ajax.index', compact('posts'));
-    }
+    // public function showindex()
+    // {
+    //     $posts = $this->postService->getAll();
+    //     return view('post.ajax.index', compact('posts'));
+    // }
 
     /**
      * Show the form for creating a new resource.
@@ -120,7 +120,12 @@ class PostController extends Controller
     public function getTrashRecords()
     {
         try {
-            return $this->postService->getAllOnlyTrashed();
+            $post = $this->postService->getAllOnlyTrashed();
+            if ($post) {
+                return response()->json($post, 200);
+            }
+
+            return $this->errorFailMessage();
         } catch (\Exception $e) {
             return $this->errorExceptionMessage();
         }
@@ -130,7 +135,7 @@ class PostController extends Controller
         try {
             $result = $this->postService->restoreSoftDelete($id);
             if ($result) {
-                return response()->json(['success' => 'Item restored successfully.']);
+                return response()->json(['success' => 'Post restored successfully.']);
             }
 
             return $this->errorFailMessage();
@@ -144,7 +149,7 @@ class PostController extends Controller
             $result = $this->postService->permanentDestroySoftDeleted($id);
 
             if ($result) {
-                return response()->json(['success' => 'Role permanently deleted successfully']);
+                return response()->json(['success' => 'Post permanently deleted successfully']);
             }
 
             return $this->errorFailMessage();
