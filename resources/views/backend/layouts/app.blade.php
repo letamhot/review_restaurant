@@ -20,7 +20,8 @@
     @stack('css')
 
     <!-- Template CSS -->
-    <link rel="stylesheet" href="{{ asset('assets/backend/css/style.css')}}">
+    <link rel="stylesheet" href="{{ asset('assets/backend/css/style.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('assets/backend/css/components.min.css')}}">
     
     <!-- Custom JS in header for specific page -->
     @stack('head_js')
@@ -72,7 +73,7 @@
                     </div>
                 </section>
             </div>
-
+           
             <!-- Modal Bootstrap Dialog -->
             @yield('modal_content')
 

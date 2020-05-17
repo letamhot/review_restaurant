@@ -47,8 +47,8 @@ class CategoryRepositoryImpl extends EloquentRepository implements CategoryRepos
     {
         try {
             $data = $this->getCategory()::select('*');
-            $trash = $this->getCategory()::select('*')->onlyTrashed();
-            $allCategory = $this->getCategory()::select('*')->withTrashed();
+            $trash = $this->getCategory()::select('id')->onlyTrashed();
+            $allCategory = $this->getCategory()::select('id')->withTrashed();
 
             return DataTables::of($data)
                 ->with('all_count', function () use ($allCategory) {
@@ -73,7 +73,7 @@ class CategoryRepositoryImpl extends EloquentRepository implements CategoryRepos
     {
         try {
             $data = $this->getCategory()::select('*')->onlyTrashed();
-            $allCategory = $this->getCategory()::select('*')->withTrashed();
+            $allCategory = $this->getCategory()::select('id')->withTrashed();
 
             return DataTables::of($data)
                 ->addIndexColumn()

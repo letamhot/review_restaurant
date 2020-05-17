@@ -1,6 +1,6 @@
 <footer class="main-footer">
     <div class="footer-left">
-    Copyright &copy; 2018 <div class="bullet"></div> Design By <a href="#">TLP Team</a>
+    &copy; {{ date('Y') }} <div class="bullet"></div><a href="javascript:void(0)">TLP Team</a>
     </div>
     <div class="footer-right">
     </div>

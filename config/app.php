@@ -158,8 +158,6 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         Yoeunes\Toastr\ToastrServiceProvider::class,
-        Yajra\Datatables\DatatablesServiceProvider::class,
-
 
         // Package Service Providers...
 
@@ -173,12 +171,16 @@ return [
         App\Providers\HelperServiceProvider::class,
         // Category Provider
         App\Providers\CategoryServiceProvider::class,
+        // User Provider
+        App\Providers\UserServiceProvider::class,
         // Post Provider
         App\Providers\PostServiceProvider::class,
         // Tag Provider
         App\Providers\TagServiceProvider::class,
-        //
+        // Yajra DataTables
         Yajra\DataTables\DataTablesServiceProvider::class,
+        // Socialite Login
+        Laravel\Socialite\SocialiteServiceProvider::class,
     ],
 
     /*
@@ -229,5 +231,6 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
+        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
     ],
 ];
