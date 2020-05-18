@@ -59,8 +59,10 @@ class UserRepositoryImpl extends EloquentRepository implements UserRepository
                     'provider_id' => $providerUser->getId(),
                     'access_token' => $providerUser->token,
                 ]);
-            }
+                dd($user);
 
+            }
+dd($user);
             return $user;
         } catch (\Exception $e) {
             return null;
