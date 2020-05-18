@@ -6,13 +6,25 @@ interface BaseService
 {
     public function getAll();
 
-    public function findByID($id);
+    public function getAllWithTrashed();
+
+    public function getAllOnlyTrashed();
+
+    public function findById($id);
+
+    public function findByIdWithTrashed($id);
+
+    public function findByIdOnlyTrashed($id);
 
     public function create($request);
 
     public function update($request, $object);
 
-    public function destroy($id);
+    public function destroy($object);
 
-    public function forceDestroy($id);
+    public function forceDestroy($object);
+
+    public function restoreSoftDelete($id);
+
+    public function permanentDestroySoftDeleted($id);
 }

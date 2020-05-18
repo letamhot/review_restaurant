@@ -16,7 +16,8 @@
         "laravel/tinker": "^2.0",
         "laravel/ui": "1.0",
         "yajra/laravel-datatables-oracle": "^9.10",
-        "yoeunes/toastr": "^1.2"
+        "yoeunes/toastr": "^1.2",
+        "doctrine/dbal": "^2.10"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.3",

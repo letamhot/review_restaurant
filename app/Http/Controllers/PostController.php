@@ -3,10 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Http\Requests\PostRequest;
+use App\Services\PostService;
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class PostController extends Controller
 {
+    protected $postService;
+
+    public function __construct(PostService $postService)
+    {
+        $this->postService = $postService;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,8 +23,21 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        $posts = $this->postService->getAll();
+        // dd($posts);
+        // $user = User::find('355');
+        // dd($user);
+        foreach ($posts as $post) {
+            $post['name'] = User::find($post['user_id'])->name;
+        }
+        return response()->json($posts);
     }
+
+    // public function showindex()
+    // {
+    //     $posts = $this->postService->getAll();
+    //     return view('post.ajax.index', compact('posts'));
+    // }
 
     /**
      * Show the form for creating a new resource.
@@ -24,7 +46,8 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return view('backend.post.create');
+
     }
 
     /**
@@ -33,9 +56,11 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
+    public function store(PostRequest $request)
+    {   
+        
+        $this->postService->create($request);
+        return redirect()->route('post.index');
     }
 
     /**
@@ -44,9 +69,10 @@ class PostController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function show(Post $post)
+    public function show($id)
     {
-        //
+        $obj = $this->postService->findByIdWithTrashed($id);
+        return response()->json($obj, 200);
     }
 
     /**
@@ -55,9 +81,12 @@ class PostController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function edit(Post $post)
+    public function edit($id)
     {
-        //
+        $obj = $this->postService->findByID($id);
+        return response()->json($obj, 200);
+        // return view('post.edit', compact('post'));
+        
     }
 
     /**
@@ -67,9 +96,19 @@ class PostController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $post)
+    public function update(Request $request, $id)
     {
-        //
+        // $result = $this->postService->update($request, $post);
+        $obj = $this->postService->findByID($id);
+
+        try {
+            $this->postService->update($request, $obj);
+        } catch (\Throwable $th) {
+            return back();
+        }
+       
+        return redirect()->route('post.index');
+        // return $this->goTo($result);
     }
 
     /**
@@ -78,8 +117,85 @@ class PostController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Post $post)
+    public function destroy($id)
     {
-        //
+         $this->postService->destroy($id);
+
+        return redirect()->route('post.index');
     }
+
+    public function getTrashRecords()
+    {
+        try {
+            $post = $this->postService->getAllOnlyTrashed();
+            if ($post) {
+                return response()->json($post, 200);
+            }
+
+            return $this->errorFailMessage();
+        } catch (\Exception $e) {
+            return $this->errorExceptionMessage();
+        }
+    }
+    public function restoreTrash($id)
+    {
+        try {
+            $result = $this->postService->restoreSoftDelete($id);
+            if ($result) {
+                return response()->json(['success' => 'Post restored successfully.']);
+            }
+
+            return $this->errorFailMessage();
+        } catch (\Exception $e) {
+            return $this->errorExceptionMessage();
+        }
+    }
+    public function emptyTrash($id)
+    {
+        try {
+            $result = $this->postService->permanentDestroySoftDeleted($id);
+
+            if ($result) {
+                return response()->json(['success' => 'Post permanently deleted successfully']);
+            }
+
+            return $this->errorFailMessage();
+        } catch (\Exception $e) {
+            return $this->errorMessage();
+        }
+    }
+
+    protected function errorValidateMessage()
+    {
+        return response()->json(['errors' => PostRequest::errors()->all()]);
+    }
+
+    /**
+     * Display exception errors of request.
+     */
+    protected function errorExceptionMessage()
+    {
+        $msg = [
+            'status' => 500,
+            'errors' => ['Failed!', 'Something went wrong!'],
+            'success' => false,
+        ];
+
+        return response()->json($msg);
+    }
+
+    /**
+     * Display failed errors of request.
+     */
+    protected function errorFailMessage()
+    {
+        $msg = [
+            'status' => 500,
+            'errors' => ['Failed!', 'Unknown error!'],
+            'success' => false,
+        ];
+
+        return response()->json($msg);
+    }
+
 }

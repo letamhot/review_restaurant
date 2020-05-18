@@ -10,10 +10,12 @@ use Illuminate\Http\Request;
 class CategoryController extends Controller
 {
     protected $categoryService;
+    protected $path;
 
     public function __construct(CategoryService $categoryService)
     {
         $this->categoryService = $categoryService;
+        $this->path = 'backend.categories.';
     }
 
     /**
@@ -21,9 +23,17 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('category.index')->withCategories($this->categoryService->getAll());
+        try {
+            if ($request->ajax()) {
+                return $this->categoryService->getAll();
+            }
+
+            return view($this->path.'index');
+        } catch (\Exception $e) {
+            return $this->errorExceptionMessage();
+        }
     }
 
     /**
@@ -33,7 +43,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('category.create');
+        // NOT DEFINE YET WHEN USING AJAX
     }
 
     /**
@@ -43,9 +53,17 @@ class CategoryController extends Controller
      */
     public function store(CategoryRequest $request)
     {
-        $result = $this->categoryService->create($request);
+        try {
+            $result = $this->categoryService->ajaxStore($request);
 
-        return $this->goTo($result);
+            if ($result) {
+                return response()->json(['success' => 'Category saved successfully']);
+            }
+
+            return $this->errorFailMessage();
+        } catch (\Exception $e) {
+            return $this->errorExceptionMessage();
+        }
     }
 
     /**
@@ -54,16 +72,29 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Category $category)
-    { }
+    {
+        // NOT DEFINE YET WHEN USING AJAX
+    }
 
     /**
      * Show the form for editing the specified resource.
      *
+     * @param mixed $id
+     *
      * @return \Illuminate\Http\Response
      */
-    public function edit(Category $category)
+    public function edit($id)
     {
-        return view('category.edit')->withCategory($category);
+        try {
+            $category = $this->categoryService->findById($id);
+            if ($category) {
+                return response()->json($category);
+            }
+
+            return $this->errorFailMessage();
+        } catch (\Exception $e) {
+            return $this->errorExceptionMessage();
+        }
     }
 
     /**
@@ -73,6 +104,7 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
+        // NOT AJAX
         $result = $this->categoryService->update($request, $category);
 
         return $this->goTo($result);
@@ -87,21 +119,123 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        $result = $this->categoryService->destroy($id);
+        try {
+            $result = $this->categoryService->destroy($id);
+            if ($result) {
+                return response()->json(['success' => 'Category deleted successfully']);
+            }
 
-        return $this->goTo($result);
+            return $this->errorFailMessage();
+        } catch (\Exception $e) {
+            return $this->errorMessage();
+        }
     }
 
-    // NOT AJAX
+    /**
+     * Display a listing of the resource (Soft Delete).
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getTrashRecords()
+    {
+        try {
+            return $this->categoryService->getAllOnlyTrashed();
+        } catch (\Exception $e) {
+            return $this->errorExceptionMessage();
+        }
+    }
+
+    /**
+     * Restore record from SoftDelete.
+     *
+     * @param mixed $id
+     */
+    public function restoreTrash($id)
+    {
+        try {
+            $result = $this->categoryService->restoreSoftDelete($id);
+            if ($result) {
+                return response()->json(['success' => 'Item restored successfully.']);
+            }
+
+            return $this->errorFailMessage();
+        } catch (\Exception $e) {
+            return $this->errorExceptionMessage();
+        }
+    }
+
+    /**
+     * ForceDelete records which has been deleted by SoftDelete.
+     *
+     * @param mixed $id
+     */
+    public function emptyTrash($id)
+    {
+        try {
+            $result = $this->categoryService->permanentDestroySoftDeleted($id);
+
+            if ($result) {
+                return response()->json(['success' => 'Category permanently deleted successfully']);
+            }
+
+            return $this->errorFailMessage();
+        } catch (\Exception $e) {
+            return $this->errorMessage();
+        }
+    }
+
+    /**
+     * True value - return index view
+     * False value - return previous page
+     * Not for AJAX.
+     *
+     * @param bool $result
+     */
     protected function goTo($result)
     {
         if ($result) {
             // Toastr::success('Successfully! :)', 'Success');
 
-            return redirect()->route('category.index');
+            return redirect()->route($this->path.'index');
         }
         // Toastr::error('Something went wrong!', 'Error');
 
         return back();
+    }
+
+    /**
+     * Display validation errors of request.
+     */
+    protected function errorValidateMessage()
+    {
+        return response()->json(['errors' => CategoryRequest::errors()->all()]);
+    }
+
+    /**
+     * Display exception errors of request.
+     */
+    protected function errorExceptionMessage()
+    {
+        $msg = [
+            'status' => 500,
+            'errors' => ['Failed!', 'Something went wrong!'],
+            'success' => false,
+        ];
+
+        return response()->json($msg);
+    }
+
+    /**
+     * Display failed errors of request.
+     */
+    protected function errorFailMessage()
+    {
+        $msg = [
+            'status' => 500,
+            'errors' => ['Failed!', 'Unknown error!'],
+            'success' => false,
+        ];
+
+        return response()->json($msg);
     }
 }
