@@ -179,13 +179,17 @@ return [
         // Tag Provider
         App\Providers\TagServiceProvider::class,
         // Yajra DataTables
-       Yajra\DataTables\DataTablesServiceProvider::class,
+        Yajra\DataTables\DataTablesServiceProvider::class,
         //Role Provider
         App\Providers\RoleServiceProvider::class,
 
        
         // Socialite Login
         Laravel\Socialite\SocialiteServiceProvider::class,
+
+        //Risul Like-comment
+        risul\LaravelLikeComment\LikeCommentServiceProvider::class,
+
     ],
 
     /*

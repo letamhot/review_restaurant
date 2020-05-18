@@ -9,15 +9,16 @@
     "license": "MIT",
     "require": {
         "php": "^7.2",
+        "doctrine/dbal": "^2.10",
         "fideloper/proxy": "^4.0",
         "guzzlehttp/guzzle": "^6.5",
         "laravel/framework": "^6.2",
         "laravel/socialite": "^4.3",
         "laravel/tinker": "^2.0",
         "laravel/ui": "1.0",
+        "risul/laravel-like-comment": "^2.0",
         "yajra/laravel-datatables-oracle": "^9.10",
-        "yoeunes/toastr": "^1.2",
-        "doctrine/dbal": "^2.10"
+        "yoeunes/toastr": "^1.2"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.3",
