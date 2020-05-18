@@ -50,6 +50,7 @@ class UserRepositoryImpl extends EloquentRepository implements UserRepository
             } else {
                 // create a new user
                 $user = $this->getUser()->create([
+                    // 'role_id' => '3', // regular user
                     'name' => $providerUser->getName(),
                     'email' => $providerUser->getEmail(),
                     'email_verified_at' => Carbon::now(),
@@ -58,11 +59,6 @@ class UserRepositoryImpl extends EloquentRepository implements UserRepository
                     'provider_id' => $providerUser->getId(),
                     'access_token' => $providerUser->token,
                 ]);
-                // find role to attach
-                $role = Role::find(3); // regular user
-                $user->role()->associate($role);
-                $user->save();
-                // $user->role()->associate($role)->save();
             }
 
             return $user;
