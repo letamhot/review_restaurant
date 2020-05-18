@@ -39,7 +39,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('post.create');
+        return view('backend.post.create');
 
     }
 
@@ -63,9 +63,10 @@ class PostController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function show(Post $post)
+    public function show($id)
     {
-        //
+        $obj = $this->postService->findByID($id);
+        return response()->json($obj, 200);
     }
 
     /**

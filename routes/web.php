@@ -41,10 +41,31 @@ Route::get('/tagdel/restore/{id}', 'TagController@restoreDeletedTags')->name('re
 Route::resource('api/post', 'PostController');
 
 Route::get('/post', function () {
-    return view('post.index');
+    return view('backend.post.index');
 });
 Route::post('/post/add', 'PostController@store')->name('post.store');
 Route::post('post/delete/{id}', 'PostController@destroy');
 Route::get('post/get/{id}', 'PostController@edit');
+Route::get('post/show/{id}', 'PostController@show');
 Route::post('post/update/{id}', 'PostController@update');
 
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
