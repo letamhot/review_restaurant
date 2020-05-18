@@ -14,6 +14,7 @@ class PostController extends Controller
 
     public function __construct(PostService $postService)
     {
+        $this->middleware( 'role:Admin' );
         $this->postService = $postService;
     }
     /**

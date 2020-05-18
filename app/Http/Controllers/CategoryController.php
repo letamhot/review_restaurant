@@ -14,6 +14,7 @@ class CategoryController extends Controller
 
     public function __construct(CategoryService $categoryService)
     {
+        $this->middleware( 'role:Admin' );
         $this->categoryService = $categoryService;
         $this->path = 'backend.categories.';
     }

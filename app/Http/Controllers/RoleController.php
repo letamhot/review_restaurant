@@ -14,6 +14,7 @@ class RoleController extends Controller
 
     public function __construct(RoleService $roleService)
     {
+        $this->middleware( 'role:Admin' );
         $this->roleService = $roleService;
         $this->path = 'backend.role.';
     }
