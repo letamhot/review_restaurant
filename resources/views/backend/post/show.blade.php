@@ -19,11 +19,7 @@
     <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          {{-- <h5 class="modal-title">Modal title</h5> --}}
           <h4 class="col-12 modal-title text-center" id="title" style="color:blue; font-weight: bold;"></h4>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
         </div>
         <div class="modal-body">
             <h1 id="descriptor"></h1>

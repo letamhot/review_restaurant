@@ -58,10 +58,10 @@
                     <table id="tbUser" class="table table-bordered">
                         <thead>
                             <tr>
+                                <th>User</th>
                                 <th>Title</th>
                                 <th>Slug</th>
                                 <th>Cover_image</th>
-                                {{-- <th>Content</th> --}}
                                 <th id="active">Status</th>
                                 <th>Created_at</th>
                                 <th>Updated_at</th>
@@ -90,13 +90,6 @@
 @endsection
 
 @push('js-post')
-<!-- JQuery DataTable JS -->
-{{-- <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote.min.js"></script>
-<script>
-    $(document).ready(function() {
-        $('#content').summernote();
-    });
-  </script> --}}
 <script type="text/javascript" src="{{ asset('assets/backend/modules/jquery-validation/dist/jquery.validate.min.js')}}">
 </script>
 <script defer type="text/javascript" src="{{ asset('assets/backend/modules/datatables/datatables.min.js')}}"></script>
@@ -105,14 +98,6 @@
 <script defer type="text/javascript" src="{{ asset('assets/backend/modules/jquery-ui/jquery-ui.min.js')}}"></script>
 <script defer type="text/javascript" src="{{ asset('assets/backend/modules/izitoast/js/iziToast.min.js')}}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.4.0/bootbox.js"></script>
-{{-- <script src="https://cdn.ckeditor.com/ckeditor5/19.0.0/classic/ckeditor.js"></script>
-<script>
-    ClassicEditor
-        .create( document.querySelector( '#content' ) )
-        .catch( error => {
-            console.error( error );
-        } );
-</script> --}}
 
 <script>
     var imgURL = "{{ asset('posts/') }}";
