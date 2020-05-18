@@ -4,6 +4,7 @@ var SITEURL = window.location.origin;
 $(function () {
     $.data_table = function (string = "") {
         $("#category_datatable").DataTable({
+            autoWidth: false,
             destroy: true,
             processing: true,
             language: {
@@ -22,19 +23,25 @@ $(function () {
                 { data: "updated_at", name: "updated_at" },
                 { data: "action", name: "action",
                     render: function ( data, type, row, meta) {
+                        // var btn = '<div class="btn-group dropright"><button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</button><div class="dropdown-menu dropright">';
+
+                        // if (row.deleted_at == null) {
+                        //     btn += '<a class="dropdown-item has-icon" href="javascript:void(0);" id="edit_category" data-id="' + row.id + '" data-toggle="tooltip" data-original-title="Edit"><i class="fa fa-edit" aria-hidden="true"></i> Edit</a><a class="dropdown-item has-icon" href="javascript:void(0);" id="delete_category" data-id="' + row.id + '" data-toggle="tooltip" data-original-title="Delete"><i class="fa fa-trash" aria-hidden="true"></i> Delete</a>';
+                        // } else {
+                        //     btn += '<a class="dropdown-item has-icon" href="javascript:void(0);" id="restore_category" data-id="' + row.id + '" data-toggle="tooltip" data-original-title="Restore"><i class="fa fa-edit" aria-hidden="true"></i> Restore</a><a class="dropdown-item has-icon" href="javascript:void(0);" id="delete_category" data-id="' + row.id + '" data-toggle="tooltip" data-original-title="Delete"><i class="fa fa-trash" aria-hidden="true"></i> Delete Permanently</a>';
+                        // }
+                        // btn += '</div></div>';
+                        // return btn;
                         if (row.deleted_at == null) {
-                            $btn = '<a href="javascript:void(0)" data-toggle="tooltip" data-id="'+ row.id +'" data-original-title="Edit" id="edit_category" class="btn btn-info"> <i class="fa fa-edit" aria-hidden="true"></i></a>';
-
-                            $btn = $btn+'<a href="javascript:void(0);" id="delete_category" data-toggle="tooltip" data-original-title="Delete" data-id="'+ row.id +'" class="btn btn-danger"> <i class="fa fa-trash" aria-hidden="true"></i></a>';
-
-                            return $btn;
+                            btn = '<a href="javascript:void(0);" id="edit_category" data-id="'+ row.id +'" data-toggle="tooltip" data-original-title="Edit" class="btn btn-icon btn-info"><i class="fa fa-edit" aria-hidden="true"></i></a>';
+                            btn += '&nbsp;<a href="javascript:void(0);" id="delete_category" data-id="'+ row.id +'" data-toggle="tooltip" data-original-title="Delete" class="btn btn-icon btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></a>';
+                        
                         }else{
-                            $btn = '<a href="javascript:void(0)" data-toggle="tooltip" data-id="'+ row.id +'" data-original-title="Restore" id="restore_category" class="btn btn-warning"><i class="fa fa-undo" aria-hidden="true"></i></a>';
-
-                            $btn = $btn+'<a href="javascript:void(0);" data-toggle="tooltip" data-id="'+ row.id +'" data-original-title="Delete Permanently" id="permanent_delete_category" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></a>';
-
-                            return $btn;
+                            btn = '<a href="javascript:void(0);" id="restore_category" data-id="'+ row.id +'" data-toggle="tooltip" data-original-title="Restore" class="btn btn-icon btn-warning"><i class="fa fa-undo" aria-hidden="true"></i></a>';
+                            btn += '&nbsp;<a href="javascript:void(0);" id="permanent_delete_category" data-id="'+ row.id +'" data-toggle="tooltip" data-original-title="Delete Permanently" class="btn btn-icon btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></a>';
+                        
                         }
+                        return btn;
                     } 
                 }, // 5
             ],
