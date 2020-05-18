@@ -15,10 +15,19 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
+
+Route::get('/index', function () {
+    return view('webindex');
+});
+
+Auth::routes();
+
 // DISABLE REGISTER
 Auth::routes([
     'register' => false,
     'reset' => false, ]);
+
 
 // OAuth login
 Route::get('oauth/redirect/{driver}', 'SocialAuthController@redirect')->name('social.redirect');
@@ -37,6 +46,9 @@ Route::resource('tag', 'TagController');
 // tag deleted
 Route::get('/tagdel', 'TagController@showdeletedtags')->name('tagdel');
 Route::get('/tagdel/restore/{id}', 'TagController@restoreDeletedTags')->name('restoreTag');
+
+Route::get('/tagdel/{id}', 'TagController@forceDelete')->name('tagdel.forceDelete');
+
 Route::group(['middleware' => ['auth']], function () {
     Route::resource('api/post', 'PostController');
 

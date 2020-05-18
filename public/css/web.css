@@ -1,0 +1,22 @@
+#center {
+    background-color: blueviolet;
+    height: 400px;
+    width: 50%;
+    float: left;
+}
+#right {
+    background-color: crimson;
+    height: 400px;
+    width: 25%;
+    float: right;
+}
+#left {
+    background-color: palevioletred;
+    height: 400px;
+    width: 25%;
+    float: left;
+}
+footer {
+    clear: both;
+    background-color: black;
+}

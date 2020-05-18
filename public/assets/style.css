@@ -1,0 +1,389 @@
+html {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+/* Button Styles */
+.linh-button {
+    border: none;
+    border-radius: 3px;
+    font-weight: bold;
+}
+
+.linh-button.button-lg {
+    padding: 8px 16px;
+    font-size: 13px;
+}
+
+.linh-button.button-md {
+    padding: 7px 14px;
+    font-size: 12px;
+}
+
+.linh-button.button-sm {
+    padding: 6px 12px;
+    font-size: 11px;
+}
+
+.linh-button.button-primary {
+    background-color: blue;
+    color: white;
+}
+
+.linh-button.button-primary:hover {
+    background-color: red;
+}
+
+.linh-button.button-silver {
+    background-color: silver;
+}
+
+.linh-button.button-silver:hover {
+}
+
+.linh-button.outline {
+    background-color: transparent;
+}
+
+.linh-button.outline.button-primary {
+    color: blue;
+    border: 1px solid blue;
+}
+
+.linh-button.outline.button-primary:hover {
+    background-color: blue;
+    color: white;
+}
+
+/* Background Button Styles */
+
+.linh-bg-button {
+    position: relative;
+    padding: 6px 8px;
+    text-transform: uppercase;
+    color: blue;
+    z-index: 100;
+    font-size: 11px;
+    font-weight: bold;
+    margin: 2px 4px;
+}
+
+.linh-bg-button:hover {
+    color: white !important;
+}
+
+.linh-bg-button:hover::before {
+    content: " ";
+    position: absolute;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    background-color: blue !important;
+    color: white !important;
+    top: 0;
+    left: 0;
+}
+
+.linh-bg-button:hover::after {
+    content: " ";
+    position: absolute;
+    z-index: -2;
+    left: 5px;
+    top: 5px;
+    background-color: green !important;
+    width: 100%;
+    height: 100%;
+}
+
+.linh-bg-button.active {
+    color: black;
+}
+
+.linh-bg-button.active::before {
+    content: " ";
+    position: absolute;
+    z-index: -1;
+    left: 0;
+    top: 0;
+    background-color: green;
+    width: 100%;
+    height: 100%;
+}
+
+.linh-bg-button.active::after {
+    content: " ";
+    position: absolute;
+    z-index: -2;
+    left: 5px;
+    top: 5px;
+    background-color: blue;
+    width: 100%;
+    height: 100%;
+}
+
+/* Nav Icon Butons */
+
+.linh-nav-icon-button {
+    color: black;
+    font-size: 22px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    text-decoration: none;
+}
+
+.linh-nav-icon-button:hover {
+    background-color: silver;
+}
+
+/* Hot Tweet List */
+
+.hot-tweet-list {
+    border-top: 1px solid silver;
+}
+
+.hot-tweet-list__title {
+    margin-left: 20px;
+    font-size: 12px;
+    margin-bottom: 0;
+}
+
+.hot-tweet-list ul {
+    padding-inline-start: 0;
+}
+
+.hot-tweet-list ul li {
+    list-style: none;
+}
+
+.tweet-item__title {
+    display: block;
+    text-decoration: none;
+    font-size: 12px;
+    padding: 10px 20px;
+    color: black;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.tweet-item__title:hover {
+    background-color: #f2f2f2;
+    color: blue;
+}
+
+.tweet-item__bullet {
+    box-sizing: border-box;
+    width: 5px;
+    height: 5px;
+    background-color: red;
+    border-radius: 50%;
+    vertical-align: top;
+    transform: translateY(7px);
+    flex-shrink: 0;
+}
+
+.tweet-item__content {
+    margin-left: 6px;
+    flex-grow: 1;
+    font-size: 15px;
+}
+
+.tweet-item__count {
+    font-size: 10px !important;
+    color: rgba(0, 0, 0, 0.7);
+}
+
+/* Tweet Card */
+
+.tweet-card {
+    background-color: white;
+    margin-bottom: 8px;
+    padding: 10px;
+    border-radius: 4px;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+}
+
+.tweet-card__avatar-wrapper {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+.tweet-card__thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.tweet-card__background img {
+    width: 100%;
+    height: 500px;
+    object-fit: cover;
+}
+
+.tweet-card__avatar-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.tweet-card__info {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.tweet-card__user-name {
+    display: block;
+    font-weight: bold;
+    color: black;
+    font-size: 13px;
+    margin: 6px 0 -4px;
+}
+
+.tweet-card__date-post {
+    font-size: 10px;
+}
+
+.tweet-card__content {
+    margin-left: 56px;
+}
+
+.tweet-card__actions-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.tweet-card__read-count {
+    font-size: 10px;
+    margin-right: 6px;
+}
+
+.tweet-card__title {
+    display: block;
+    text-decoration: none;
+    color: black;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.tweet-card__title:hover {
+    color: blue;
+}
+
+.tweet-card__tags-container {
+    margin-bottom: 10px;
+}
+.tweet-card__tags-container a {
+    text-decoration: none;
+    font-size: 10px;
+    color: #666;
+    margin-right: 8px;
+}
+
+.tweet-card__tags-container a:hover {
+    color: black;
+}
+
+/* Main nav */
+
+.main-nav {
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    overflow: hidden;
+    position: fixed; /* Set the navbar to fixed position */
+    top: 0;
+    width: 100%;
+    background-color: white;
+    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.5);
+}
+
+.app-logo {
+    display: inline-block;
+    background-color: black;
+    color: white;
+    padding: 4px 6px;
+    border-radius: 4px;
+}
+
+.main-container {
+    padding-top: 12px;
+    display: flex;
+    justify-content: space-between;
+    background-color: #f8f8f8;
+}
+
+.main-content {
+    flex-grow: 1;
+    padding: 0 12px;
+}
+
+.right-side {
+    width: 250px;
+    flex-shrink: 0;
+}
+
+.tab-controllers {
+    display: flex;
+    padding: 20px;
+    justify-content: center;
+}
+/* left side */
+.left-side {
+    width: 250px;
+    flex-shrink: 0;
+}
+.left-side ul {
+    width: 230px;
+    list-style: none;
+}
+.tweet-item__bulletsizebar {
+    box-sizing: border-box;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    vertical-align: top;
+    transform: translateY(2px);
+    flex-shrink: 0;
+}
+.tagscroll {
+    border: 3px;
+    width: 200px;
+    height: 300px;
+    overflow: scroll;
+}
+/* detail-page */
+.post-card {
+    background-color: white;
+    margin-bottom: 8px;
+    padding: 10px;
+    border-radius: 4px;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+}
+.post__title {
+    display: block;
+    text-decoration: none;
+    color: black;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+.post__content {
+    margin-left: 56px;
+}
+.post_review {
+    border-color: aqua solid !important;
+}
+footer {
+    text-align: center;
+    background-color: aqua;
+}

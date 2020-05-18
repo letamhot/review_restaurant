@@ -38,6 +38,7 @@ abstract class EloquentRepository implements BaseRepository
         }
     }
 
+
     public function getAllOnlyTrashed()
     {
         try {
@@ -73,6 +74,7 @@ abstract class EloquentRepository implements BaseRepository
             return null;
         }
     }
+
 
 
     public function create($request)
