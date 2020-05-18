@@ -69,7 +69,7 @@ class SocialAccountService
     protected function sendSuccessResponse()
     {
         // return redirect('/dashboard');
-        return redirect(Session::get('pre_url'));
+        return redirect()->to(Session::get('pre_url'));
     }
 
     // notify for user about error information
