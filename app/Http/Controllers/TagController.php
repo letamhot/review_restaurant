@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 use App\Services\TagService;
+use App\Http\Requests\TagRequest;
 
 class TagController extends Controller
 {
@@ -21,7 +22,6 @@ class TagController extends Controller
      */
     public function index(Request $request)
     {
-        // return view('tags.index');
         return $this->tagService->ajaxIndex($request);
     }
 
@@ -41,11 +41,9 @@ class TagController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(TagRequest $request)
     {
         return  $this->tagService->ajaxStore($request);
-        // $this->tagService->create($request);
-        // return redirect()->route('tag.index');
     }
 
     /**
@@ -55,9 +53,7 @@ class TagController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Tag $tag)
-    {
-        return $tag;
-    }
+    { }
 
     /**
      * Show the form for editing the specified resource.
@@ -65,10 +61,9 @@ class TagController extends Controller
      * @param  \App\Models\Tag  $tag
      * @return \Illuminate\Http\Response
      */
-    public function edit(Tag $tag)
+    public function edit($id)
     {
-        return $tag;
-        // return view('tags.edit', ["tag" => $tag]);
+        return  $this->tagService->ajaxUpdate($id);
     }
 
     /**
@@ -98,11 +93,9 @@ class TagController extends Controller
     protected function goTo($result)
     {
         if ($result) {
-            // Toastr::success('Successfully! :)', 'Success');
 
             return redirect()->route('tag.index');
         }
-        // Toastr::error('Something went wrong!', 'Error');
 
         return back();
     }
@@ -113,10 +106,14 @@ class TagController extends Controller
         return view('deletedtags.index', ["delete" => $delete]);
     }
 
-
     public function restoreDeletedTags($id)
     {
         $this->tagService->restoreDelete($id);
         return redirect('/tag');
+    }
+
+    public function forceDelete($id)
+    {
+        $this->tagService->forceDestroy($id);
     }
 }

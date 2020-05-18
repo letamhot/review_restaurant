@@ -37,11 +37,11 @@ class TagServiceImpl extends BaseServiceImpl implements TagService
 
         return app()->make($this->getModelRepository())->ajaxStore($request);
     }
-    // public function ajaxUpdate($id)
-    // {
+    public function ajaxUpdate($id)
+    {
 
-    //     return app()->make($this->getModelRepository())->ajaxUpdate($id);
-    // }
+        return app()->make($this->getModelRepository())->ajaxUpdate($id);
+    }
     public function ajaxDestroy($id)
     {
         return app()->make($this->getModelRepository())->ajaxDestroy($id);

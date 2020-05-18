@@ -30,9 +30,6 @@ abstract class EloquentRepository implements BaseRepository
         return $this->model->findOrFail($id);
     }
 
-
-
-
     public function create($request)
     {
         try {

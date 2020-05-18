@@ -14,8 +14,7 @@
 <body>
 
     <div class="container">
-        <h2>Tag Table</h2>
-        <p>Danh Sach Tag</p>
+        <h2>Danh Sách Tag Đã Bị Xóa</h2>
         <table class="table">
             <thead>
                 <tr>
@@ -33,8 +32,9 @@
                         <form action="{{ route('restoreTag', $del->id) }}" method="GET">
                             @csrf
                             <input type="hidden" name="id" value="{{ $del->id }}">
-                            <button type="submit" onclick="return confirm('Do you want restore {{$del->name}} ?')"
-                                class="btn btn-danger btn-sm">Trở Lại</button>
+                            <button type="submit"
+                                onclick="return confirm('Bạn có muốn lấy lại tag {{$del->name}} đã xóa?')"
+                                class="btn btn-danger btn-sm">Hoàn Tác</button>
                         </form>
                     </td>
                 </tr>
@@ -46,3 +46,29 @@
 </body>
 
 </html>
+
+<script type="text/javascript">
+    $(function () {
+        $.ajaxSetup({
+            headers: {
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+            },
+        });
+
+        $.ajax({
+            url: "{{ route('tag.store') }}",
+            type: "GET",
+            // dataType: "json",
+            success: function (data) {
+                $("#tagForm").trigger("reset");
+                $("#ajaxModel").modal("hide");
+                table.draw();
+            },
+            error: function (data) {
+                $.each(data.responseJSON.errors, function(key, value){
+                    $(`.alert-${key}`).html(value);
+                });
+                $("#saveBtn").html("Lưu Thay Đổi");
+            },
+        });
+    });

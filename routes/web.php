@@ -15,6 +15,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
+Route::get('/index', function () {
+    return view('webindex');
+});
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
@@ -25,3 +30,5 @@ Route::resource('tag', 'TagController');
 // tag deleted
 Route::get('/tagdel', 'TagController@showdeletedtags')->name('tagdel');
 Route::get('/tagdel/restore/{id}', 'TagController@restoreDeletedTags')->name('restoreTag');
+
+Route::get('/tagdel/{id}', 'TagController@forceDelete')->name('tagdel.forceDelete');
