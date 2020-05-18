@@ -30,11 +30,25 @@ class LoginController extends Controller
 
     /**
      * Create a new controller instance.
-     *
-     * @return void
      */
     public function __construct()
     {
+        // get previous URL
+        intendedURL();
+
         $this->middleware('guest')->except('logout');
+    }
+
+    /**
+     * Override Attribute redirectTo.
+     */
+    public function redirectTo()
+    {
+        // CHECK USER IS ADMIN THEN REDRIECT TO ADMIN DASHBOARD
+        // if (Auth::check() && 1 == Auth::user()->role->id) {
+        //     return $this->redirectTo = route('admin.dashboard');
+        // }
+
+        return Session::has('pre_url') ? Session::get('pre_url') : $this->redirectTo;
     }
 }
