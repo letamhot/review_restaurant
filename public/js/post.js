@@ -9,32 +9,24 @@ post.drawData = function() {
             $('#create').show();
             $('#trash').show();
 
-
-
-            // $('<div class="modal fade"></div>').appendTo(document.body);
-
-            // // Remove it (later)
-            // $(".modal fade ").remove();
-
             $('#reloadtbody').empty();
             $.each(res, function(index, value) {
                 $('#reloadtbody').append(
                     `
                         <tr>
+                            <td>${value.name}</td>
                             <td>${value.title}</td>
                             <td>${value.slug}</td>
                             <td><img src="${imgURL}/${value.cover_image}" width="60px" height="60px" alt=""></td>
-                            <td>${value.content.slice(0, 50)}</td>
                             <td>${value.is_approved ? 'active' : 'inactive'} </td>
                             <td>${value.created_at}</td>
                             <td>${value.updated_at}</td>
                             <td>
+                                <a id="show" href="javascript:;" class = "btn btn-primary" onclick="post.show(${value.id})"><i class="fa fa-eye" aria-hidden="true"></i></a>
                                 <a id= "edit" href="javascript:;" class = "btn btn-warning" onclick="post.getDetail(${value.id})"><i class="fa fa-edit"></i></a>
                                 <a id = "delete" href="javascript:;" class = "btn btn-danger" onclick="post.remove(${value.id})"><i class="fa fa-trash"></i></a>
-                                <a id="show" href="javascript:;" class = "btn btn-primary" onclick="post.show(${value.id})">Content</a>
                             </td>
                         </tr>
-
                     `
                 )
             });
@@ -45,7 +37,6 @@ post.drawData = function() {
 $('#addform').on('submit', function(e) {
     e.preventDefault();
     if ($('#addform').valid()) {
-
         if ($('#postid').val() == 0) {
             $.ajax({
                 type: 'POST',

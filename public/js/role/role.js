@@ -49,6 +49,7 @@ $(function() {
             ],
             drawCallback: function(settings, start, end, max, total, pre) {
                 var json = this.api().ajax.json();
+                console.log(json);
                 $("#role_count").text(json.all_count);
                 $("#trash_count").text(json.trash_count);
             },
@@ -63,7 +64,7 @@ $(document).ready(function() {
             "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
         },
     });
-    $.data_table("/role");
+    $.data_table("role/");
 });
 
 /* Show all record or soft delete records */
@@ -75,7 +76,7 @@ $("body").on("click", "#trash_role,#list_role", function() {
         $('#create_new_role').hide();
         $('#list_role').show();
         $.data_table("/roles/trash/sd");
-        // console.log('aa');
+        console.log('aa');
     } else {
         $(this).hide();
         $('#trash_role').show();

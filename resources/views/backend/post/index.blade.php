@@ -58,11 +58,11 @@
                     <table id="tbUser" class="table table-bordered">
                         <thead>
                             <tr>
+                                <th>User</th>
                                 <th>Title</th>
                                 <th>Slug</th>
                                 <th>Cover_image</th>
-                                <th>Content</th>
-                                <th id="active">Active</th>
+                                <th id="active">Status</th>
                                 <th>Created_at</th>
                                 <th>Updated_at</th>
                                 <th>Action</th>
@@ -90,13 +90,6 @@
 @endsection
 
 @push('js-post')
-<!-- JQuery DataTable JS -->
-{{-- <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote.min.js"></script>
-<script>
-    $(document).ready(function() {
-        $('#content').summernote();
-    });
-  </script> --}}
 <script type="text/javascript" src="{{ asset('assets/backend/modules/jquery-validation/dist/jquery.validate.min.js')}}">
 </script>
 <script defer type="text/javascript" src="{{ asset('assets/backend/modules/datatables/datatables.min.js')}}"></script>

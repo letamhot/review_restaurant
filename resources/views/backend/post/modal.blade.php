@@ -29,7 +29,7 @@
                                 </div>
                                 <div class="form-group custom-checkbox">
                                     <input type="checkbox" class="form-control-input checkbox" id="is_approved"
-                                        name="is_approved" checked>
+                                        name="is_approved">
                                     <label class="form-control-label" for="is_approved">Active</label>
                                 </div>
                             </div>

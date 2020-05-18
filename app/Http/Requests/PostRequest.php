@@ -32,9 +32,9 @@ class PostRequest extends FormRequest
             'title' => [
                 'required',
                 Rule::unique('posts')->ignore($this->id),
-                'regex:/^[a-zA-Z0-9]+$/'
             ],
-            'cover_image' => 'required'
+
+            'cover_image' => 'required',
         ];
     }
 
@@ -47,6 +47,8 @@ class PostRequest extends FormRequest
     {
         return [
             'title.required' => 'Vui lòng nhập tên!?',
+            'cover_image.required' => 'Vui lòng nhập hình ảnh!?',
+
         ];
     }
 }
