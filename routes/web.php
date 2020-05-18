@@ -12,16 +12,8 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('front-end.landingpage');
 });
-
-
-
-Route::get('/index', function () {
-    return view('webindex');
-});
-
-Auth::routes();
 
 // DISABLE REGISTER
 Auth::routes([
