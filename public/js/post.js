@@ -4,8 +4,19 @@ post.drawData = function() {
         type: 'GET',
         url: 'api/post',
         success: function(res) {
+            $('#post').text('Post List');
+            $('#create').show();
+            $('#trash').show();
+            $('#list').hide();
+
+
+
+            // $('<div class="modal fade"></div>').appendTo(document.body);
+
+            // // Remove it (later)
+            // $(".modal fade ").remove();
+
             $('#reloadtbody').empty();
-            console.log(res);
             $.each(res, function(index, value) {
                 $('#reloadtbody').append(
                     `
@@ -17,10 +28,9 @@ post.drawData = function() {
                             <td>${value.is_approved ? 'active' : 'inactive'} </td>
                             <td>${value.created_at}</td>
                             <td>${value.updated_at}</td>
-
                             <td>
-                                <a id= "edit" href="javascript:;" onclick="post.getDetail(${value.id})"><i class="fa fa-edit"></i></a>
-                                <a id = "delete" href="javascript:;" onclick="post.remove(${value.id})"><i class="fa fa-trash"></i></a>
+                                <a id= "edit" href="javascript:;" class = "btn btn-warning" onclick="post.getDetail(${value.id})"><i class="fa fa-edit"></i></a>
+                                <a id = "delete" href="javascript:;" class = "btn btn-danger" onclick="post.remove(${value.id})"><i class="fa fa-trash"></i></a>
                             </td>
                         </tr>
 
@@ -31,42 +41,42 @@ post.drawData = function() {
         }
     });
 }
-
-
 $('#addform').on('submit', function(e) {
     e.preventDefault();
-    if ($('#postid').val() == 0) {
-        $.ajax({
-            type: 'POST',
-            url: '/post/add',
-            data: new FormData(this),
-            cache: false,
-            contentType: false,
-            processData: false,
-            dataType: "json",
-            success: function(data) {
-                $('#addpostmodal').modal('hide')
-                bootbox.alert('Created successfully');
-                post.drawData();
-            }
-        });
+    if ($('#addform').valid()) {
+
+        if ($('#postid').val() == 0) {
+            $.ajax({
+                type: 'POST',
+                url: '/post/add',
+                data: new FormData(this),
+                cache: false,
+                contentType: false,
+                processData: false,
+                dataType: "json",
+                success: function(data) {
+                    $('#addpostmodal').modal('hide')
+                    bootbox.alert('Created successfully');
+
+                    post.drawData();
+                }
+            });
+        }
     }
+
 });
 
 
 post.showModal = function() {
     post.resetForm();
-    console.log($('#postid').val());
     $('#addpostmodal').modal('show');
 }
-
-
 post.getDetail = function(id) {
     $.ajax({
         type: 'GET',
         url: '/post/get/' + id,
         success: function(data) {
-            console.log(data);
+            console.log(data.is_approved);
             $('#title').val(data.title);
             $('#coverimage').prop('src', '/posts/' + data.cover_image);
             $('#content').val(data.content);
@@ -75,43 +85,81 @@ post.getDetail = function(id) {
             $('#addpostmodal').find('#exampleModalLongTitle').text('Update to Post');
             $('.modal-footer').find('#submit').text('Update');
             $('#addpostmodal').modal('show');
+            $('#addform').validate({
+                rules: {
+                    title: {
+                        required: true,
+                        minlength: 2,
+                        maxlength: 50,
+                    },
+                },
+                messages: {
+                    title: {
+                        required: "Please enter a name",
+                        minlength: "Please enter at least 2 characters.",
+                        maxlength: "Please enter no more than 50 characters.",
+                    },
+                },
+            });
         }
     });
 }
 
+
 $('#addform').on('submit', function(e) {
-    var objEdit = {};
-    objEdit.id = $('#postid').val();
     e.preventDefault();
-    if ($('#postid').val() != 0) {
-        $.ajax({
-            type: 'POST',
-            url: '/post/update/' + objEdit.id,
-            data: new FormData(this),
-            cache: false,
-            contentType: false,
-            processData: false,
-            dataType: "json",
-            success: function(data) {
-                console.log(data);
-                $('#addpostmodal').modal('hide');
-                bootbox.alert('Update successfully');
-                post.drawData();
-            }
-        });
+    if ($('#addform').valid()) {
+        var objEdit = {};
+        objEdit.id = $('#postid').val();
+
+        if ($('#postid').val() != 0) {
+            $.ajax({
+                type: 'POST',
+                url: '/post/update/' + objEdit.id,
+                data: new FormData(this),
+                cache: false,
+                contentType: false,
+                processData: false,
+                dataType: "json",
+                success: function(data) {
+                    $('#addpostmodal').modal('hide');
+                    bootbox.alert('Update successfully');
+                    post.drawData();
+
+                }
+            });
+        }
     }
 });
+
 
 post.resetForm = function() {
     $('#title').val('');
     $('#coverimage').prop('');
     $('#content').val('');
-    $('#is_approved').val('');
+    $('#is_approved').prop('');
     $('#postid').val('0')
     $('#addpostmodal').find('#exampleModalLongTitle').text('Create New Post');
     $('.modal-footer').find('#submit').text('Create');
-    $('#addform').validate().resetForm();
-};
+    var form = $('#addform').validate({
+        rules: {
+            title: {
+                required: true,
+                minlength: 2,
+                maxlength: 50,
+            },
+        },
+        messages: {
+            title: {
+                required: "Please enter a name",
+                minlength: "Please enter at least 2 characters.",
+                maxlength: "Please enter no more than 50 characters.",
+            },
+        },
+    });
+
+    form.resetForm();
+}
 
 
 post.remove = function(id) {
@@ -141,10 +189,10 @@ post.remove = function(id) {
             }
         }
     })
-};
+}
 post.init = function() {
     post.drawData();
-};
+}
 
 $(document).ready(function() {
     post.init();

@@ -44,7 +44,7 @@ Route::get('/post', function () {
     return view('post.index');
 });
 Route::post('/post/add', 'PostController@store')->name('post.store');
-
 Route::post('post/delete/{id}', 'PostController@destroy');
 Route::get('post/get/{id}', 'PostController@edit');
 Route::post('post/update/{id}', 'PostController@update');
+

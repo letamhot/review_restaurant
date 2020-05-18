@@ -9,6 +9,9 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Yajra\DataTables\DataTables;
+
+
 // use Illuminate\Http\Request;
 class PostRepositoryImpl extends EloquentRepository implements PostRepository
 {
@@ -57,7 +60,7 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
                 if($request->is_approved == 'on')
                 {
                     $post->is_approved = 1;
-                } else {
+                } else {    
                     $post->is_approved = 0;
                 }
                 $post->save();
@@ -135,8 +138,23 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
         }
     }
 
+
+    public function findByIdOnlyTrashed($id)
+    {
+        $result = $this->getPost()->onlyTrashed()->find($id);
+        return $result;
+    }
+
+    public function getAll(){
+        return $this->getPost()->orderBy('created_at','desc')->get();
+    }
+
+
     protected function getPost()
     {
         return app()->make($this->getModel());
     }
+
+    
+
 }
