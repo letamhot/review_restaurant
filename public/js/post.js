@@ -5,9 +5,9 @@ post.drawData = function() {
         url: 'api/post',
         success: function(res) {
             $('#post').text('Post List');
+            $('#list').hide();
             $('#create').show();
             $('#trash').show();
-            $('#list').hide();
 
 
 
@@ -24,13 +24,14 @@ post.drawData = function() {
                             <td>${value.title}</td>
                             <td>${value.slug}</td>
                             <td><img src="${imgURL}/${value.cover_image}" width="60px" height="60px" alt=""></td>
-                            <td>${value.content}</td>
+                            <td>${value.content.slice(0, 50)}</td>
                             <td>${value.is_approved ? 'active' : 'inactive'} </td>
                             <td>${value.created_at}</td>
                             <td>${value.updated_at}</td>
                             <td>
                                 <a id= "edit" href="javascript:;" class = "btn btn-warning" onclick="post.getDetail(${value.id})"><i class="fa fa-edit"></i></a>
                                 <a id = "delete" href="javascript:;" class = "btn btn-danger" onclick="post.remove(${value.id})"><i class="fa fa-trash"></i></a>
+                                <a id="show" href="javascript:;" class = "btn btn-primary" onclick="post.show(${value.id})">Content</a>
                             </td>
                         </tr>
 
@@ -66,7 +67,22 @@ $('#addform').on('submit', function(e) {
 
 });
 
+post.show = function(id) {
+    $.ajax({
+        type: 'GET',
+        url: '/post/show/' + id,
+        success: function(data) {
+            console.log($('h4#title').val(data.title))
+            $('h4#title').html(data.title);
+            $('h1#descriptor').html(data.content);
+            $('#show123').modal('show');
+        },
 
+        error: function(jqXHR, textStatus, errorThrown) {
+            //xử lý lỗi tại đây
+        }
+    });
+}
 post.showModal = function() {
     post.resetForm();
     $('#addpostmodal').modal('show');
