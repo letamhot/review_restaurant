@@ -12,7 +12,7 @@ class AddAccessTokenAndStatusToUsers extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('email')->unique()->nullable()->change();
+            $table->string('email')->nullable()->change();
             $table->boolean('status')->nullable()->default(true)->after('about');
             $table->string('access_token')->nullable()->after('provider_name');
         });
@@ -24,7 +24,7 @@ class AddAccessTokenAndStatusToUsers extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('email')->unique()->nullable(false)->change();
+            $table->string('email')->nullable(false)->change();
             $table->dropColumn(['status',  'access_token']);
         });
     }
