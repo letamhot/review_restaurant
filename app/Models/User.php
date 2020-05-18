@@ -7,10 +7,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+
 class User extends Authenticatable
 {
-    use SoftDeletes;
     use Notifiable;
+    use SoftDeletes;
 
     protected $dates = ['deleted_at'];
     protected $guarded = [];
@@ -47,7 +48,7 @@ class User extends Authenticatable
 
     public function posts()
     {
-        return $this->hasMany(Post::class);
+        return $this->hasMany(Post::class, 'user_id', 'id');
     }
 
     /**
@@ -70,5 +71,17 @@ class User extends Authenticatable
     public function getProviderNameAttribute($value)
     {
         return ucfirst($value);
+    }
+    public static function getAuthor($id)
+    {
+        $user = self::find($id);
+        return [
+            'id'     => $user->id,
+            'name'   => $user->name,
+            'email'  => $user->email,
+            'url'    => '',  // Optional
+            'avatar' => 'gravatar',  // Default avatar
+            'admin'  => $user->role === 'Admin', // bool
+        ];
     }
 }

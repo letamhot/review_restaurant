@@ -2,7 +2,12 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Validation\Rule;
+
 
 class PostRequest extends FormRequest
 {
@@ -26,11 +31,10 @@ class PostRequest extends FormRequest
         return [
             'title' => [
                 'required',
-                'min:3',
-                'max:33',
-                'unique:posts',
+                Rule::unique('posts')->ignore($this->id),
             ],
-            'cover_image' => 'required'
+
+            'cover_image' => 'required',
         ];
     }
 
@@ -43,6 +47,8 @@ class PostRequest extends FormRequest
     {
         return [
             'title.required' => 'Vui lòng nhập tên!?',
+            'cover_image.required' => 'Vui lòng nhập hình ảnh!?',
+
         ];
     }
 }

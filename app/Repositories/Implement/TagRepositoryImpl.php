@@ -6,7 +6,7 @@ use App\Models\Tag;
 use App\Repositories\TagRepository;
 use App\Repositories\Eloquent\EloquentRepository;
 use Illuminate\Support\Str;
-use DataTables;
+use Yajra\DataTables\DataTables;
 
 class TagRepositoryImpl extends EloquentRepository implements TagRepository
 {
@@ -57,11 +57,10 @@ class TagRepositoryImpl extends EloquentRepository implements TagRepository
         return response()->json(['success' => 'Product saved successfully.']);
     }
 
-    // public function ajaxUpdate($id)
-    // {
-    //     $tag = $this->getTag()->find($id);
-    //     return response()->json($tag);
-    // }
+    public function ajaxUpdate($id)
+    {
+        return $this->getTag()->find($id);
+    }
 
     public function ajaxDestroy($id)
     {
@@ -69,46 +68,6 @@ class TagRepositoryImpl extends EloquentRepository implements TagRepository
 
         return response()->json(['success' => 'Product deleted successfully.']);
     }
-
-
-    // public function create($request)
-    // {
-    //     try {
-    //         $tags = $this->getTag();
-    //         $tags->name = $request->name;
-    //         $tags->slug = Str::slug($request->name);
-    //         $tags->save();
-    //     } catch (\Exception $e) {
-    //         return null;
-    //     }
-
-    //     return true;
-    // }
-
-    // public function update($request, $tag)
-    // {
-    //     try {
-    //         // $tag->update($request->all());
-    //         $tag->name = $request->name;
-    //         $tag->slug = Str::slug($request->name);
-    //         // create unique slug using the mutator setSlugAttribute() no need Str::slug
-    //         // $category->slug = $request->name;
-    //         $tag->update();
-    //     } catch (\Exception $e) {
-    //         return null;
-    //     }
-
-    //     return true;
-    // }
-
-    // public function destroy($id)
-    // {
-    //     try {
-    //         $this->getTag()::findOrFail($id)->delete();
-    //     } catch (\Exception $e) {
-    //         return null;
-    //     }
-    // }
 
     protected function getTag()
     {
@@ -118,7 +77,7 @@ class TagRepositoryImpl extends EloquentRepository implements TagRepository
     public function showdeleted()
     {
         try {
-            return $this->getTag()::onlyTrashed()->get();
+            return $this->getTag()->onlyTrashed()->get();
         } catch (\Exception $e) {
             return null;
         }

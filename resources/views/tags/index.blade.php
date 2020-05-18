@@ -10,6 +10,7 @@
 <div class="container">
     <h1>Ajax CRUD Tag</h1>
     <a class="btn btn-success" href="javascript:void(0)" id="createNewProduct"> Thêm Tag Mới </a>
+    <a class="btn btn-info" href="{{route('tagdel')}}"> Các Tag Đã Xóa </a>
     <table class="table table-bordered data-table">
         <thead>
             <tr>
@@ -37,17 +38,10 @@
                         <div class="col-sm-12">
                             <input type="text" class="form-control" id="name" name="name" placeholder="Enter Name"
                                 value="" maxlength="50" required="" />
+
+                            <strong class="alert-name alert-danger"></strong>
                         </div>
                     </div>
-
-                    {{--
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">Details</label>
-                            <div class="col-sm-12">
-                                <textarea id="slug" name="detail" required="" placeholder="Enter Details" class="form-control"></textarea>
-                            </div>
-                        </div>
-                        --}}
 
                     <div class="col-sm-offset-2 col-sm-10">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -74,7 +68,6 @@
                     "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
                 },
             });
-
             var table = $(".data-table").DataTable({
                 processing: true,
                 serverSide: true,
@@ -93,13 +86,10 @@
                 $("#modelHeading").html("Thêm Mới");
                 $("#ajaxModel").modal("show");
                 $('#msg').val("Thêm thành công");
-
-
             });
 
             $("body").on("click", ".editProduct", function () {
                 var tag_id = $(this).data("id");
-
                 $.get("{{ route('tag.index') }}" + "/" + tag_id + "/edit", function (data) {
                     $("#modelHeading").html("Chỉnh Sửa");
                     $("#saveBtn").val("edit-user");
@@ -111,39 +101,40 @@
 
             $("#saveBtn").click(function (e) {
                 e.preventDefault();
-                $(this).html("Sending..");
-
                 $.ajax({
                     data: $("#tagForm").serialize(),
                     url: "{{ route('tag.store') }}",
                     type: "POST",
-                    dataType: "json",
+                    // dataType: "json",
                     success: function (data) {
                         $("#tagForm").trigger("reset");
                         $("#ajaxModel").modal("hide");
                         table.draw();
                     },
                     error: function (data) {
-                        console.log("Error:", data);
+                        $.each(data.responseJSON.errors, function(key, value){
+                            $(`.alert-${key}`).html(value);
+                        });
                         $("#saveBtn").html("Lưu Thay Đổi");
                     },
                 });
             });
-
             $("body").on("click", ".deleteProduct", function () {
                 var tag_id = $(this).data("id");
-                confirm("Bạn Muốn Xóa Tag Này !");
-
-                $.ajax({
+                var result = confirm("Bạn Muốn Xóa Tag Này !");
+                if (result) {
+                    $.ajax({
                     type: "DELETE",
                     url: "{{ route('tag.store') }}" + "/" + tag_id,
                     success: function (data) {
                         table.draw();
                     },
                     error: function (data) {
-                        console.log("Error:", data);
+                        // console.log("Error:", data);
                     },
                 });
+                }
+                return false;
             });
         });
 </script>

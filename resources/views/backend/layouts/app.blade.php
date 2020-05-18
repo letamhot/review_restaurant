@@ -18,6 +18,7 @@
 
     <!-- CSS for specific page -->
     @stack('css')
+    @stack('css-post')
 
     <!-- Template CSS -->
     <link rel="stylesheet" href="{{ asset('assets/backend/css/style.min.css')}}">
@@ -25,6 +26,7 @@
     
     <!-- Custom JS in header for specific page -->
     @stack('head_js')
+    
 
 </head>
 
@@ -97,6 +99,8 @@
 
     <!-- Custom JS File -->
     @stack('js')
+    @stack('js-post')
+    @stack('js-role')
 </body>
 
 </html>

@@ -27,4 +27,5 @@ interface BaseRepository
     public function restoreSoftDelete($id);
 
     public function permanentDestroySoftDeleted($id);
+     
 }

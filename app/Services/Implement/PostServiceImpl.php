@@ -15,5 +15,6 @@ class PostServiceImpl extends BaseServiceImpl implements PostService
     public function getModelRepository()
     {
         return PostRepository::class;
+
     }
 }
