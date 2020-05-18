@@ -5,6 +5,8 @@
 @push('css')
 <!-- Social Css -->
 <link rel="stylesheet" href="{{ asset('assets/backend/modules/bootstrap-social/bootstrap-social.css')}}">
+<!-- Toast Css -->
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/backend/modules/izitoast/css/iziToast.min.css')}}" />
 @endpush
 
 @section('custom_content')
@@ -18,12 +20,12 @@
         <div class="card-body">
           <div class="row sm-gutters">
             <div class="col-6">
-              <a  href="#" class="btn btn-block btn-social btn-facebook">
+              <a  href="{{ route('social.redirect', 'facebook') }}" class="btn btn-block btn-social btn-facebook">
                 <span class="fab fa-facebook"></span> Facebook
               </a>
             </div>
-            <div  href="#" class="col-6">
-              <a class="btn btn-block btn-social btn-twitter">
+            <div class="col-6">
+              <a href="{{ route('social.redirect', 'google') }}" class="btn btn-block btn-social btn-twitter">
                 <span class="fab fa-google"></span> Google
               </a>                                
             </div>
@@ -34,3 +36,10 @@
   </div>
 @endsection
 
+@push('js')
+  <!-- Toast JS-->
+  <script type="text/javascript" src="{{ asset('assets/backend/modules/izitoast/js/iziToast.min.js')}}"></script>
+@endpush
+
+  <!-- Toast Msg-->
+@include('backend.layouts.partials.toast_msg')
