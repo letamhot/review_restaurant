@@ -15,24 +15,28 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+// DISABLE REGISTER
+Auth::routes([
+    'register' => false,
+    'reset' => false, ]);
 
+// OAuth login
+Route::get('oauth/redirect/{driver}', 'SocialAuthController@redirect')->name('social.redirect');
+Route::get('oauth/callback/{driver}', 'SocialAuthController@callback')->name('social.callback');
 
 // ADMIN - Category CRUD
 Route::resource('/category', 'CategoryController');
 Route::delete('/category/{category}/emptyTrash', 'CategoryController@emptyTrash')->name('category.emptyTrash');
 Route::patch('/category/{category}/restoreTrash', 'CategoryController@restoreTrash')->name('category.restoreTrash');
 Route::get('/category/trash/sd', 'CategoryController@getTrashRecords')->name('category.trash');
-Auth::routes();
 
+// ADMIN - User CRUD
+Route::resource('/user', 'UserController');
 
 Route::resource('tag', 'TagController');
 // tag deleted
 Route::get('/tagdel', 'TagController@showdeletedtags')->name('tagdel');
 Route::get('/tagdel/restore/{id}', 'TagController@restoreDeletedTags')->name('restoreTag');
-
-
-
 
 Route::resource('api/post', 'PostController');
 
@@ -44,15 +48,6 @@ Route::post('post/delete/{id}', 'PostController@destroy');
 Route::get('post/get/{id}', 'PostController@edit');
 Route::get('post/show/{id}', 'PostController@show');
 Route::post('post/update/{id}', 'PostController@update');
-Route::delete('/post/{post}/emptyTrash', 'PostController@emptyTrash')->name('post.emptyTrash');
-Route::patch('/post/{post}/restoreTrash', 'PostController@restoreTrash')->name('post.restoreTrash');
-Route::get('/post/trash/sd', 'PostController@getTrashRecords')->name('post.trash');
-
-Route::resource('/role', 'RoleController');
-Route::delete('/roles/{role}/emptyTrash', 'RoleController@emptyTrash')->name('role.emptyTrash');
-Route::patch('/roles/{role}/restoreTrash', 'RoleController@restoreTrash')->name('role.restoreTrash');
-Route::get('/roles/trash/sd', 'RoleController@getTrashRecords')->name('role.trash');
-
 
 
 Auth::routes();
