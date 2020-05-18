@@ -65,7 +65,7 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        $obj = $this->postService->findByID($id);
+        $obj = $this->postService->findByIdWithTrashed($id);
         return response()->json($obj, 200);
     }
 

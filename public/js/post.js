@@ -24,14 +24,14 @@ post.drawData = function() {
                             <td>${value.title}</td>
                             <td>${value.slug}</td>
                             <td><img src="${imgURL}/${value.cover_image}" width="60px" height="60px" alt=""></td>
-                            <td>${value.content.slice(0, 50)}</td>
                             <td>${value.is_approved ? 'active' : 'inactive'} </td>
                             <td>${value.created_at}</td>
                             <td>${value.updated_at}</td>
                             <td>
+                                <a id="show" href="javascript:;" class = "btn btn-primary" onclick="post.show(${value.id})"><i class="fa fa-eye" aria-hidden="true"></i></a>
                                 <a id= "edit" href="javascript:;" class = "btn btn-warning" onclick="post.getDetail(${value.id})"><i class="fa fa-edit"></i></a>
                                 <a id = "delete" href="javascript:;" class = "btn btn-danger" onclick="post.remove(${value.id})"><i class="fa fa-trash"></i></a>
-                                <a id="show" href="javascript:;" class = "btn btn-primary" onclick="post.show(${value.id})">Content</a>
+                               
                             </td>
                         </tr>
 
@@ -152,7 +152,7 @@ $('#addform').on('submit', function(e) {
 post.resetForm = function() {
     $('#title').val('');
     $('#coverimage').prop('');
-    $('#content').val('');
+    $('#content').prop('');
     $('#is_approved').prop('');
     $('#postid').val('0')
     $('#addpostmodal').find('#exampleModalLongTitle').text('Create New Post');

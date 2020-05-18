@@ -20,13 +20,14 @@ post.drawTrash = function() {
                             <td>${value.title}</td>
                             <td>${value.slug}</td>
                             <td><img src="${imgURL}/${value.cover_image}" width="60px" height="60px" alt=""></td>
-                            <td>${value.content}</td>
                             <td>${value.is_approved ? 'active' : 'inactive'} </td>
                             <td>${value.created_at}</td>
                             <td>${value.updated_at}</td>
                             <td>
+                                <a id="show" href="javascript:;" class = "btn btn-primary" onclick="post.show(${value.id})"><i class="fa fa-eye" aria-hidden="true"></i></a>
                                 <a  href="javascript:;" class = "btn btn-primary" onclick="post.restore(${value.id})"><i class="fa fa-window-restore"></i></a>
                                 <a  href="javascript:;" class = "btn btn-danger" onclick="post.delete(${value.id})"><i class="fa fa-trash"></i></a>
+
                             </td>
                         </tr>
 
@@ -42,7 +43,22 @@ post.showTrash = function() {
 }
 
 
+post.show = function(id) {
+    $.ajax({
+        type: 'GET',
+        url: '/post/show/' + id,
+        success: function(data) {
+            console.log($('h4#title').val(data.title))
+            $('h4#title').html(data.title);
+            $('h1#descriptor').html(data.content);
+            $('#show123').modal('show');
+        },
 
+        error: function(jqXHR, textStatus, errorThrown) {
+            //xử lý lỗi tại đây
+        }
+    });
+}
 post.restore = function(id) {
     bootbox.confirm({
         title: "Destroy planet?",
