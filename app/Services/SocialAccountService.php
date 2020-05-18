@@ -68,8 +68,8 @@ class SocialAccountService
     // redirect to previous URL or specific intended URL
     protected function sendSuccessResponse()
     {
-        return redirect('/dashboard');
-        // return redirect(Session::get('pre_url'));
+        // return redirect('/dashboard');
+        return redirect(Session::get('pre_url'));
     }
 
     // notify for user about error information
