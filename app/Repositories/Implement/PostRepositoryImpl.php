@@ -66,7 +66,6 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
                     $post->is_approved = 0;
                 }
                 $post->save();
-                $post->categories()->sync($request->categories, false); // syncWithoutDetaching
                 $post->tags()->sync($request->tags, false);
         } catch (\Exception $e) {
             dd($e->getMessage());
@@ -120,7 +119,6 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
             }
 
             $post->update();
-            $post->categories()->sync($request->categories, false); // syncWithoutDetaching
             $post->tags()->sync($request->tags, false);
 
             
