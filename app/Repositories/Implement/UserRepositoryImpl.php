@@ -49,7 +49,7 @@ class UserRepositoryImpl extends EloquentRepository implements UserRepository
                 ]);
             } else {
                 // create a new user
-                $user = $this->getUser()->create([
+                $user = $this->getUser()::create([
                     // 'role_id' => '3', // regular user
                     'name' => $providerUser->getName(),
                     'email' => $providerUser->getEmail(),
