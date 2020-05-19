@@ -17,4 +17,9 @@ class PostServiceImpl extends BaseServiceImpl implements PostService
         return PostRepository::class;
 
     }
+
+    public function getAllCategory()
+    {
+        return app()->make($this->getModelRepository())->getAllCategory();
+    }
 }

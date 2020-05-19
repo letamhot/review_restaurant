@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Http\Requests\PostRequest;
 use App\Services\PostService;
+
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Category;
+
 
 class PostController extends Controller
 {
@@ -14,7 +17,6 @@ class PostController extends Controller
 
     public function __construct(PostService $postService)
     {
-        $this->middleware( 'role:Admin' );
         $this->postService = $postService;
     }
     /**
@@ -25,13 +27,20 @@ class PostController extends Controller
     public function index()
     {
         $posts = $this->postService->getAll();
-        // dd($posts);
-        // $user = User::find('355');
-        // dd($user);
         foreach ($posts as $post) {
             $post['name'] = User::find($post['user_id'])->name;
+            $post['category_name'] = Category::find($post['category_id'])->name;
+
         }
         return response()->json($posts);
+    }
+
+    public function getAllCategory(Request $request )
+    {
+        if ($request->ajax()) {
+             return $this->postService->getAllCategory();
+        }
+       return null;
     }
 
     // public function showindex()

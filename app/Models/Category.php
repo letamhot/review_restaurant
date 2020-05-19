@@ -27,7 +27,7 @@ class Category extends Model
 
     public function posts()
     {
-        return $this->belongsToMany(Post::class)->withTimestamps();
+        return $this->hasMany(Post::class);
     }
 
     /*

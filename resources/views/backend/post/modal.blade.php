@@ -32,6 +32,16 @@
                                         name="is_approved">
                                     <label class="form-control-label" for="is_approved">Active</label>
                                 </div>
+                                <div class="row form-group">
+                                    <div class="col-4">
+                                        <label>Category</label>
+                                    </div>
+                                    <div class="col-8">
+                                        <select name="category_id" id="category_id" class="form-control">
+        
+                                        </select>
+                                    </div>
+                            </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

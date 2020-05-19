@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Implement;
 
+use App\Models\Category;
 use App\Models\Post;
 use App\Repositories\PostRepository;
 use App\Repositories\Eloquent\EloquentRepository;
@@ -52,6 +53,7 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
                 $userID = Auth::id();
                 $post =  $this->getPost();
                 $post->user_id = $userID;
+                $post->category_id = $request->category_id;
                 $post->title = $title;
                 // using the mutator setSlugAttribute()
                 $post->slug = $title;
@@ -104,6 +106,7 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
          
             $userID = Auth::id();
             $post->user_id = $userID;
+            $post->category_id = $request->category_id;
             $post->title = $title;
             // using the mutator setSlugAttribute()
             $post->slug = $title;
@@ -145,8 +148,17 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
         return $result;
     }
 
-    public function getAll(){
-        return $this->getPost()->orderBy('created_at','desc')->get();
+    // public function getAll(){
+    //     return $this->getPost()->orderBy('created_at','desc')->get();
+    // }
+    public function getAllCategory(){
+        try {
+            $data = Category::select('id','name');
+
+            return DataTables::of($data)->toJson();
+        } catch (\Exception $e) {
+            return null;
+        }
     }
 
 
