@@ -15,6 +15,7 @@ post.drawData = function() {
                     `
                         <tr>
                             <td>${value.name}</td>
+                            <td>${value.category_name}</td>
                             <td>${value.title}</td>
                             <td>${value.slug}</td>
                             <td><img src="${imgURL}/${value.cover_image}" width="60px" height="60px" alt=""></td>
@@ -76,6 +77,15 @@ post.show = function(id) {
 }
 post.showModal = function() {
     post.resetForm();
+    $.get("/post/all-category", function(data) {
+        $("#category_id").empty();
+        console.log(data.data);
+        $.each(data.data, function(key, value) {
+            console.log(value);
+
+            $("#category_id").append(`<option value="${value.id}">${value.name}</option>`);
+        })
+    });
     $('#addpostmodal').modal('show');
 }
 post.getDetail = function(id) {
@@ -83,8 +93,23 @@ post.getDetail = function(id) {
         type: 'GET',
         url: '/post/get/' + id,
         success: function(data) {
-            console.log(data.is_approved);
+            // console.log(data);
             $('#title').val(data.title);
+            // $('#category_id').val(data.category_id);
+            $.get("/post/all-category", function(categories) {
+                $("#category_id").empty();
+                console.log(categories.data);
+                console.log(data.category_id);
+                $.each(categories.data, function(key, value) {
+                    console.log(value.id);
+                    if (value.id == data.category_id) {
+                        $("#category_id").append(`<option value="${value.id}" selected ='selected'>${value.name}</option>`);
+                    } else {
+                        $("#category_id").append(`<option value="${value.id}">${value.name}</option>`);
+                    }
+
+                })
+            });
             $('#coverimage').prop('src', '/posts/' + data.cover_image);
             $('#content').val(data.content);
             data.is_approved == 1 ? $('#is_approved').prop('checked', true) : $('#is_approved').prop('checked', false);

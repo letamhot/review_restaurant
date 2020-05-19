@@ -59,6 +59,7 @@
                         <thead>
                             <tr>
                                 <th>User</th>
+                                <th>Category</th>
                                 <th>Title</th>
                                 <th>Slug</th>
                                 <th>Cover_image</th>

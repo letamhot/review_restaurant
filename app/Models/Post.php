@@ -21,9 +21,9 @@ class Post extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function categories()
+    public function category()
     {
-        return $this->belongsToMany(Category::class)->withTimestamps();
+        return $this->belongsTo(Category::class);
     }
 
     public function tags()

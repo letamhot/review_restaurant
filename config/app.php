@@ -182,8 +182,7 @@ return [
         Yajra\DataTables\DataTablesServiceProvider::class,
         //Role Provider
         App\Providers\RoleServiceProvider::class,
-
-       
+        
         // Socialite Login
         Laravel\Socialite\SocialiteServiceProvider::class,
 

@@ -56,6 +56,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::delete('/post/{post}/emptyTrash', 'PostController@emptyTrash')->name('post.emptyTrash');
     Route::patch('/post/{post}/restoreTrash', 'PostController@restoreTrash')->name('post.restoreTrash');
     Route::get('/post/trash/sd', 'PostController@getTrashRecords')->name('post.trash');
+    Route::get('/post/all-category', 'PostController@getAllCategory')->name('post.getAllCategory');
 
 });
 Route::group(['middleware' => ['auth']], function () {

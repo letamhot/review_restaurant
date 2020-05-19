@@ -14,6 +14,7 @@ class CreatePostsTable extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
+            $table->unsignedInteger('category_id');
             $table->string('title')->unique();
             $table->string('slug')->unique();
             $table->string('cover_image')->nullable()->default(defaultPostImage());
@@ -23,6 +24,8 @@ class CreatePostsTable extends Migration
             $table->softDeletes();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+
         });
     }
 
