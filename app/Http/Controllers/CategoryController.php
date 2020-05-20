@@ -25,7 +25,11 @@ class CategoryController extends Controller
     {
         return view('category.index')->withCategories($this->categoryService->getAll());
     }
-
+    public function Api_category()
+    {
+        $data = $this->categoryService->getAll();
+        return response()->json($data);
+    }
     /**
      * Show the form for creating a new resource.
      *

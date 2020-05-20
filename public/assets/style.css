@@ -325,7 +325,8 @@ body {
 
 .main-content {
     flex-grow: 1;
-    padding: 0 12px;
+    margin-top: 50px;
+    padding: 0 12px 10px 10px;
 }
 
 .right-side {
@@ -346,6 +347,7 @@ body {
 .left-side ul {
     width: 230px;
     list-style: none;
+    font-weight: bolder;
 }
 .tweet-item__bulletsizebar {
     box-sizing: border-box;
@@ -386,4 +388,55 @@ body {
 footer {
     text-align: center;
     background-color: aqua;
+}
+.post-review {
+    display: inline-flex;
+    justify-content: space-between;
+    /* width: 1000px; */
+    margin-left: 30px;
+}
+.post-review-card {
+    width: 400px;
+    border: solid;
+    color: black;
+    margin: 10px;
+}
+.post-review-card__title {
+    display: block;
+    text-decoration: none;
+    color: black;
+    margin: 10px;
+    font-weight: bold;
+}
+.post-review-card__content {
+    text-decoration: none;
+    color: blue;
+    text-align: justify;
+    font-weight: bold;
+}
+main {
+    padding: 20px;
+}
+.main-content-comment {
+    flex-grow: 1;
+    margin-top: 50px;
+    padding: 0 12px 10px 10px;
+    border: solid 1px red;
+}
+.comment__info {
+    display: inline-block;
+    vertical-align: 5;
+    padding: 1px;
+}
+.comment__avatar-wrapper {
+    display: inline-block;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+.comment__avatar-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
