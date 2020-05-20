@@ -4,6 +4,7 @@ var SITEURL = window.location.origin;
 $(function() {
     $.data_table = function(string = "") {
         $("#role_datatable").DataTable({
+            autoWidth: false,
             destroy: true,
             processing: true,
             language: {
@@ -64,7 +65,7 @@ $(document).ready(function() {
             "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
         },
     });
-    $.data_table("role/");
+    $.data_table("/role/");
 });
 
 /* Show all record or soft delete records */

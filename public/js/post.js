@@ -49,7 +49,7 @@ $('#addform').on('submit', function(e) {
                 dataType: "json",
                 success: function(data) {
                     $('#addpostmodal').modal('hide')
-                    bootbox.alert('Created successfully');
+                    $.msgNotification("success", "Created successfully");
 
                     post.drawData();
                 }
@@ -64,7 +64,6 @@ post.show = function(id) {
         type: 'GET',
         url: '/post/show/' + id,
         success: function(data) {
-            // console.log($('h4#title').val(data.title))
             $('h4#title').html(data.title);
             $('h1#descriptor').html(data.content);
             $('#show123').modal('show');
@@ -79,10 +78,7 @@ post.showModal = function() {
     post.resetForm();
     $.get("/post/all-category", function(data) {
         $("#category_id").empty();
-        // console.log(data.data);
         $.each(data.data, function(key, value) {
-            // console.log(value);
-
             $("#category_id").append(`<option value="${value.id}">${value.name}</option>`);
         })
     });
@@ -109,11 +105,20 @@ post.getDetail = function(id) {
             $('#content').val(data.content);
             data.is_approved == 1 ? $('#is_approved').prop('checked', true) : $('#is_approved').prop('checked', false);
             $('#postid').val(data.id);
-            $('#addpostmodal').find('#exampleModalLongTitle').text('Update to Post');
+            $('#addpostmodal').find('#exampleModalScrollableTitle').text('Update to Post');
             $('.modal-footer').find('#submit').text('Update');
             $('#addpostmodal').modal('show');
             $('#addform').validate({
+                ignore: [],
+                debug: false,
                 rules: {
+                    content: {
+                        required: function(textarea) {
+                            CKEDITOR.instances.content.updateElement();
+                            var editorcontent = textarea.value.replace(/<[^>]*>/gi, '');
+                            return editorcontent.length === 0;
+                        },
+                    },
                     title: {
                         required: true,
                         minlength: 2,
@@ -150,7 +155,8 @@ $('#addform').on('submit', function(e) {
                 dataType: "json",
                 success: function(data) {
                     $('#addpostmodal').modal('hide');
-                    bootbox.alert('Update successfully');
+                    $.msgNotification("success", "Update successfully");
+
                     post.drawData();
 
                 }
@@ -166,9 +172,11 @@ post.resetForm = function() {
     $('#content').val('');
     $('#is_approved').prop('');
     $('#postid').val('0')
-    $('#addpostmodal').find('#exampleModalLongTitle').text('Create New Post');
+    $('#addpostmodal').find('#exampleModalScrollableTitle').text('Create New Post');
     $('.modal-footer').find('#submit').text('Create');
     var form = $('#addform').validate({
+        ignore: [],
+        debug: false,
         rules: {
             title: {
                 required: true,
@@ -209,7 +217,8 @@ post.remove = function(id) {
                     dataType: 'json',
                     contentType: 'application/json',
                     success: function(res) {
-                        bootbox.alert('Remove successfully');
+                        $.msgNotification("success", "Remove successfully");
+
                         post.drawData();
                     }
                 })
@@ -228,4 +237,46 @@ $(document).ready(function() {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
+});
+
+$(function() {
+    $.jsUcFirst = function(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    };
+});
+
+$(function() {
+    $.msgNotification = function(msgType, msgText) {
+        switch (msgType) {
+            case "error":
+                return iziToast.error({
+                    title: $.jsUcFirst(msgType),
+                    message: msgText,
+                    position: 'topRight'
+                });
+                break;
+            case "success":
+                return iziToast.success({
+                    title: $.jsUcFirst(msgType),
+                    message: msgText,
+                    position: 'topRight'
+                });
+                break;
+            case "warning":
+                return iziToast.warning({
+                    title: $.jsUcFirst(msgType),
+                    message: msgText,
+                    position: 'topRight'
+                });
+                break;
+
+            default:
+                return iziToast.info({
+                    title: $.jsUcFirst(msgType),
+                    message: msgText,
+                    position: 'topRight'
+                });
+                break;
+        }
+    };
 });

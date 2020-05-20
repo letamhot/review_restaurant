@@ -49,7 +49,6 @@ post.show = function(id) {
         type: 'GET',
         url: '/post/show/' + id,
         success: function(data) {
-            console.log($('h4#title').val(data.title))
             $('h4#title').html(data.title);
             $('h1#descriptor').html(data.content);
             $('#show123').modal('show');
@@ -80,7 +79,8 @@ post.restore = function(id) {
                     dataType: 'json',
                     contentType: 'application/json',
                     success: function(res) {
-                        bootbox.alert('Restore successfully');
+                        $.msgNotification("success", "Restore successfully");
+
                         post.drawTrash();
                     }
                 })
@@ -109,7 +109,8 @@ post.delete = function(id) {
                     dataType: 'json',
                     contentType: 'application/json',
                     success: function(res) {
-                        bootbox.alert('Remove successfully');
+                        $.msgNotification("success", "Remove successfully");
+
                         post.drawTrash();
                     }
                 })
@@ -124,4 +125,46 @@ $(document).ready(function() {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
+});
+
+$(function() {
+    $.jsUcFirst = function(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    };
+});
+
+$(function() {
+    $.msgNotification = function(msgType, msgText) {
+        switch (msgType) {
+            case "error":
+                return iziToast.error({
+                    title: $.jsUcFirst(msgType),
+                    message: msgText,
+                    position: 'topRight'
+                });
+                break;
+            case "success":
+                return iziToast.success({
+                    title: $.jsUcFirst(msgType),
+                    message: msgText,
+                    position: 'topRight'
+                });
+                break;
+            case "warning":
+                return iziToast.warning({
+                    title: $.jsUcFirst(msgType),
+                    message: msgText,
+                    position: 'topRight'
+                });
+                break;
+
+            default:
+                return iziToast.info({
+                    title: $.jsUcFirst(msgType),
+                    message: msgText,
+                    position: 'topRight'
+                });
+                break;
+        }
+    };
 });
