@@ -138,7 +138,13 @@ class PostController extends Controller
     {
         try {
             $post = $this->postService->getAllOnlyTrashed();
+            
             if ($post) {
+                foreach ($post as $posts) {
+                    $posts['name'] = User::find($posts['user_id'])->name;
+                    $posts['category_name'] = Category::find($posts['category_id'])->name;
+        
+                }
                 return response()->json($post, 200);
             }
 
