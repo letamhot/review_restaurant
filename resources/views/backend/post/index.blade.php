@@ -87,7 +87,6 @@
 
 @include('backend.post.modal')
 @include('backend.post.show')
-
 @endsection
 
 @push('js-post')
@@ -99,6 +98,10 @@
 <script defer type="text/javascript" src="{{ asset('assets/backend/modules/jquery-ui/jquery-ui.min.js')}}"></script>
 <script defer type="text/javascript" src="{{ asset('assets/backend/modules/izitoast/js/iziToast.min.js')}}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.4.0/bootbox.js"></script>
+<script src="https://cdn.ckeditor.com/4.14.0/standard/ckeditor.js"></script>
+<script>
+    CKEDITOR.replace( 'content' );
+</script>
 
 <script>
     var imgURL = "{{ asset('posts/') }}";

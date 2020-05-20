@@ -102,7 +102,8 @@ class RoleRepositoryImpl extends EloquentRepository implements RoleRepository
 
             return $this->getRole()::updateOrCreate(
                 ['id' => $roleId],
-                ['name' => $request->name, 'description' => $request->description]
+                ['name' => $request->name],
+                ['description' => $request->description]
             );
         } catch (\Exception $e) {
             return null;
