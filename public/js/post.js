@@ -64,7 +64,7 @@ post.show = function(id) {
         type: 'GET',
         url: '/post/show/' + id,
         success: function(data) {
-            console.log($('h4#title').val(data.title))
+            // console.log($('h4#title').val(data.title))
             $('h4#title').html(data.title);
             $('h1#descriptor').html(data.content);
             $('#show123').modal('show');
@@ -79,9 +79,9 @@ post.showModal = function() {
     post.resetForm();
     $.get("/post/all-category", function(data) {
         $("#category_id").empty();
-        console.log(data.data);
+        // console.log(data.data);
         $.each(data.data, function(key, value) {
-            console.log(value);
+            // console.log(value);
 
             $("#category_id").append(`<option value="${value.id}">${value.name}</option>`);
         })
@@ -93,15 +93,10 @@ post.getDetail = function(id) {
         type: 'GET',
         url: '/post/get/' + id,
         success: function(data) {
-            // console.log(data);
             $('#title').val(data.title);
-            // $('#category_id').val(data.category_id);
             $.get("/post/all-category", function(categories) {
                 $("#category_id").empty();
-                console.log(categories.data);
-                console.log(data.category_id);
                 $.each(categories.data, function(key, value) {
-                    console.log(value.id);
                     if (value.id == data.category_id) {
                         $("#category_id").append(`<option value="${value.id}" selected ='selected'>${value.name}</option>`);
                     } else {

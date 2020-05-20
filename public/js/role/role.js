@@ -76,7 +76,6 @@ $("body").on("click", "#trash_role,#list_role", function() {
         $('#create_new_role').hide();
         $('#list_role').show();
         $.data_table("/roles/trash/sd");
-        console.log('aa');
     } else {
         $(this).hide();
         $('#trash_role').show();
