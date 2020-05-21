@@ -44,7 +44,7 @@ class TagRepositoryImpl extends EloquentRepository implements TagRepository
                 ->make(true);
         }
 
-        return view('tags.index', compact('tag'));
+        return view('tags.index');
     }
 
     public function ajaxStore($request)

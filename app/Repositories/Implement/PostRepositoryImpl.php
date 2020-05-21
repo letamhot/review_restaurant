@@ -4,6 +4,7 @@ namespace App\Repositories\Implement;
 
 use App\Models\Category;
 use App\Models\Post;
+use App\Models\Tag;
 use App\Repositories\PostRepository;
 use App\Repositories\Eloquent\EloquentRepository;
 use Illuminate\Support\Str;
@@ -54,6 +55,8 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
                 $post =  $this->getPost();
                 $post->user_id = $userID;
                 $post->category_id = $request->category_id;
+                // $post->tag_id = $request->tag;
+
                 $post->title = $title;
                 // using the mutator setSlugAttribute()
                 $post->slug = $title;
@@ -66,7 +69,9 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
                     $post->is_approved = 0;
                 }
                 $post->save();
-                $post->tags()->sync($request->tags, false);
+                foreach($request->tag as $tag){
+                    $post->tag()->attach($tag);
+                }
         } catch (\Exception $e) {
             dd($e->getMessage());
             // return null;
@@ -106,6 +111,7 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
             $userID = Auth::id();
             $post->user_id = $userID;
             $post->category_id = $request->category_id;
+            $post->tag_id = $request->tag;
             $post->title = $title;
             // using the mutator setSlugAttribute()
             $post->slug = $title;
@@ -119,8 +125,10 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
             }
 
             $post->update();
-            $post->tags()->sync($request->tags, false);
-
+            foreach($request('tag') as $tag){
+                $post->tag()->detach();
+                $post->tag()->attach($tag);
+            }
             
         } catch (\Exception $e) {
             return null;
@@ -154,6 +162,16 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
             $data = Category::select('id','name');
 
             return DataTables::of($data)->toJson();
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
+    public function getAllTag(){
+        try {
+            $data = Tag::select('id','name');
+
+            return $data;
         } catch (\Exception $e) {
             return null;
         }

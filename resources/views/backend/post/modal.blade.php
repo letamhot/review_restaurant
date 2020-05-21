@@ -28,6 +28,16 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="row form-group">
+                                <div class="col-4">
+                                    <label>Tag</label>
+                                </div>
+                                <div class="col-8">
+                                    <select name="tag[]" multiple id="tag" class="form-control">
+
+                                    </select>
+                                </div>
+                            </div>
                             <div class="form-group">
                                 <img src="" id="coverimage" alt="" style="width: 100px; height:120px">
                                 <input type="file" id="cover_image" name="cover_image" class="form-control">
