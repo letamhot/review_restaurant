@@ -17,6 +17,7 @@ post.drawTrash = function() {
                         <tr>
                             <td>${value.name}</td>
                             <td>${value.category_name}</td>
+                            <td>${value.tag_name}</td>
                             <td>${value.title}</td>
                             <td>${value.slug}</td>
                             <td><img src="${imgURL}/${value.cover_image}" width="60px" height="60px" alt=""></td>

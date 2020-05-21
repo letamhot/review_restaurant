@@ -111,7 +111,6 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
             $userID = Auth::id();
             $post->user_id = $userID;
             $post->category_id = $request->category_id;
-            $post->tag_id = $request->tag;
             $post->title = $title;
             // using the mutator setSlugAttribute()
             $post->slug = $title;
@@ -123,13 +122,12 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
             } else {
                 $post->is_approved = 0;
             }
-
             $post->update();
-            foreach($request('tag') as $tag){
-                $post->tag()->detach();
+
+            $post->tag()->detach();
+            foreach($request->tag as $tag){
                 $post->tag()->attach($tag);
             }
-            
         } catch (\Exception $e) {
             return null;
         }

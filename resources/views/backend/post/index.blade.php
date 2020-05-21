@@ -111,9 +111,6 @@
     });
 </script>
 <script>
-</script>
-
-<script>
     var imgURL = "{{ asset('posts/') }}";
 </script>
 <script src="{{ asset('js/post.js') }}"></script>

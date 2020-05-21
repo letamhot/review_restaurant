@@ -92,10 +92,7 @@ post.showModal = function() {
             $("#tag").append(`<option value="${value.id}">${value.name}</option>`);
         })
     });
-    $('#ckeditor').html(`
-    <textarea class="form-control" rows="5" id="content" name="content"
-        placeholder="Content"></textarea>`);
-
+    $('#ckeditor').html(`<textarea class="form-control" rows="5" id="content" name="content" placeholder="Content"></textarea>`);
     CKEDITOR.replace('content');
     $('#addpostmodal').modal('show');
 }
@@ -131,12 +128,7 @@ post.getDetail = function(id) {
             });
 
             $('#coverimage').prop('src', '/posts/' + data.cover_image);
-            // $('#content').val(data.content);
-
-            $('#ckeditor').html(`
-    <textarea class="form-control" rows="5" id="content" name="content"
-        placeholder="Content"></textarea>`);
-
+            $('#ckeditor').html(`<textarea class="form-control" rows="5" id="content" name="content" placeholder="Content"></textarea>`);
             $('#content').html(data.content);
             CKEDITOR.replace('content');
             console.log($('#content').val());
