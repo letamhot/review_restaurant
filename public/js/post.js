@@ -16,6 +16,7 @@ post.drawData = function() {
                         <tr>
                             <td>${value.name}</td>
                             <td>${value.category_name}</td>
+                            <td>${value.tag_name}</td>
                             <td>${value.title}</td>
                             <td>${value.slug}</td>
                             <td><img src="${imgURL}/${value.cover_image}" width="60px" height="60px" alt=""></td>
@@ -39,6 +40,8 @@ $('#addform').on('submit', function(e) {
     e.preventDefault();
     if ($('#addform').valid()) {
         if ($('#postid').val() == 0) {
+
+            // console.log('aa');
             $.ajax({
                 type: 'POST',
                 url: '/post/add',
@@ -82,6 +85,18 @@ post.showModal = function() {
             $("#category_id").append(`<option value="${value.id}">${value.name}</option>`);
         })
     });
+
+    $.get("/post/all-tag", function(data) {
+        $("#tag").empty();
+        $.each(data, function(key, value) {
+            $("#tag").append(`<option value="${value.id}">${value.name}</option>`);
+        })
+    });
+    $('#ckeditor').html(`
+    <textarea class="form-control" rows="5" id="content" name="content"
+        placeholder="Content"></textarea>`);
+
+    CKEDITOR.replace('content');
     $('#addpostmodal').modal('show');
 }
 post.getDetail = function(id) {
@@ -89,6 +104,7 @@ post.getDetail = function(id) {
         type: 'GET',
         url: '/post/get/' + id,
         success: function(data) {
+            console.log(data);
             $('#title').val(data.title);
             $.get("/post/all-category", function(categories) {
                 $("#category_id").empty();
@@ -101,8 +117,29 @@ post.getDetail = function(id) {
 
                 })
             });
+
+            $.get("/post/all-tag", function(tag) {
+                $("#tag").empty();
+                $.each(tag, function(key, value) {
+                    if (jQuery.inArray(value.id, data.tags) != -1) {
+                        $("#tag").append(`<option value="${value.id}" selected ='selected'>${value.name}</option>`);
+                    } else {
+                        $("#tag").append(`<option value="${value.id}">${value.name}</option>`);
+                    }
+
+                })
+            });
+
             $('#coverimage').prop('src', '/posts/' + data.cover_image);
-            $('#content').val(data.content);
+            // $('#content').val(data.content);
+
+            $('#ckeditor').html(`
+    <textarea class="form-control" rows="5" id="content" name="content"
+        placeholder="Content"></textarea>`);
+
+            $('#content').html(data.content);
+            CKEDITOR.replace('content');
+            console.log($('#content').val());
             data.is_approved == 1 ? $('#is_approved').prop('checked', true) : $('#is_approved').prop('checked', false);
             $('#postid').val(data.id);
             $('#addpostmodal').find('#exampleModalScrollableTitle').text('Update to Post');

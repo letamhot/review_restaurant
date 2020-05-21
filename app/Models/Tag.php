@@ -15,4 +15,13 @@ class Tag extends Model
     protected $fillable = [
         'name', 'slug',
     ];
+
+    public function post()
+    {
+        return $this->belongsToMany(Tag::class, 'post_tag', 'post_id', 'tag_id')->withTimestamps();
+    }
+    public function post_tag()
+    {
+        return $this->hasMany(Post_Tag::class, 'tag_id ', 'id')->withTimestamps();
+    }
 }
