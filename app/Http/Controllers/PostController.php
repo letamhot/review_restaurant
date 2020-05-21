@@ -149,19 +149,16 @@ class PostController extends Controller
     {
         try {
             $post = $this->postService->getAllOnlyTrashed();
-            $atri = Post_Tag::all();
-        foreach($atri as $a){
-            $a['tag_name'] = Tag::find($a['tag_id'])->name;
-        }
+           
             if ($post) {
-                foreach ($post as $posts) {
-                    $posts['name'] = User::find($posts['user_id'])->name;
-                    $posts['category_name'] = Category::find($posts['category_id'])->name;
-
+                foreach ($post as $key => $posts) {
+                    $post[$key]['name'] = User::find($posts['user_id'])->name;
+                    $post[$key]['category_name'] = $posts->category->name;
+                    $post[$key]['tag_name'] = implode(', ',$posts->tag()->pluck('name')->toArray());
 
         
                 }
-                return response()->json([$atri, $posts], 200);
+                return response()->json( $post, 200);
             }
 
             return $this->errorFailMessage();

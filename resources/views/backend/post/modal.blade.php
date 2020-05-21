@@ -42,7 +42,7 @@
                                 <img src="" id="coverimage" alt="" style="width: 100px; height:120px">
                                 <input type="file" id="cover_image" name="cover_image" class="form-control">
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" id="ckeditor">
                                 <textarea class="form-control" rows="5" id="content" name="content"
                                     placeholder="Content"></textarea>
                             </div>
