@@ -5,12 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Http\Requests\PostRequest;
 use App\Services\PostService;
-
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Category;
-
-
+use App\Models\Post_Tag;
+use App\Models\Tag;
 class PostController extends Controller
 {
     protected $postService;
@@ -27,27 +26,38 @@ class PostController extends Controller
     public function index()
     {
         $posts = $this->postService->getAll();
-        foreach ($posts as $post) {
-            $post['name'] = User::find($post['user_id'])->name;
-            $post['category_name'] = Category::find($post['category_id'])->name;
-
+        // $post = Post::find()->tag();
+        // $atri = Post_Tag::all();
+        // foreach($posts as $a){
+        //     $a['tag_name'] = $a->tag()->pluck('name')->toArray();
+        // }
+        
+        foreach ($posts as $key => $post) {
+            $posts[$key]['name'] = User::find($post['user_id'])->name;
+            // $post['category_name'] = Category::find($post['category_id'])->name;
+            $posts[$key]['category_name'] = $post->category->name;
+            $posts[$key]['tag_name'] = implode(', ',$post->tag()->pluck('name')->toArray());
+            
         }
+
         return response()->json($posts);
     }
 
-    public function getAllCategory(Request $request )
+    public function getAllCategory(Request $request)
     {
         if ($request->ajax()) {
              return $this->postService->getAllCategory();
         }
        return null;
     }
-
-    // public function showindex()
-    // {
-    //     $posts = $this->postService->getAll();
-    //     return view('post.ajax.index', compact('posts'));
-    // }
+    public function getAllTag(Request $request)
+    {
+        if ($request->ajax()) {
+            //  return response()->json($this->postService->getAllTag());
+             return response()->json(Tag::all());
+        }
+       return null;
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -68,7 +78,7 @@ class PostController extends Controller
      */
     public function store(PostRequest $request)
     {   
-        
+        // dd($request->all());
         $this->postService->create($request);
         return redirect()->route('post.index');
     }
@@ -94,6 +104,7 @@ class PostController extends Controller
     public function edit($id)
     {
         $obj = $this->postService->findByID($id);
+        $obj->tags = $obj->tag->pluck('id')->toArray();
         return response()->json($obj, 200);
         // return view('post.edit', compact('post'));
         
@@ -138,14 +149,16 @@ class PostController extends Controller
     {
         try {
             $post = $this->postService->getAllOnlyTrashed();
-            
+           
             if ($post) {
-                foreach ($post as $posts) {
-                    $posts['name'] = User::find($posts['user_id'])->name;
-                    $posts['category_name'] = Category::find($posts['category_id'])->name;
+                foreach ($post as $key => $posts) {
+                    $post[$key]['name'] = User::find($posts['user_id'])->name;
+                    $post[$key]['category_name'] = $posts->category->name;
+                    $post[$key]['tag_name'] = implode(', ',$posts->tag()->pluck('name')->toArray());
+
         
                 }
-                return response()->json($post, 200);
+                return response()->json( $post, 200);
             }
 
             return $this->errorFailMessage();

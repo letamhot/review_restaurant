@@ -68,6 +68,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::patch('/post/{post}/restoreTrash', 'PostController@restoreTrash')->name('post.restoreTrash');
     Route::get('/post/trash/sd', 'PostController@getTrashRecords')->name('post.trash');
     Route::get('/post/all-category', 'PostController@getAllCategory')->name('post.getAllCategory');
+
+    Route::get('/post/all-tag', 'PostController@getAllTag')->name('post.getAllTag');
+
+
+
 });
 Route::group(['middleware' => ['auth']], function () {
 
