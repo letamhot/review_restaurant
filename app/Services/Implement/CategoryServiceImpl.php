@@ -22,6 +22,16 @@ class CategoryServiceImpl extends BaseServiceImpl implements CategoryService
         return $this->makeRepo()->ajaxStore($request);
     }
 
+    public function getAllAJAX()
+    {
+        return $this->makeRepo()->getAllAJAX();
+    }
+
+    public function getAllOnlyTrashedAJAX()
+    {
+        return $this->makeRepo()->getAllOnlyTrashedAJAX();
+    }
+
     /**
      * Make Model Class.
      */

@@ -43,7 +43,7 @@ class CategoryRepositoryImpl extends EloquentRepository implements CategoryRepos
      * Re-define getAll() function for dataTable AJAX.
      * Using for CategoryController@index.
      */
-    public function getAll()
+    public function getAllAJAX()
     {
         try {
             $data = $this->getCategory()::select('*');
@@ -58,8 +58,7 @@ class CategoryRepositoryImpl extends EloquentRepository implements CategoryRepos
                     return $trash->count();
                 })
                 ->addIndexColumn()
-                ->toJson()
-            ;
+                ->toJson();
         } catch (\Exception $e) {
             return null;
         }
@@ -69,7 +68,7 @@ class CategoryRepositoryImpl extends EloquentRepository implements CategoryRepos
      * Re-define getAllOnlyTrashed() function for dataTable AJAX.
      *  Using for CategoryController@getTrashRecords.
      */
-    public function getAllOnlyTrashed()
+    public function getAllOnlyTrashedAJAX()
     {
         try {
             $data = $this->getCategory()::select('*')->onlyTrashed();
@@ -83,8 +82,7 @@ class CategoryRepositoryImpl extends EloquentRepository implements CategoryRepos
                 ->with('trash_count', function () use ($data) {
                     return $data->count();
                 })
-                ->toJson()
-            ;
+                ->toJson();
         } catch (\Exception $e) {
             return null;
         }
