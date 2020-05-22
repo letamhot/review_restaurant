@@ -11,6 +11,11 @@
             rel="stylesheet"
             href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
         />
+        <link href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.2/components/icon.min.css" rel="stylesheet">
+        <link href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.2/components/comment.min.css" rel="stylesheet">
+        <link href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.2/components/form.min.css" rel="stylesheet">
+        <link href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.2/components/button.min.css" rel="stylesheet">
+        <link href="{{ asset('/vendor/laravelLikeComment/css/style.css') }}" rel="stylesheet">
     </head>
     <body>
         <header>
@@ -365,6 +370,9 @@
                         </div>
                     </div>
                 </div>
+                @include('laravelLikeComment::comment', ['comment_item_id' => 'video_12'])
+
+                @include('laravelLikeComment::like', ['like_item_id' => 'image_31'])
 
                 <div class="tweet-card">
                     <div class="tweet-card__header">
@@ -657,4 +665,6 @@
             }
         </script>
     </body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="{{ asset('/vendor/laravelLikeComment/js/script.js') }}" type="text/javascript"></script>
 </html>
