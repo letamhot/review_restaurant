@@ -6,7 +6,7 @@ use App\Models\Tag;
 use App\Repositories\TagRepository;
 use App\Repositories\Eloquent\EloquentRepository;
 use Illuminate\Support\Str;
-use DataTables;
+use Yajra\DataTables\DataTables;
 
 class TagRepositoryImpl extends EloquentRepository implements TagRepository
 {
