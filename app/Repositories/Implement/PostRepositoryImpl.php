@@ -2,7 +2,9 @@
 
 namespace App\Repositories\Implement;
 
+use App\Models\Category;
 use App\Models\Post;
+use App\Models\Tag;
 use App\Repositories\PostRepository;
 use App\Repositories\Eloquent\EloquentRepository;
 use Illuminate\Support\Str;
@@ -52,6 +54,9 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
                 $userID = Auth::id();
                 $post =  $this->getPost();
                 $post->user_id = $userID;
+                $post->category_id = $request->category_id;
+                // $post->tag_id = $request->tag;
+
                 $post->title = $title;
                 // using the mutator setSlugAttribute()
                 $post->slug = $title;
@@ -64,8 +69,9 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
                     $post->is_approved = 0;
                 }
                 $post->save();
-                $post->categories()->sync($request->categories, false); // syncWithoutDetaching
-                $post->tags()->sync($request->tags, false);
+                foreach($request->tag as $tag){
+                    $post->tag()->attach($tag);
+                }
         } catch (\Exception $e) {
             dd($e->getMessage());
             // return null;
@@ -104,6 +110,7 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
          
             $userID = Auth::id();
             $post->user_id = $userID;
+            $post->category_id = $request->category_id;
             $post->title = $title;
             // using the mutator setSlugAttribute()
             $post->slug = $title;
@@ -115,12 +122,12 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
             } else {
                 $post->is_approved = 0;
             }
-
             $post->update();
-            $post->categories()->sync($request->categories, false); // syncWithoutDetaching
-            $post->tags()->sync($request->tags, false);
 
-            
+            $post->tag()->detach();
+            foreach($request->tag as $tag){
+                $post->tag()->attach($tag);
+            }
         } catch (\Exception $e) {
             return null;
         }
@@ -145,8 +152,27 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
         return $result;
     }
 
-    public function getAll(){
-        return $this->getPost()->orderBy('created_at','desc')->get();
+    // public function getAll(){
+    //     return $this->getPost()->orderBy('created_at','desc')->get();
+    // }
+    public function getAllCategory(){
+        try {
+            $data = Category::select('id','name');
+
+            return DataTables::of($data)->toJson();
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
+    public function getAllTag(){
+        try {
+            $data = Tag::select('id','name');
+
+            return $data;
+        } catch (\Exception $e) {
+            return null;
+        }
     }
 
 

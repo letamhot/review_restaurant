@@ -21,14 +21,17 @@ class Post extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function categories()
+    public function category()
     {
-        return $this->belongsToMany(Category::class)->withTimestamps();
+        return $this->belongsTo(Category::class);
     }
-
-    public function tags()
+    public function tag()
     {
-        return $this->belongsToMany(Tag::class)->withTimestamps();
+        return $this->belongsToMany(Tag::class, 'post_tag', 'post_id', 'tag_id')->withTimestamps();
+    }
+    public function post_tag()
+    {
+        return $this->hasMany(Post_Tag::class, 'post_id', 'id')->withTimestamps();
     }
 
     /**

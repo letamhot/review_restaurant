@@ -15,9 +15,11 @@ post.drawData = function() {
                     `
                         <tr>
                             <td>${value.name}</td>
+                            <td>${value.category_name}</td>
+                            <td>${value.tag_name}</td>
                             <td>${value.title}</td>
                             <td>${value.slug}</td>
-                            <td><img src="${imgURL}/${value.cover_image}" width="60px" height="60px" alt=""></td>
+                            <td><img src="${imgURL}/${value.cover_image}" width="100px" height="80px" alt=""></td>
                             <td>${value.is_approved ? 'active' : 'inactive'} </td>
                             <td>${value.created_at}</td>
                             <td>${value.updated_at}</td>
@@ -38,6 +40,8 @@ $('#addform').on('submit', function(e) {
     e.preventDefault();
     if ($('#addform').valid()) {
         if ($('#postid').val() == 0) {
+
+            // console.log('aa');
             $.ajax({
                 type: 'POST',
                 url: '/post/add',
@@ -48,7 +52,7 @@ $('#addform').on('submit', function(e) {
                 dataType: "json",
                 success: function(data) {
                     $('#addpostmodal').modal('hide')
-                    bootbox.alert('Created successfully');
+                    $.msgNotification("success", "Created successfully");
 
                     post.drawData();
                 }
@@ -63,7 +67,6 @@ post.show = function(id) {
         type: 'GET',
         url: '/post/show/' + id,
         success: function(data) {
-            console.log($('h4#title').val(data.title))
             $('h4#title').html(data.title);
             $('h1#descriptor').html(data.content);
             $('#show123').modal('show');
@@ -76,6 +79,21 @@ post.show = function(id) {
 }
 post.showModal = function() {
     post.resetForm();
+    $.get("/post/all-category", function(data) {
+        $("#category_id").empty();
+        $.each(data.data, function(key, value) {
+            $("#category_id").append(`<option value="${value.id}">${value.name}</option>`);
+        })
+    });
+
+    $.get("/post/all-tag", function(data) {
+        $("#tag").empty();
+        $.each(data, function(key, value) {
+            $("#tag").append(`<option value="${value.id}">${value.name}</option>`);
+        })
+    });
+    $('#ckeditor').html(`<textarea class="form-control" rows="5" id="content" name="content" placeholder="Content"></textarea>`);
+    CKEDITOR.replace('content');
     $('#addpostmodal').modal('show');
 }
 post.getDetail = function(id) {
@@ -83,17 +101,53 @@ post.getDetail = function(id) {
         type: 'GET',
         url: '/post/get/' + id,
         success: function(data) {
-            console.log(data.is_approved);
+            console.log(data);
             $('#title').val(data.title);
+            $.get("/post/all-category", function(categories) {
+                $("#category_id").empty();
+                $.each(categories.data, function(key, value) {
+                    if (value.id == data.category_id) {
+                        $("#category_id").append(`<option value="${value.id}" selected ='selected'>${value.name}</option>`);
+                    } else {
+                        $("#category_id").append(`<option value="${value.id}">${value.name}</option>`);
+                    }
+
+                })
+            });
+
+            $.get("/post/all-tag", function(tag) {
+                $("#tag").empty();
+                $.each(tag, function(key, value) {
+                    if (jQuery.inArray(value.id, data.tags) != -1) {
+                        $("#tag").append(`<option value="${value.id}" selected ='selected'>${value.name}</option>`);
+                    } else {
+                        $("#tag").append(`<option value="${value.id}">${value.name}</option>`);
+                    }
+
+                })
+            });
+
             $('#coverimage').prop('src', '/posts/' + data.cover_image);
-            $('#content').val(data.content);
+            $('#ckeditor').html(`<textarea class="form-control" rows="5" id="content" name="content" placeholder="Content"></textarea>`);
+            $('#content').html(data.content);
+            CKEDITOR.replace('content');
+            console.log($('#content').val());
             data.is_approved == 1 ? $('#is_approved').prop('checked', true) : $('#is_approved').prop('checked', false);
             $('#postid').val(data.id);
-            $('#addpostmodal').find('#exampleModalLongTitle').text('Update to Post');
+            $('#addpostmodal').find('#exampleModalScrollableTitle').text('Update to Post');
             $('.modal-footer').find('#submit').text('Update');
             $('#addpostmodal').modal('show');
             $('#addform').validate({
+                ignore: [],
+                debug: false,
                 rules: {
+                    content: {
+                        required: function(textarea) {
+                            CKEDITOR.instances.content.updateElement();
+                            var editorcontent = textarea.value.replace(/<[^>]*>/gi, '');
+                            return editorcontent.length === 0;
+                        },
+                    },
                     title: {
                         required: true,
                         minlength: 2,
@@ -130,7 +184,8 @@ $('#addform').on('submit', function(e) {
                 dataType: "json",
                 success: function(data) {
                     $('#addpostmodal').modal('hide');
-                    bootbox.alert('Update successfully');
+                    $.msgNotification("success", "Update successfully");
+
                     post.drawData();
 
                 }
@@ -146,9 +201,11 @@ post.resetForm = function() {
     $('#content').val('');
     $('#is_approved').prop('');
     $('#postid').val('0')
-    $('#addpostmodal').find('#exampleModalLongTitle').text('Create New Post');
+    $('#addpostmodal').find('#exampleModalScrollableTitle').text('Create New Post');
     $('.modal-footer').find('#submit').text('Create');
     var form = $('#addform').validate({
+        ignore: [],
+        debug: false,
         rules: {
             title: {
                 required: true,
@@ -189,7 +246,8 @@ post.remove = function(id) {
                     dataType: 'json',
                     contentType: 'application/json',
                     success: function(res) {
-                        bootbox.alert('Remove successfully');
+                        $.msgNotification("success", "Remove successfully");
+
                         post.drawData();
                     }
                 })
@@ -208,4 +266,46 @@ $(document).ready(function() {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
+});
+
+$(function() {
+    $.jsUcFirst = function(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    };
+});
+
+$(function() {
+    $.msgNotification = function(msgType, msgText) {
+        switch (msgType) {
+            case "error":
+                return iziToast.error({
+                    title: $.jsUcFirst(msgType),
+                    message: msgText,
+                    position: 'topRight'
+                });
+                break;
+            case "success":
+                return iziToast.success({
+                    title: $.jsUcFirst(msgType),
+                    message: msgText,
+                    position: 'topRight'
+                });
+                break;
+            case "warning":
+                return iziToast.warning({
+                    title: $.jsUcFirst(msgType),
+                    message: msgText,
+                    position: 'topRight'
+                });
+                break;
+
+            default:
+                return iziToast.info({
+                    title: $.jsUcFirst(msgType),
+                    message: msgText,
+                    position: 'topRight'
+                });
+                break;
+        }
+    };
 });

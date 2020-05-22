@@ -9,14 +9,15 @@ post.drawTrash = function() {
             $('#trash').hide();
             $('#list').show();
 
-
-
             $('#reloadtbody').empty();
             console.log(res);
             $.each(res, function(index, value) {
                 $('#reloadtbody').append(
                     `
                         <tr>
+                            <td>${value.name}</td>
+                            <td>${value.category_name}</td>
+                            <td>${value.tag_name}</td>
                             <td>${value.title}</td>
                             <td>${value.slug}</td>
                             <td><img src="${imgURL}/${value.cover_image}" width="60px" height="60px" alt=""></td>
@@ -24,9 +25,11 @@ post.drawTrash = function() {
                             <td>${value.created_at}</td>
                             <td>${value.updated_at}</td>
                             <td>
-                                <a id="show" href="javascript:;" class = "btn btn-primary" onclick="post.show(${value.id})"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                                <a  href="javascript:;" class = "btn btn-primary" onclick="post.restore(${value.id})"><i class="fa fa-window-restore"></i></a>
-                                <a  href="javascript:;" class = "btn btn-danger" onclick="post.delete(${value.id})"><i class="fa fa-trash"></i></a>
+                                <a id="show" href="javascript:;" class="btn btn-primary" onclick="post.show(${value.id})"><i class="fa fa-eye"
+                                        aria-hidden="true"></i></a>
+                                <a href="javascript:;" class="btn btn-primary" onclick="post.restore(${value.id})"><i
+                                        class="fa fa-window-restore"></i></a>
+                                <a href="javascript:;" class="btn btn-danger" onclick="post.delete(${value.id})"><i class="fa fa-trash"></i></a>
 
                             </td>
                         </tr>
@@ -42,13 +45,11 @@ post.showTrash = function() {
     post.drawTrash();
 }
 
-
 post.show = function(id) {
     $.ajax({
         type: 'GET',
         url: '/post/show/' + id,
         success: function(data) {
-            console.log($('h4#title').val(data.title))
             $('h4#title').html(data.title);
             $('h1#descriptor').html(data.content);
             $('#show123').modal('show');
@@ -79,7 +80,8 @@ post.restore = function(id) {
                     dataType: 'json',
                     contentType: 'application/json',
                     success: function(res) {
-                        bootbox.alert('Restore successfully');
+                        $.msgNotification("success", "Restore successfully");
+
                         post.drawTrash();
                     }
                 })
@@ -87,7 +89,6 @@ post.restore = function(id) {
         }
     })
 };
-
 
 post.delete = function(id) {
     bootbox.confirm({
@@ -109,7 +110,8 @@ post.delete = function(id) {
                     dataType: 'json',
                     contentType: 'application/json',
                     success: function(res) {
-                        bootbox.alert('Remove successfully');
+                        $.msgNotification("success", "Remove successfully");
+
                         post.drawTrash();
                     }
                 })
@@ -117,15 +119,53 @@ post.delete = function(id) {
         }
     })
 };
-// post.init = function() {
-//     post.drawTrash();
-// };
 
 $(document).ready(function() {
-    // post.init();
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
+});
+
+$(function() {
+    $.jsUcFirst = function(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    };
+});
+
+$(function() {
+    $.msgNotification = function(msgType, msgText) {
+        switch (msgType) {
+            case "error":
+                return iziToast.error({
+                    title: $.jsUcFirst(msgType),
+                    message: msgText,
+                    position: 'topRight'
+                });
+                break;
+            case "success":
+                return iziToast.success({
+                    title: $.jsUcFirst(msgType),
+                    message: msgText,
+                    position: 'topRight'
+                });
+                break;
+            case "warning":
+                return iziToast.warning({
+                    title: $.jsUcFirst(msgType),
+                    message: msgText,
+                    position: 'topRight'
+                });
+                break;
+
+            default:
+                return iziToast.info({
+                    title: $.jsUcFirst(msgType),
+                    message: msgText,
+                    position: 'topRight'
+                });
+                break;
+        }
+    };
 });

@@ -72,6 +72,8 @@ class User extends Authenticatable
     {
         return ucfirst($value);
     }
+
+    
     public static function getAuthor($id)
     {
         $user = self::find($id);

@@ -4,6 +4,7 @@ var SITEURL = window.location.origin;
 $(function() {
     $.data_table = function(string = "") {
         $("#role_datatable").DataTable({
+            autoWidth: false,
             destroy: true,
             processing: true,
             language: {
@@ -64,7 +65,7 @@ $(document).ready(function() {
             "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
         },
     });
-    $.data_table("role/");
+    $.data_table("/role");
 });
 
 /* Show all record or soft delete records */
@@ -76,12 +77,11 @@ $("body").on("click", "#trash_role,#list_role", function() {
         $('#create_new_role').hide();
         $('#list_role').show();
         $.data_table("/roles/trash/sd");
-        console.log('aa');
     } else {
         $(this).hide();
         $('#trash_role').show();
         $('#create_new_role').show();
-        $.data_table("/role/");
+        $.data_table("/role");
     }
 });
 
