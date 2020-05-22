@@ -41,9 +41,11 @@ body {
 .linh-button.button-silver {
     background-color: silver;
 }
-
-.linh-button.button-silver:hover {
+.linh-button.button-success {
+    background-color: green;
+    color: yellow;
 }
+
 
 .linh-button.outline {
     background-color: transparent;
@@ -246,11 +248,12 @@ body {
     font-weight: bold;
     color: black;
     font-size: 13px;
-    margin: 6px 0 -4px;
+    margin: 7px 0 1px;
 }
 
 .tweet-card__date-post {
     font-size: 10px;
+    margin-top: 1px;
 }
 
 .tweet-card__content {
@@ -284,7 +287,7 @@ body {
 }
 .tweet-card__tags-container a {
     text-decoration: none;
-    font-size: 10px;
+    font-size: 15px;
     color: #666;
     margin-right: 8px;
 }
@@ -325,7 +328,8 @@ body {
 
 .main-content {
     flex-grow: 1;
-    padding: 0 12px;
+    margin-top: 50px;
+    padding: 0 12px 10px 10px;
 }
 
 .right-side {
@@ -346,6 +350,7 @@ body {
 .left-side ul {
     width: 230px;
     list-style: none;
+    font-weight: bolder;
 }
 .tweet-item__bulletsizebar {
     box-sizing: border-box;
@@ -384,6 +389,118 @@ body {
     border-color: aqua solid !important;
 }
 footer {
+    height: 200px;
     text-align: center;
-    background-color: aqua;
+    background-color: whitesmoke;
 }
+.post-review {
+    display: inline-flex;
+    justify-content: space-between;
+    /* width: 1000px; */
+    margin-left: 30px;
+}
+.post-review-card {
+    width: 400px;
+    border: solid;
+    color: silver;
+    margin: 10px;
+}
+.post-review-card__title {
+    display: block;
+    text-decoration: none;
+    color: black;
+    margin: 10px;
+    font-weight: bold;
+}
+.post-review-card__content {
+    text-decoration: none;
+    color: blue;
+    text-align: justify;
+    font-weight: bold;
+}
+main {
+    padding: 50px;
+}
+.main-content-comment {
+    flex-grow: 1;
+    margin-top: 50px;
+    padding: 0 12px 10px 10px;
+}
+.comment__info {
+    display: inline-block;
+    vertical-align: 5;
+    padding-bottom: 1px;
+}
+.comment__avatar-wrapper {
+    display: inline-block;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+.comment__avatar-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+/* nav left size detail*/
+.main-container-detail {
+    padding: 30px 5px 5px 5px;
+    display: flex;
+    justify-content: space-between;
+    background-color: #f8f8f8;
+}
+
+.left-side-detail {
+    padding: 40px 1px 1px 1px;
+    width: 70px;
+    flex-shrink: 0;
+}
+.left-side-detail ul {
+    width: 200px;
+    list-style: none;
+    font-weight: bolder;
+}
+.menu{
+    background: whitesmoke;
+    width: 80px;
+    height: 100%;
+    padding:0px;
+    list-style-type: none;
+    text-align: left;
+    position: fixed;
+}
+.menu span{
+    font-size: smaller;
+    font-weight: bolder;
+}
+
+  textarea {
+    width: 800px;
+    height: 150px;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    resize: none;
+  }
+
+  .main-container-detail {
+    padding-top: 25px;
+    display: flex;
+    justify-content: space-between;
+    background-color: #f8f8f8;
+}
+.right-side-detail {
+    padding-top: 25px;
+    width: 250px;
+    flex-shrink: 0;
+}
+
+.hot-user {
+    border: 1px solid red;
+    background-color: aquamarine;
+    text-decoration: none;
+}
+

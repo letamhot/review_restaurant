@@ -19,7 +19,11 @@ post.drawData = function() {
                             <td>${value.tag_name}</td>
                             <td>${value.title}</td>
                             <td>${value.slug}</td>
+<<<<<<< HEAD
                             <td><img src="${imgURL}/${value.cover_image}" width="100px" height="80px" alt=""></td>
+=======
+                            <td><img src="${imgURL}/${value.cover_image}" width="150px" height="150px" alt=""></td>
+>>>>>>> 3ca33ac41c593cc89f785b76795d717cc4a59d82
                             <td>${value.is_approved ? 'active' : 'inactive'} </td>
                             <td>${value.created_at}</td>
                             <td>${value.updated_at}</td>
