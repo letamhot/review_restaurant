@@ -2,19 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Tag;
-use Illuminate\Http\Request;
-use App\Services\TagService;
 use App\Http\Requests\TagRequest;
+use App\Models\Tag;
+use App\Services\TagService;
+use Illuminate\Http\Request;
 
 class TagController extends Controller
 {
     protected $tagService;
+    protected $path;
 
     public function __construct(TagService $tagService)
     {
         $this->tagService = $tagService;
+        $this->path = 'backend.tags.';
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -22,7 +25,15 @@ class TagController extends Controller
      */
     public function index(Request $request)
     {
-        return $this->tagService->ajaxIndex($request);
+        try {
+            if ($request->ajax()) {
+                return $this->tagService->getAllAJAX();
+            }
+
+            return view($this->path.'index');
+        } catch (\Exception $e) {
+            return $this->errorExceptionMessage();
+        }
     }
 
     /**
@@ -38,82 +49,185 @@ class TagController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(TagRequest $request)
     {
-        return  $this->tagService->ajaxStore($request);
+        try {
+            $result = $this->tagService->ajaxStore($request);
+
+            if ($result) {
+                return response()->json(['success' => 'Tag saved successfully']);
+            }
+
+            return $this->errorFailMessage();
+        } catch (\Exception $e) {
+            return $this->errorExceptionMessage();
+        }
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Tag  $tag
      * @return \Illuminate\Http\Response
      */
     public function show(Tag $tag)
-    { }
+    {
+        //
+    }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Tag  $tag
+     * @param \App\Models\Tag $tag
+     * @param mixed           $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        return  $this->tagService->ajaxUpdate($id);
+        try {
+            $tag = $this->tagService->findById($id);
+            if ($tag) {
+                return response()->json($tag);
+            }
+
+            return $this->errorFailMessage();
+        } catch (\Exception $e) {
+            return $this->errorExceptionMessage();
+        }
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Tag  $tag
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Tag          $tag
+     * @param mixed                    $id
+     *
      * @return \Illuminate\Http\Response
      */
-    // public function update($id)
-    // {
-
-    //     return  $this->tagService->ajaxUpdate($id);
-    // }
+    public function update($id)
+    {
+        // USING store() METHOD - createOrUpdate
+    }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Tag  $tag
+     * @param \App\Models\Tag $tag
+     * @param mixed           $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        $this->tagService->AjaxDestroy($id);
-    }
+        try {
+            $tag = $this->tagService->findById($id);
+            $result = $this->tagService->destroy($tag);
+            if ($result) {
+                return response()->json(['success' => 'Tag deleted successfully']);
+            }
+            if (false == $result) {
+                return response()->json([
+                    'status' => 202,
+                    'errors' => ['Failed!', 'Can not delete default resource!'],
+                ]);
+            }
 
-    protected function goTo($result)
-    {
-        if ($result) {
-
-            return redirect()->route('tag.index');
+            return $this->errorFailMessage();
+        } catch (\Exception $e) {
+            return $this->errorMessage();
         }
-
-        return back();
     }
 
-    public function showdeletedtags()
+    /**
+     * Display a listing of the resource (Soft Delete).
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getTrashRecords()
     {
-        $delete = $this->tagService->showdeleted();
-        return view('deletedtags.index', ["delete" => $delete]);
+        try {
+            return $this->tagService->getAllOnlyTrashedAJAX();
+        } catch (\Exception $e) {
+            return $this->errorExceptionMessage();
+        }
     }
 
-    public function restoreDeletedTags($id)
+    /**
+     * Restore record from SoftDelete.
+     *
+     * @param mixed $id
+     */
+    public function restoreTrash($id)
     {
-        $this->tagService->restoreDelete($id);
-        return redirect('/tag');
+        try {
+            $result = $this->tagService->restoreSoftDelete($id);
+            if ($result) {
+                return response()->json(['success' => 'Item restored successfully.']);
+            }
+
+            return $this->errorFailMessage();
+        } catch (\Exception $e) {
+            return $this->errorExceptionMessage();
+        }
     }
 
-    public function forceDelete($id)
+    /**
+     * ForceDelete records which has been deleted by SoftDelete.
+     *
+     * @param mixed $id
+     */
+    public function emptyTrash($id)
     {
-        $this->tagService->forceDestroy($id);
+        try {
+            $result = $this->tagService->permanentDestroySoftDeleted($id);
+
+            if ($result) {
+                return response()->json(['success' => 'Category permanently deleted successfully']);
+            }
+
+            return $this->errorFailMessage();
+        } catch (\Exception $e) {
+            return $this->errorMessage();
+        }
+    }
+
+    /**
+     * Display validation errors of request.
+     */
+    protected function errorValidateMessage()
+    {
+        return response()->json(['errors' => TagRequest::errors()->all()]);
+    }
+
+    /**
+     * Display exception errors of request.
+     */
+    protected function errorExceptionMessage()
+    {
+        $msg = [
+            'status' => 500,
+            'errors' => ['Failed!', 'Something went wrong!'],
+            'success' => false,
+        ];
+
+        return response()->json($msg);
+    }
+
+    /**
+     * Display failed errors of request.
+     */
+    protected function errorFailMessage()
+    {
+        $msg = [
+            'status' => 500,
+            'errors' => ['Failed!', 'Unknown error!'],
+        ];
+
+        return response()->json($msg);
     }
 }

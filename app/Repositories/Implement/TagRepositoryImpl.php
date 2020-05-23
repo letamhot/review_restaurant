@@ -3,9 +3,8 @@
 namespace App\Repositories\Implement;
 
 use App\Models\Tag;
-use App\Repositories\TagRepository;
 use App\Repositories\Eloquent\EloquentRepository;
-use Illuminate\Support\Str;
+use App\Repositories\TagRepository;
 use Yajra\DataTables\DataTables;
 
 class TagRepositoryImpl extends EloquentRepository implements TagRepository
@@ -21,73 +20,104 @@ class TagRepositoryImpl extends EloquentRepository implements TagRepository
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * Override method getAll() function for dataTable AJAX.
+     * Using for TagController@index.
      */
-    public function ajaxIndex($request)
+    public function getAllAJAX()
     {
-
-        if ($request->ajax()) {
+        try {
             $data = $this->getTag()::select('*');
-            return Datatables::of($data)
-                ->addColumn('action', function ($row) {
+            $trash = $this->getTag()::select('id')->onlyTrashed();
+            $allTag = $this->getTag()::select('id')->withTrashed();
 
-                    $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Edit" class="edit btn btn-primary btn-sm editProduct">Edit</a>';
-
-                    $btn = $btn . ' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-danger btn-sm deleteProduct">Delete</a>';
-
-                    return $btn;
+            return DataTables::of($data)
+                ->with('all_count', function () use ($allTag) {
+                    return $allTag->count();
                 })
-                ->rawColumns(['action'])
+                ->with('trash_count', function () use ($trash) {
+                    return $trash->count();
+                })
                 ->addIndexColumn()
-                ->make(true);
+                ->toJson()
+            ;
+        } catch (\Exception $e) {
+            return null;
         }
-
-        return view('tags.index');
     }
 
+    /**
+     * Re-define getAllOnlyTrashed() function for dataTable AJAX.
+     *  Using for TagController@getTrashRecords.
+     */
+    public function getAllOnlyTrashedAJAX()
+    {
+        try {
+            $data = $this->getTag()::select('*')->onlyTrashed();
+            $allTag = $this->getTag()::select('id')->withTrashed();
+
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->with('all_count', function () use ($allTag) {
+                    return $allTag->count();
+                })
+                ->with('trash_count', function () use ($data) {
+                    return $data->count();
+                })
+                ->toJson()
+            ;
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
+    /**
+     * Update or Create new record to database.
+     *
+     * @param mixed $request
+     */
     public function ajaxStore($request)
     {
-        $this->getTag()::updateOrCreate(
-            ['id' => $request->id],
-            ['name' => $request->name, 'slug' => Str::slug($request->name)]
-        );
+        try {
+            $tagId = $request->tag_id;
 
-        return response()->json(['success' => 'Product saved successfully.']);
+            return $this->getTag()::updateOrCreate(
+                ['id' => $tagId],
+                ['name' => $request->name, 'slug' => $request->name]
+            );
+        } catch (\Exception $e) {
+            return null;
+        }
     }
 
-    public function ajaxUpdate($id)
+    /**
+     * Override method destroy() function for dataTable AJAX.
+     * Using for TagController@destroy.
+     *
+     * @param mixed $object
+     */
+    public function destroy($object)
     {
-        return $this->getTag()->find($id);
+        try {
+            if ($object->name == 'other') {
+                return false;
+            }
+            // find Tag has name 'Other'
+            $defaultTag = $this->getTag()->whereName('other')->firstOrFail();
+            // set new tag_id for related post before delete
+            $object->posts()->whereTagId($object->id)->update(['tag_id' => $defaultTag->id]);
+            // $object->posts()->detach();
+
+            return parent::destroy($object);
+        } catch (\Exception $e) {
+            return null;
+        }
     }
 
-    public function ajaxDestroy($id)
-    {
-        $this->getTag()->find($id)->delete();
-
-        return response()->json(['success' => 'Product deleted successfully.']);
-    }
-
+    /**
+     * Make Model class.
+     */
     protected function getTag()
     {
         return app()->make($this->getModel());
-    }
-
-    public function showdeleted()
-    {
-        try {
-            return $this->getTag()->onlyTrashed()->get();
-        } catch (\Exception $e) {
-            return null;
-        }
-    }
-    public function restoreDelete($id)
-    {
-        try {
-            return $this->getTag()::onlyTrashed()->findOrFail($id)->restore();
-        } catch (\Exception $e) {
-            return null;
-        }
     }
 }
