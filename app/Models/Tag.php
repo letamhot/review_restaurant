@@ -12,11 +12,11 @@ class Tag extends Model
     use SoftDeletes;
     protected $dates = ['deleted_at'];
 
-    // protected $hidden = ['created_at', 'updated_at'];
-
     protected $fillable = [
         'name', 'slug',
     ];
+
+    public function posts()
 
     public function getRouteKeyName()
     {
@@ -34,10 +34,31 @@ class Tag extends Model
     }
     public function post()
     {
-        return $this->belongsToMany(Tag::class, 'post_tag', 'post_id', 'tag_id')->withTimestamps();
+        return $this->belongsToMany(Post::class)->withTimestamps();
     }
+
     public function post_tag()
     {
         return $this->hasMany(Post_Tag::class, 'tag_id ', 'id')->withTimestamps();
+    }
+
+    /*
+     * Get the route key for the model.
+     *
+     * @return string
+     */
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
+    /**
+     * Set the proper slug attribute.
+     *
+     * @param string $value
+     */
+    public function setSlugAttribute($value)
+    {
+        $this->attributes['slug'] = Str::slug($value);
     }
 }

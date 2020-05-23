@@ -134,9 +134,16 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         try {
-            $result = $this->categoryService->destroy($id);
+            $category = $this->categoryService->findById($id);
+            $result = $this->categoryService->destroy($category);
             if ($result) {
                 return response()->json(['success' => 'Category deleted successfully']);
+            }
+            if (false == $result) {
+                return response()->json([
+                    'status' => 202,
+                    'errors' => ['Failed!', 'Can not delete default resource!'],
+                ]);
             }
 
             return $this->errorFailMessage();
@@ -247,7 +254,6 @@ class CategoryController extends Controller
         $msg = [
             'status' => 500,
             'errors' => ['Failed!', 'Unknown error!'],
-            'success' => false,
         ];
 
         return response()->json($msg);

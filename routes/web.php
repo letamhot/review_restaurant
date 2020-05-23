@@ -9,13 +9,14 @@
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
-*/
+ */
 
 
 
 // DISABLE REGISTER
 Auth::routes([
     'register' => false,
+    'reset' => false]);
     'reset' => false,
 ]);
 
@@ -51,6 +52,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/tags/trash/sd', 'TagController@getTrashRecords')->name('tag.trash');
 });
 
+// ADMIN - Tag CRUD
+Route::resource('/tag', 'TagController');
+Route::delete('/tag/{tag}/emptyTrash', 'TagController@emptyTrash')->name('tag.emptyTrash');
+Route::patch('/tag/{tag}/restoreTrash', 'TagController@restoreTrash')->name('tag.restoreTrash');
+Route::get('/tag/trash/sd', 'TagController@getTrashRecords')->name('tag.trash');
 
 
 Route::group(['middleware' => ['auth']], function () {
@@ -73,7 +79,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/post/all-tag', 'PostController@getAllTag')->name('post.getAllTag');
 
 
-
 });
 Route::group(['middleware' => ['auth']], function () {
 
@@ -81,4 +86,5 @@ Route::group(['middleware' => ['auth']], function () {
     Route::delete('/roles/{role}/emptyTrash', 'RoleController@emptyTrash')->name('role.emptyTrash');
     Route::patch('/roles/{role}/restoreTrash', 'RoleController@restoreTrash')->name('role.restoreTrash');
     Route::get('/roles/trash/sd', 'RoleController@getTrashRecords')->name('role.trash');
+
 });
