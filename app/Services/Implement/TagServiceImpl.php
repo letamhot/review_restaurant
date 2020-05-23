@@ -32,6 +32,7 @@ class TagServiceImpl extends BaseServiceImpl implements TagService
         return $this->makeRepo()->getAllOnlyTrashedAJAX();
     }
 
+
     /**
      * Make Model Class.
      */

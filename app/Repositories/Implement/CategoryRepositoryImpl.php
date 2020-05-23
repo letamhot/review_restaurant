@@ -38,8 +38,7 @@ class CategoryRepositoryImpl extends EloquentRepository implements CategoryRepos
                     return $trash->count();
                 })
                 ->addIndexColumn()
-                ->toJson()
-            ;
+                ->toJson();
         } catch (\Exception $e) {
             return null;
         }
@@ -63,8 +62,7 @@ class CategoryRepositoryImpl extends EloquentRepository implements CategoryRepos
                 ->with('trash_count', function () use ($data) {
                     return $data->count();
                 })
-                ->toJson()
-            ;
+                ->toJson();
         } catch (\Exception $e) {
             return null;
         }

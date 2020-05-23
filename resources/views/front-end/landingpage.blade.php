@@ -3,6 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Review Nhà Hàng - Khách Sạn</title>
         <title>Review Nhà Hàng</title>
 
         <link rel="stylesheet" href="{{asset('assets/style.css')}}" />
@@ -11,6 +12,11 @@
             rel="stylesheet"
             href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
         />
+        <link href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.2/components/icon.min.css" rel="stylesheet">
+        <link href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.2/components/comment.min.css" rel="stylesheet">
+        <link href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.2/components/form.min.css" rel="stylesheet">
+        <link href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.2/components/button.min.css" rel="stylesheet">
+        <link href="{{ asset('/vendor/laravelLikeComment/css/style.css') }}" rel="stylesheet">
     </head>
     <body>
         <header>
@@ -366,6 +372,7 @@
                     </div>
                 </div>
 
+
                 <div class="tweet-card">
                     <div class="tweet-card__header">
                         <div class="tweet-card__avatar-wrapper">
@@ -566,7 +573,9 @@
                         </li>
                     </ul>
                 </div>
+                @include('laravelLikeComment::comment', ['comment_item_id' => 'video_12'])
 
+                @include('laravelLikeComment::like', ['like_item_id' => 'image_31'])
                 <div class="hot-tweet-list">
                     <h5 class="hot-tweet-list__title">#discuss</h5>
 
@@ -630,6 +639,7 @@
                                         <span class="tweet-item__count"
                                             >359</span
                                         >
+                                       
                                     </div>
                                 </div>
                             </a>
@@ -657,4 +667,6 @@
             }
         </script>
     </body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="{{ asset('/vendor/laravelLikeComment/js/script.js') }}" type="text/javascript"></script>
 </html>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
+use App\Models\Post;
 use App\Services\CategoryService;
 use Illuminate\Http\Request;
 
@@ -31,12 +32,24 @@ class CategoryController extends Controller
                 return $this->categoryService->getAllAJAX();
             }
 
-            return view($this->path.'index');
+            return view($this->path . 'index');
         } catch (\Exception $e) {
             return $this->errorExceptionMessage();
         }
     }
+    public function Api_category()
+    {
+        $data = $this->categoryService->getAll();
+        // $data = Category::all();
+        // dd($data);
+        return response()->json($data);
+    }
 
+    public function api_find_post($id)
+    {
+        $data = Post::find($id);
+        return response()->json($data);
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -204,7 +217,7 @@ class CategoryController extends Controller
         if ($result) {
             // Toastr::success('Successfully! :)', 'Success');
 
-            return redirect()->route($this->path.'index');
+            return redirect()->route($this->path . 'index');
         }
         // Toastr::error('Something went wrong!', 'Error');
 

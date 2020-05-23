@@ -90,6 +90,7 @@
 
 @include('backend.post.modal')
 @include('backend.post.show')
+
 @endsection
 
 @push('js-post')
