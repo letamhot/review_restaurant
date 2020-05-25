@@ -10,7 +10,4 @@ interface TagService extends BaseService
 
     public function getAllOnlyTrashedAJAX();
 
-    
-    public function ajaxStore($request);
-    
 }

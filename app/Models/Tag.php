@@ -2,36 +2,25 @@
 
 namespace App\Models;
 
+use App\Traits\EloquentScope;
+use Cog\Contracts\Love\Reactable\Models\Reactable as ReactableContract;
+use Cog\Laravel\Love\Reactable\Models\Traits\Reactable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
-
-class Tag extends Model
+class Tag extends Model implements ReactableContract
 {
+    use Reactable;
     use SoftDeletes;
+    use EloquentScope;
+
     protected $dates = ['deleted_at'];
 
     protected $fillable = [
         'name', 'slug',
     ];
 
-    public function posts()
-
-    public function getRouteKeyName()
-    {
-        return 'slug';
-    }
-
-    /**
-     * Set the proper slug attribute.
-     *
-     * @param string $value
-     */
-    public function setSlugAttribute($value)
-    {
-        $this->attributes['slug'] = Str::slug($value);
-    }
     public function post()
     {
         return $this->belongsToMany(Post::class)->withTimestamps();

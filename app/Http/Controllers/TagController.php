@@ -31,7 +31,7 @@ class TagController extends Controller
                 return $this->tagService->getAll();
             }
 
-            return view($this->path.'index');
+            return view($this->path . 'index');
         } catch (\Exception $e) {
             return $this->errorExceptionMessage();
             return $e->getMessage();
@@ -78,9 +78,6 @@ class TagController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function show(Tag $tag)
-    {
-        //
     public function show(Tag $Tag)
     {
         // NOT DEFINE YET WHEN USING AJAX
@@ -119,16 +116,10 @@ class TagController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      * @param \App\Models\Tag          $tag
-     * @param mixed                    $id
      *
      * @return \Illuminate\Http\Response
      */
-    public function update($id)
-    {
-        // USING store() METHOD - createOrUpdate
 
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Tag $Tag)
     {
         // NOT AJAX
@@ -174,39 +165,6 @@ class TagController extends Controller
             $result = $this->tagService->destroy($id);
             if ($result) {
                 return response()->json(['success' => 'Tag deleted successfully']);
-            }
-
-            return response()->json($result);
-        } catch (\Exception $e) {
-            return response()->json($e->getMessage());
-        }
-    }
-
-    /**
-     * Display a listing of the resource (Soft Delete).
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function getTrashRecords()
-    {
-        try {
-            return $this->tagService->getAllOnlyTrashed();
-        } catch (\Exception $e) {
-            return $e->getMessage();
-        }
-    }
-
-    /**
-     * Restore record from SoftDelete.
-     *
-     * @param mixed $id
-     */
-    public function restoreTrash($id)
-    {
-        try {
-            $result = $this->tagService->restoreSoftDelete($id);
-            if ($result) {
-                return response()->json(['success' => 'Item restored successfully.']);
             }
 
             return response()->json($result);
@@ -267,40 +225,20 @@ class TagController extends Controller
             return $this->errorExceptionMessage();
         }
     }
-
-     * True value - return index view
-     * False value - return previous page
-     * Not for AJAX.
-     *
-     * @param bool $result
-     */
-    protected function goTo($result)
-    {
+/**
+ * True value - return index view
+ * False value - return previous page
+ * Not for AJAX.
+ *
+ * @param bool $result
+ */
+    function goto ($result) {
         if ($result) {
             // Toastr::success('Successfully! :)', 'Success');
 
-            return redirect()->route($this->path.'index');
+            return redirect()->route($this->path . 'index');
         }
         // Toastr::error('Something went wrong!', 'Error');
-
-    /**
-     * ForceDelete records which has been deleted by SoftDelete.
-     *
-     * @param mixed $id
-     */
-    public function emptyTrash($id)
-    {
-        try {
-            $result = $this->tagService->permanentDestroySoftDeleted($id);
-
-            if ($result) {
-                return response()->json(['success' => 'Category permanently deleted successfully']);
-            }
-
-            return $this->errorFailMessage();
-        } catch (\Exception $e) {
-            return $this->errorMessage();
-        }
     }
 
     /**
