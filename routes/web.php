@@ -77,6 +77,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/post/all-category', 'PostController@getAllCategory')->name('post.getAllCategory');
 
     Route::get('/post/all-tag', 'PostController@getAllTag')->name('post.getAllTag');
+    Route::get('/post/showTag', 'PostController@showTag')->name('post.showTag');
+
+
+
 
 
 });
