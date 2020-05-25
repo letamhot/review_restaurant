@@ -9,18 +9,30 @@
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
-*/
+ */
 
-Route::get('/', function () {
-    return view('front-end.landingpage');
-});
+
 
 // DISABLE REGISTER
 Auth::routes([
     'register' => false,
-    'reset' => false, ]);
+    'reset' => false]);
+    'reset' => false,
+]);
 
 
+
+
+Route::get('/', function () {
+    return view('front-end.landing-page');
+});
+
+Route::get('/page-detail', function () {
+    return view('front-end.page_detail');
+});
+Route::get('/api/category', 'CategoryController@Api_category')->name('api.category');
+
+Auth::routes();
 // OAuth login
 Route::get('oauth/redirect/{driver}', 'SocialAuthController@redirect')->name('social.redirect');
 Route::get('oauth/callback/{driver}', 'SocialAuthController@callback')->name('social.callback');
@@ -30,16 +42,22 @@ Route::resource('/category', 'CategoryController');
 Route::delete('/category/{category}/emptyTrash', 'CategoryController@emptyTrash')->name('category.emptyTrash');
 Route::patch('/category/{category}/restoreTrash', 'CategoryController@restoreTrash')->name('category.restoreTrash');
 Route::get('/category/trash/sd', 'CategoryController@getTrashRecords')->name('category.trash');
-
 // ADMIN - User CRUD
 Route::resource('/user', 'UserController');
+// ADMIN - Tag CRUD
+Route::group(['middleware' => ['auth']], function () {
+    Route::resource('/tag', 'TagController');
+    Route::delete('/tags/{tag}/emptyTrash', 'TagController@emptyTrash')->name('tag.emptyTrash');
+    Route::patch('/tags/{tag}/restoreTrash', 'TagController@restoreTrash')->name('tag.restoreTrash');
+    Route::get('/tags/trash/sd', 'TagController@getTrashRecords')->name('tag.trash');
+});
 
-Route::resource('tag', 'TagController');
-// tag deleted
-Route::get('/tagdel', 'TagController@showdeletedtags')->name('tagdel');
-Route::get('/tagdel/restore/{id}', 'TagController@restoreDeletedTags')->name('restoreTag');
+// ADMIN - Tag CRUD
+Route::resource('/tag', 'TagController');
+Route::delete('/tag/{tag}/emptyTrash', 'TagController@emptyTrash')->name('tag.emptyTrash');
+Route::patch('/tag/{tag}/restoreTrash', 'TagController@restoreTrash')->name('tag.restoreTrash');
+Route::get('/tag/trash/sd', 'TagController@getTrashRecords')->name('tag.trash');
 
-Route::get('/tagdel/{id}', 'TagController@forceDelete')->name('tagdel.forceDelete');
 
 Route::group(['middleware' => ['auth']], function () {
     Route::resource('api/post', 'PostController');
@@ -57,6 +75,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::patch('/post/{post}/restoreTrash', 'PostController@restoreTrash')->name('post.restoreTrash');
     Route::get('/post/trash/sd', 'PostController@getTrashRecords')->name('post.trash');
     Route::get('/post/all-category', 'PostController@getAllCategory')->name('post.getAllCategory');
+
     Route::get('/post/all-tag', 'PostController@getAllTag')->name('post.getAllTag');
     Route::get('/post/showTag', 'PostController@showTag')->name('post.showTag');
 
@@ -67,9 +86,9 @@ Route::group(['middleware' => ['auth']], function () {
 });
 Route::group(['middleware' => ['auth']], function () {
 
-Route::resource('/role', 'RoleController');
-Route::delete('/roles/{role}/emptyTrash', 'RoleController@emptyTrash')->name('role.emptyTrash');
-Route::patch('/roles/{role}/restoreTrash', 'RoleController@restoreTrash')->name('role.restoreTrash');
-Route::get('/roles/trash/sd', 'RoleController@getTrashRecords')->name('role.trash');
+    Route::resource('/role', 'RoleController');
+    Route::delete('/roles/{role}/emptyTrash', 'RoleController@emptyTrash')->name('role.emptyTrash');
+    Route::patch('/roles/{role}/restoreTrash', 'RoleController@restoreTrash')->name('role.restoreTrash');
+    Route::get('/roles/trash/sd', 'RoleController@getTrashRecords')->name('role.trash');
 
 });

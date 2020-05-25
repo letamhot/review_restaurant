@@ -16,34 +16,28 @@ class TagServiceImpl extends BaseServiceImpl implements TagService
     {
         return TagRepository::class;
     }
-    public function showdeleted()
-    {
 
-        return app()->make($this->getModelRepository())->showdeleted();
-    }
-    public function restoreDelete($id)
-    {
-
-        return app()->make($this->getModelRepository())->restoreDelete($id);
-    }
-
-    public function ajaxIndex($request)
-    {
-
-        return app()->make($this->getModelRepository())->ajaxIndex($request);
-    }
     public function ajaxStore($request)
     {
-
-        return app()->make($this->getModelRepository())->ajaxStore($request);
+        return $this->makeRepo()->ajaxStore($request);
     }
-    public function ajaxUpdate($id)
-    {
 
-        return app()->make($this->getModelRepository())->ajaxUpdate($id);
-    }
-    public function ajaxDestroy($id)
+    public function getAllAJAX()
     {
-        return app()->make($this->getModelRepository())->ajaxDestroy($id);
+        return $this->makeRepo()->getAllAJAX();
+    }
+
+    public function getAllOnlyTrashedAJAX()
+    {
+        return $this->makeRepo()->getAllOnlyTrashedAJAX();
+    }
+
+
+    /**
+     * Make Model Class.
+     */
+    protected function makeRepo()
+    {
+        return app()->make($this->getModelRepository());
     }
 }

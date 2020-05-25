@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+        />
+    <style>
+/* Dynamic  Variables */
+:root {
+	--Color: green;
+}
+i.hoveredStars, i.clickedStars {
+	background-color: var(--Color);
+}
+
+/* Document Styles, the below are actually Unnecessary */
+/* * {
+	background-color: #def4f0;
+	color: black;
+	text-align: center;
+	font-family: sans-serif;
+	font-size: 24px;
+}
+
+h1 {
+	font-size: 1.75em;
+	color: #444;
+} */
+
+/* form { margin-top: 65px; }
+form > * { display: inline-block; }
+form input[type="submit"] {
+	background-color: #400082;
+	color: white;
+	margin-left: 25px;
+	padding: 10px;
+	border-radius: 15px;
+	transition: 0.1s ease-in-out;
+}
+form input[type="submit"]:hover {
+	background-color: #200052;
+	transform: translate(0, -3px);
+}
+form input[type="submit"]:active {
+	transform: translate(0, 1px);
+} */
+
+#ratingVal {
+  position: absolute;
+  color: white;
+  bottom: 100px;
+  right: 100px;
+  background: rgba(0,0,0,0.9);
+  padding: 100px 100px;
+  font-family: sans-serif;
+  border-radius: 5px;
+}
+
+/* Icons, somewhat necessary */
+
+#form > i {
+	user-select:none;
+	color: white;
+	background-color: #bbb;
+	font-size: 1.2em;
+	transition: .1s ease-in-out;
+	padding: 10px;
+	border-radius: 10px;
+}
+#form > i:hover {
+	box-shadow: 1px 1.5px 3px #555;
+	transform: translate(0, -3px);
+}
+#form > i:active {
+	transform: translate(0, 1px);
+}
+    </style>
+</head>
+<body>
+    <h1>Are You Satisfied with our Service?</h1>
+
+<form id="form" action="main.php">
+	<i star-rating="1" class="fa fa-star star"></i>
+	<i star-rating="2" class="fa fa-star star"></i>
+	<i star-rating="3" class="fa fa-star star"></i>
+	<i star-rating="4" class="fa fa-star star"></i>
+	<i star-rating="5" class="fa fa-star star"></i>
+	<input type="number" name="rating" id="ratingInput" value="3" style="display: none;">
+	<input type="submit" value="Submit">
+</form>
+
+<div>
+	<p id="ratingVal">Click on the Stars to Rate them!</p>
+</div>
+</body>
+<script src="https://code.jquery.com/jquery-3.5.1.js"
+integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous">
+</script>
+<script>
+var hues = [53, 30, 14, 344, 0]; // Change it how you like
+// R-B-G Palette: 133, 152, 213, 260, 354
+// Yelp Palette: 53, 30, 14, 344, 0
+
+$(document).ready(function() {
+  var stars = $(".star");
+	var rating = parseInt($("#ratingInput").val());
+	const ratingPreview = $("#ratingVal");
+
+	// Have to declare it here since it will be out of scope
+  var Star = {
+    onClicked: function() {
+			// Determine Input Value from star-rating attr
+			$("#ratingInput").val($(this).attr("star-rating"));
+			rating = parseInt($("#ratingInput").val());
+			judgeRating(ratingPreview, rating);
+
+			// Assign Colors
+      $(this).siblings()
+				.filter(".star").removeClass("clickedStars"); // Reset Color
+      assignColor(hues[rating - 1], "Color");
+      $(this).prevAll().addBack().addClass("clickedStars");
+    },
+
+    onHovered: function() {
+      const currIndex = $(this).index();
+
+			// If the hovered star is higher than the clicked star,
+			// Assign the current star's color value to all stars
+			var ratingIdx = rating - 1; // Rating Index
+      if (currIndex > ratingIdx) {
+        assignColor(hues[currIndex], "Color");
+      }
+
+      $(this).prevAll().addBack().addClass("hoveredStars");
+
+			let hovRating = parseInt($(this).attr("star-rating"));
+			judgeRating(ratingPreview, hovRating);
+    },
+
+		unHover: function() {
+			// Reset Color
+    	$(this).prevAll().addBack()
+      	.removeClass("hoveredStars");
+			assignColor(hues[rating - 1], "Color");
+
+			// Change Rating Text
+			if (rating) { judgeRating(ratingPreview, rating); }
+			else { ratingPreview.text("Click on the Stars to Rate them!"); }
+  	}
+  };
+
+	/* INIT: Set up stars beforehand */
+	init(stars, rating);
+
+	/* Star Events */
+  stars.click(Star.onClicked);
+  stars.hover(Star.onHovered, Star.unHover);
+});
+
+// Functions
+
+function init(obj, initRating) {
+	judgeRating($("#ratingVal"), initRating);
+
+	initRating--; // Convert to Array Index
+	let initStar = obj.get(initRating);
+
+	// Assign Colors
+  $(initStar).siblings()
+		.filter(".star").removeClass("clickedStars"); // Reset Color
+  assignColor(hues[initRating], "Color");
+  $(initStar).prevAll().addBack().addClass("clickedStars");
+}
+
+function assignColor(hue, assignedVar) {
+  const sat = "85%",
+    		val = "55%"; // Saturation & Value
+  document.documentElement.style.setProperty(
+    "--" + assignedVar,
+    "hsl(" + hue + "," + sat + "," + val + ")"
+  );
+}
+
+function judgeRating(selector, rating) {
+	var reaction = (rating) => {
+		switch(rating) {
+			case 1:
+				return "Terrible!"
+				break;
+			case 2:
+				return "Eh, could've been better."
+				break;
+			case 3:
+				return "Okay, I guess."
+				break;
+			case 4:
+				return "This is great!"
+				break;
+			case 5:
+				return "Wow! As good as it gets!"
+				break;
+			default:
+				return "ERR: you shouldn't be able to see this value..."
+		}
+	};
+	selector.text(
+		"Rating: " + rating +
+		",\t\t" + reaction(rating)
+	);
+}
+</script>
+</html>

@@ -86,4 +86,5 @@ class User extends Authenticatable
             // 'admin'  => $user->role === 'Admin', // bool
         ];
     }
+    
 }

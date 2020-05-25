@@ -103,6 +103,7 @@
     @stack('js')
     @stack('js-post')
     @stack('js-role')
+    @stack('js-tag') 
 </body>
 
 </html>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
+use App\Models\Post;
 use App\Services\CategoryService;
 use Illuminate\Http\Request;
 
@@ -28,15 +29,27 @@ class CategoryController extends Controller
     {
         try {
             if ($request->ajax()) {
-                return $this->categoryService->getAll();
+                return $this->categoryService->getAllAJAX();
             }
 
-            return view($this->path.'index');
+            return view($this->path . 'index');
         } catch (\Exception $e) {
             return $this->errorExceptionMessage();
         }
     }
+    public function Api_category()
+    {
+        $data = $this->categoryService->getAll();
+        // $data = Category::all();
+        // dd($data);
+        return response()->json($data);
+    }
 
+    public function api_find_post($id)
+    {
+        $data = Post::find($id);
+        return response()->json($data);
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -121,9 +134,16 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         try {
-            $result = $this->categoryService->destroy($id);
+            $category = $this->categoryService->findById($id);
+            $result = $this->categoryService->destroy($category);
             if ($result) {
                 return response()->json(['success' => 'Category deleted successfully']);
+            }
+            if (false == $result) {
+                return response()->json([
+                    'status' => 202,
+                    'errors' => ['Failed!', 'Can not delete default resource!'],
+                ]);
             }
 
             return $this->errorFailMessage();
@@ -140,7 +160,7 @@ class CategoryController extends Controller
     public function getTrashRecords()
     {
         try {
-            return $this->categoryService->getAllOnlyTrashed();
+            return $this->categoryService->getAllOnlyTrashedAJAX();
         } catch (\Exception $e) {
             return $this->errorExceptionMessage();
         }
@@ -197,7 +217,7 @@ class CategoryController extends Controller
         if ($result) {
             // Toastr::success('Successfully! :)', 'Success');
 
-            return redirect()->route($this->path.'index');
+            return redirect()->route($this->path . 'index');
         }
         // Toastr::error('Something went wrong!', 'Error');
 
@@ -234,7 +254,6 @@ class CategoryController extends Controller
         $msg = [
             'status' => 500,
             'errors' => ['Failed!', 'Unknown error!'],
-            'success' => false,
         ];
 
         return response()->json($msg);

@@ -3,6 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Review Nhà Hàng - Khách Sạn</title>
         <title>Review Nhà Hàng</title>
 
         <link rel="stylesheet" href="{{asset('assets/style.css')}}" />
@@ -374,6 +375,7 @@
 
                 @include('laravelLikeComment::like', ['like_item_id' => 'item_id'])
 
+
                 <div class="tweet-card">
                     <div class="tweet-card__header">
                         <div class="tweet-card__avatar-wrapper">
@@ -574,7 +576,9 @@
                         </li>
                     </ul>
                 </div>
+                @include('laravelLikeComment::comment', ['comment_item_id' => 'video_12'])
 
+                @include('laravelLikeComment::like', ['like_item_id' => 'image_31'])
                 <div class="hot-tweet-list">
                     <h5 class="hot-tweet-list__title">#discuss</h5>
 
@@ -638,6 +642,7 @@
                                         <span class="tweet-item__count"
                                             >359</span
                                         >
+                                       
                                     </div>
                                 </div>
                             </a>
