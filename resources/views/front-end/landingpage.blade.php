@@ -370,9 +370,9 @@
                         </div>
                     </div>
                 </div>
-                @include('laravelLikeComment::comment', ['comment_item_id' => 'video_12'])
+                @include('laravelLikeComment::comment', ['comment_item_id' => 'item_id'])
 
-                @include('laravelLikeComment::like', ['like_item_id' => 'image_31'])
+                @include('laravelLikeComment::like', ['like_item_id' => 'item_id'])
 
                 <div class="tweet-card">
                     <div class="tweet-card__header">

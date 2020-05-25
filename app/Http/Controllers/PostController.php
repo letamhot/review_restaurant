@@ -26,18 +26,13 @@ class PostController extends Controller
     public function index()
     {
         $posts = $this->postService->getAll();
-        // $post = Post::find()->tag();
-        // $atri = Post_Tag::all();
-        // foreach($posts as $a){
-        //     $a['tag_name'] = $a->tag()->pluck('name')->toArray();
-        // }
-        
+
         foreach ($posts as $key => $post) {
             $posts[$key]['name'] = User::find($post['user_id'])->name;
-            // $post['category_name'] = Category::find($post['category_id'])->name;
             $posts[$key]['category_name'] = $post->category->name;
             $posts[$key]['tag_name'] = implode(', ',$post->tag()->pluck('name')->toArray());
             
+
         }
 
         return response()->json($posts);

@@ -174,6 +174,25 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
             return null;
         }
     }
+    public function getDate(){
+        try {
+            $data = Post::whereDate("created_at", date("d"))->take(5);
+
+            return $data;
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
+    public function getMonth(){
+        try {
+            $data = Post::whereMonth("created_at", date("m"))->take();
+
+            return $data;
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
 
 
     protected function getPost()
