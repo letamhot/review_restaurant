@@ -105,7 +105,7 @@ class TagRepositoryImpl extends EloquentRepository implements TagRepository
             $defaultTag = $this->getTag()->whereName('other')->firstOrFail();
             // set new tag_id for related post before delete
             $object->posts()->whereTagId($object->id)->update(['tag_id' => $defaultTag->id]);
-            // $object->posts()->detach();
+            $object->posts()->detach();
 
             return parent::destroy($object);
         } catch (\Exception $e) {
