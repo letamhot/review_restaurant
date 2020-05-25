@@ -8,6 +8,5 @@ interface CategoryService extends BaseService
 
     public function getAllAJAX();
 
-    public function getAllAJAX();
     public function getAllOnlyTrashedAJAX();
 }

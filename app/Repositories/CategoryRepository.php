@@ -8,6 +8,5 @@ interface CategoryRepository extends BaseRepository
 
     public function getAllAJAX();
 
-    public function getAllAJAX();
     public function getAllOnlyTrashedAJAX();
 }
