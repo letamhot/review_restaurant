@@ -324,9 +324,7 @@
                     </div>
                 </div>
             </div>
-            @include('laravelLikeComment::comment', ['comment_item_id' => 'item_id'])
 
-            @include('laravelLikeComment::like', ['like_item_id' => 'item_id'])
 
 
             <div class="tweet-card">
