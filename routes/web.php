@@ -72,3 +72,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/roles/trash/sd', 'RoleController@getTrashRecords')->name('role.trash');
 
 });
+
+Route::get('/show/{id}', 'ArticleController@show');
+
+Route::get('/listAll', 'ArticleController@index');

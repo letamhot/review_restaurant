@@ -37,8 +37,14 @@ class ArticleServiceImpl extends BaseServiceImpl implements ArticleService
             $post->totalLike = $totalReaction['totalLike'];
             $post->totalStar = $totalReaction['totalStar'];
         }
+        $allPostComment = \risul\LaravelLikeComment\Models\Comment::where('item_id', $post->id)->get()->count();
+        $post->totalComment = $allPostComment;
+        $post->tag = $post->tag()->pluck('name')->toArray(); // array list of tag name
+        $post->author = implode('', $post->user()->pluck('name')->toArray()); // convert array to string
 
         return $post;
+
+        // return view('front-end.landingpage', compact('post'));
     }
 
     public function getRandomPost($number)
