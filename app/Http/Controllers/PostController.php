@@ -5,11 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Http\Requests\PostRequest;
 use App\Services\PostService;
-
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Category;
-
+use App\Models\Post_Tag;
+use App\Models\Tag;
+use Carbon\Carbon;
 
 class PostController extends Controller
 {
@@ -27,27 +28,37 @@ class PostController extends Controller
     public function index()
     {
         $posts = $this->postService->getAll();
-        foreach ($posts as $post) {
-            $post['name'] = User::find($post['user_id'])->name;
-            $post['category_name'] = Category::find($post['category_id'])->name;
+        // $post = Post::find()->tag();
+        // $atri = Post_Tag::all();
+        // foreach($posts as $a){
+        //     $a['tag_name'] = $a->tag()->pluck('name')->toArray();
+        // }l
 
+        foreach ($posts as $key => $post) {
+            $posts[$key]['name'] = User::find($post['user_id'])->name;
+            // $post['category_name'] = Category::find($post['category_id'])->name;
+            $posts[$key]['category_name'] = $post->category->name;
+            $posts[$key]['tag_name'] = $post->tag;
         }
+
         return response()->json($posts);
     }
 
-    public function getAllCategory(Request $request )
+    public function getAllCategory(Request $request)
     {
         if ($request->ajax()) {
-             return $this->postService->getAllCategory();
+            return $this->postService->getAllCategory();
         }
-       return null;
+        return null;
     }
-
-    // public function showindex()
-    // {
-    //     $posts = $this->postService->getAll();
-    //     return view('post.ajax.index', compact('posts'));
-    // }
+    public function getAllTag(Request $request)
+    {
+        if ($request->ajax()) {
+            //  return response()->json($this->postService->getAllTag());
+            return response()->json(Tag::all());
+        }
+        return null;
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -57,7 +68,6 @@ class PostController extends Controller
     public function create()
     {
         return view('backend.post.create');
-
     }
 
     /**
@@ -67,8 +77,8 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(PostRequest $request)
-    {   
-        
+    {
+        // dd($request->all());
         $this->postService->create($request);
         return redirect()->route('post.index');
     }
@@ -85,6 +95,18 @@ class PostController extends Controller
         return response()->json($obj, 200);
     }
 
+    public function showPostDetail($id)
+    {
+        $post_detail = $this->postService->findById($id);
+        // $post_detail['array_tag'] = $post_detail->tag;
+        // dd($post_detail);
+        return view('front-end.page_detail', compact('post_detail'));
+    }
+    public function showUser($id)
+    {
+        $user = $this->postService->findById($id)->user->name;
+        return response()->json($user);
+    }
     /**
      * Show the form for editing the specified resource.
      *
@@ -94,11 +116,11 @@ class PostController extends Controller
     public function edit($id)
     {
         $obj = $this->postService->findByID($id);
+        $obj->tags = $obj->tag->pluck('id')->toArray();
         return response()->json($obj, 200);
         // return view('post.edit', compact('post'));
-        
-    }
 
+    }
     /**
      * Update the specified resource in storage.
      *
@@ -116,7 +138,7 @@ class PostController extends Controller
         } catch (\Throwable $th) {
             return back();
         }
-       
+
         return redirect()->route('post.index');
         // return $this->goTo($result);
     }
@@ -129,7 +151,7 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-         $this->postService->destroy($id);
+        $this->postService->destroy($id);
 
         return redirect()->route('post.index');
     }
@@ -138,12 +160,12 @@ class PostController extends Controller
     {
         try {
             $post = $this->postService->getAllOnlyTrashed();
-            
+
             if ($post) {
-                foreach ($post as $posts) {
-                    $posts['name'] = User::find($posts['user_id'])->name;
-                    $posts['category_name'] = Category::find($posts['category_id'])->name;
-        
+                foreach ($post as $key => $posts) {
+                    $post[$key]['name'] = User::find($posts['user_id'])->name;
+                    $post[$key]['category_name'] = $posts->category->name;
+                    $post[$key]['tag_name'] = implode(', ', $posts->tag()->pluck('name')->toArray());
                 }
                 return response()->json($post, 200);
             }
@@ -213,5 +235,4 @@ class PostController extends Controller
 
         return response()->json($msg);
     }
-
 }

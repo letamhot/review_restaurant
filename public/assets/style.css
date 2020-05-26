@@ -5,6 +5,7 @@ html {
 body {
     margin: 0;
     padding: 0;
+
 }
 
 /* Button Styles */
@@ -96,7 +97,7 @@ body {
     z-index: -2;
     left: 5px;
     top: 5px;
-    background-color: green !important;
+    background-color: pink !important;
     width: 100%;
     height: 100%;
 }
@@ -111,7 +112,7 @@ body {
     z-index: -1;
     left: 0;
     top: 0;
-    background-color: green;
+    background-color: pink;
     width: 100%;
     height: 100%;
 }
@@ -142,6 +143,7 @@ body {
     text-decoration: none;
 }
 
+
 .linh-nav-icon-button:hover {
     background-color: silver;
 }
@@ -149,12 +151,13 @@ body {
 /* Hot Tweet List */
 
 .hot-tweet-list {
-    border-top: 1px solid silver;
+   color: blue;
+   font-style: oblique;
 }
 
 .hot-tweet-list__title {
     margin-left: 20px;
-    font-size: 12px;
+    font-size: 15px;
     margin-bottom: 0;
 }
 
@@ -321,6 +324,7 @@ body {
 
 .main-container {
     padding-top: 12px;
+
     display: flex;
     justify-content: space-between;
     background-color: #f8f8f8;
@@ -329,10 +333,18 @@ body {
 .main-content {
     flex-grow: 1;
     margin-top: 50px;
-    padding: 0 12px 10px 10px;
+    padding: 0px;
+}
+
+.main-content-detail {
+    flex-grow: 1;
+    margin-top: 50px;
+    padding: 50px;
 }
 
 .right-side {
+    padding-top: 70px;
+
     width: 250px;
     flex-shrink: 0;
 }
@@ -344,18 +356,21 @@ body {
 }
 /* left side */
 .left-side {
+    padding-left: 0px;
+    padding-top: 70px;
     width: 250px;
     flex-shrink: 0;
 }
 .left-side ul {
-    width: 230px;
+    width: 200px;
+    padding-left: 0px;
     list-style: none;
     font-weight: bolder;
 }
 .tweet-item__bulletsizebar {
     box-sizing: border-box;
-    width: 10px;
-    height: 10px;
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
     vertical-align: top;
     transform: translateY(2px);
@@ -452,7 +467,7 @@ main {
 }
 
 .left-side-detail {
-    padding: 40px 1px 1px 1px;
+    padding: 67px 1px 1px 1px;
     width: 70px;
     flex-shrink: 0;
 }
@@ -493,14 +508,133 @@ main {
     background-color: #f8f8f8;
 }
 .right-side-detail {
-    padding-top: 25px;
+    padding-top: 100px;
     width: 250px;
     flex-shrink: 0;
+
+
 }
 
 .hot-user {
-    border: 1px solid red;
-    background-color: aquamarine;
+    height:200px;
+    border: 1px solid black;
+    background-color: white;
     text-decoration: none;
+    position: fixed;
+
+
 }
 
+.newsicon{
+    font-size: 17px ;
+    color: yellow;
+    width: 10px;
+    height: 10px;
+    background-color: blue;
+   animation-name: example;
+   animation-duration: 0.5s;
+   animation-iteration-count: infinite;
+}
+@keyframes example {
+    from {background-color:blue;}
+    to {background-color: red;}
+   }
+.user__background{
+    border: double  3px #230045;
+    padding-top: 100px;
+    padding-left: 300px;
+    width: 100%;
+    height:300px ;
+    background-color:#ffe7fc;
+
+}
+.user__avatar-wrapper {
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+.contact{
+    display: inline-block;
+    width: 30%;
+    height: 300px;
+}
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    max-width: 300px;
+    margin: auto;
+    text-align: center;
+    font-family: arial;
+  }
+  .title {
+    color: grey;
+    font-size: 18px;
+  }
+  .card button {
+    border: none;
+    outline: 0;
+    display: inline-block;
+    padding: 8px;
+    color: white;
+    background-color: #000;
+    text-align: center;
+    cursor: pointer;
+    width: 100%;
+    font-size: 18px;
+  }
+
+  .card a {
+    text-decoration: none;
+    font-size: 22px;
+    color: black;
+  }
+
+  .card button:hover, a:hover {
+    opacity: 0.7;
+  }
+  .main-content {
+    background-color: #f6f6f6;
+    width: 400px;
+    margin: 20px auto;
+    font: normal 13px/100% sans-serif;
+    color: #444;
+}
+
+.test{
+    display:none;
+    padding: 10px;
+    border-width: 0 1px 1px 0;
+    border-style: solid;
+    border-color: #fff;
+    box-shadow: 0 1px 1px #ccc;
+    margin-bottom: 5px;
+    background-color: #f1f1f1;
+}
+.totop {
+    position: fixed;
+    bottom: 10px;
+    right: 20px;
+}
+.totop a {
+    display: none;
+}
+
+#loadMore {
+    padding: 10px;
+    text-align: center;
+    background-color: #33739E;
+    color: #fff;
+    border-width: 0 1px 1px 0;
+    border-style: solid;
+    border-color: #fff;
+    box-shadow: 0 1px 1px #ccc;
+    transition: all 600ms ease-in-out;
+    -webkit-transition: all 600ms ease-in-out;
+    -moz-transition: all 600ms ease-in-out;
+    -o-transition: all 600ms ease-in-out;
+}
+#loadMore:hover {
+    background-color: #fff;
+    color: #33739E;
+}

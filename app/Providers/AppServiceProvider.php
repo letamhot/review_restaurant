@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\Tag;
+
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,6 +25,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        view()->composer([
+            'front-end.tagdetail'
+        ], function ($view) {
+            $tags = Tag::all();
+            $view->with([
+                'tags' => $tags
+            ]);
+        });
     }
 }

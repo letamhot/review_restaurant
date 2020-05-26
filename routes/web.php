@@ -26,10 +26,33 @@ Route::get('/', function () {
     return view('front-end.landing-page');
 });
 
+//  fqa
+Route::get('/fqa', function () {
+    return view('front-end.fqa');
+});
+// contact
+Route::get('/contact', function () {
+    return view('front-end.contact');
+});
+// tag
+Route::get('/', 'TagController@showAllTag');
+Route::get('/tag_detail/{id}', 'TagController@showdetailtag')->name('showdetailtag');
 Route::get('/page-detail', function () {
     return view('front-end.page_detail');
 });
+// User
+Route::get('/api/user/{id}', 'PostController@showUser')->name('api.showUser');
+
+// category
 Route::get('/api/category', 'CategoryController@Api_category')->name('api.category');
+Route::get('/api/categorypost/{id}', 'CategoryController@Api_find_post')->name('api.postcategory');
+Route::get('/post_web/{id}', 'PostController@showPostDetail')->name('showpostdetail');
+
+Route::get('/api/tag', 'TagController@showAllTagAjax')->name('api.tag');
+// News
+
+// User
+Route::get('/post_user/{id}', 'UserController@post_user')->name('post_user');
 
 Auth::routes();
 // OAuth login
@@ -68,6 +91,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::patch('/post/{post}/restoreTrash', 'PostController@restoreTrash')->name('post.restoreTrash');
     Route::get('/post/trash/sd', 'PostController@getTrashRecords')->name('post.trash');
     Route::get('/post/all-category', 'PostController@getAllCategory')->name('post.getAllCategory');
+
+    Route::get('/post/all-tag', 'PostController@getAllTag')->name('post.getAllTag');
 });
 Route::group(['middleware' => ['auth']], function () {
 

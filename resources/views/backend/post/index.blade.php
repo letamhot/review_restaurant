@@ -9,6 +9,8 @@
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/backend/modules/datatables/datatables.min.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/backend/modules/izitoast/css/iziToast.min.css')}}" />
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+
 
 
 @endpush
@@ -60,6 +62,7 @@
                             <tr>
                                 <th>User</th>
                                 <th>Category</th>
+                                <th>Tag</th>
                                 <th>Title</th>
                                 <th>Slug</th>
                                 <th>Cover_image</th>
@@ -99,10 +102,14 @@
 <script defer type="text/javascript" src="{{ asset('assets/backend/modules/izitoast/js/iziToast.min.js')}}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.4.0/bootbox.js"></script>
 <script src="https://cdn.ckeditor.com/4.14.0/standard/ckeditor.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
 <script>
-    CKEDITOR.replace( 'content' );
+    $(document).ready(function() {
+        $('#tag').select2({
+            placeholder: "Select tag"
+        });
+    });
 </script>
-
 <script>
     var imgURL = "{{ asset('posts/') }}";
 </script>

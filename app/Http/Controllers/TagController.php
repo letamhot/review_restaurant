@@ -45,7 +45,23 @@ class TagController extends Controller
     {
         return  $this->tagService->ajaxStore($request);
     }
+    public function showAllTag()
+    {
+        $tags = $this->tagService->getAll();
+        return view('front-end.landing-page', compact('tags'));
+    }
+    public function showAllTagAjax()
+    {
+        $tags = $this->tagService->getAll();
+        return response()->json($tags);
+    }
 
+
+    public function showdetailtag($id)
+    {
+        $tagdetail = $this->tagService->findById($id);
+        return view('front-end.tagdetail', compact('tagdetail'));
+    }
     /**
      * Display the specified resource.
      *

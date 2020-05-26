@@ -30,7 +30,7 @@ class UserController extends Controller
                 return $this->userService->getAll();
             }
 
-            return view($this->path.'index');
+            return view($this->path . 'index');
         } catch (\Exception $e) {
             return $this->errorExceptionMessage();
         }
@@ -65,7 +65,11 @@ class UserController extends Controller
     {
         // dataTables
     }
-
+    public function post_user($id)
+    {
+        $post_user = $this->userService->findById($id);
+        return view('front-end.post_user', compact('post_user'));
+    }
     /**
      * Show the form for editing the specified resource.
      *
