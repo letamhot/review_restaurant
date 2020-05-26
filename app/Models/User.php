@@ -2,18 +2,21 @@
 
 namespace App\Models;
 
-use Cog\Contracts\Love\Reacterable\Models\Reacterable as ReacterableContract;
-use Cog\Laravel\Love\Reacterable\Models\Traits\Reacterable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Overtrue\LaravelFavorite\Traits\Favoriter;
+use Overtrue\LaravelFollow\Followable;
+use Overtrue\LaravelLike\Traits\Liker;
 
-class User extends Authenticatable implements ReacterableContract
+class User extends Authenticatable
 {
+    use Liker;
+    use Favoriter;
     use Notifiable;
     use SoftDeletes;
-    use Reacterable;
+    use Followable;
 
     protected $dates = ['deleted_at'];
     protected $guarded = [];
@@ -87,5 +90,4 @@ class User extends Authenticatable implements ReacterableContract
             // 'admin'  => $user->role === 'Admin', // bool
         ];
     }
-
 }

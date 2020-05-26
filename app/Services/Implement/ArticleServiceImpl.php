@@ -14,7 +14,6 @@ class ArticleServiceImpl extends BaseServiceImpl implements ArticleService
     public function __construct(ReactionService $reactionService)
     {
         $this->reactionService = $reactionService;
-
     }
     /**
      * Certain model.
@@ -30,12 +29,18 @@ class ArticleServiceImpl extends BaseServiceImpl implements ArticleService
     {
         // get post instance
         $post = $this->makeRepo()->getDetail($id);
-        if (Auth::user()) {
+        $user = Auth::user();
+        if ($user) {
             // get total reaction of this post
             $totalReaction = $this->reactionService->getTotalReactionOneReactant($post);
 
-            $post->totalLike = $totalReaction['totalLike'];
-            $post->totalStar = $totalReaction['totalStar'];
+            $post->totalLike = $totalReaction['totalLikes'];
+            $post->totalStar = $totalReaction['totalFavorites'];
+
+            // can check through AJAX call isUserReacted() method
+            $user_reaction = $this->reactionService->isUserReacted($user, $post);
+            $post->isUserLiked = $user_reaction['isLiked'];
+            $post->isUserFavorited = $user_reaction['isFavorited'];
         }
         $allPostComment = \risul\LaravelLikeComment\Models\Comment::where('item_id', $post->id)->get()->count();
         $post->totalComment = $allPostComment;
@@ -43,8 +48,6 @@ class ArticleServiceImpl extends BaseServiceImpl implements ArticleService
         $post->author = implode('', $post->user()->pluck('name')->toArray()); // convert array to string
 
         return $post;
-
-        // return view('front-end.landingpage', compact('post'));
     }
 
     public function getRandomPost($number)
@@ -74,5 +77,4 @@ class ArticleServiceImpl extends BaseServiceImpl implements ArticleService
     {
         return app()->make($this->getModelRepository());
     }
-
 }

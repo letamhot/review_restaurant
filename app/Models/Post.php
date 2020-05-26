@@ -3,17 +3,19 @@
 namespace App\Models;
 
 use App\Traits\EloquentScope;
-use Cog\Contracts\Love\Reactable\Models\Reactable as ReactableContract;
-use Cog\Laravel\Love\Reactable\Models\Traits\Reactable;
+
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
+use Overtrue\LaravelFavorite\Traits\Favoriteable;
+use Overtrue\LaravelLike\Traits\Likeable;
 
-class Post extends Model implements ReactableContract
+class Post extends Model
 {
     use SoftDeletes;
-    use Reactable;
     use EloquentScope;
+    use Likeable;
+    use Favoriteable;
 
     protected $dates = ['deleted_at'];
 
@@ -83,5 +85,4 @@ class Post extends Model implements ReactableContract
             $this->attributes['is_approved'] = false;
         }
     }
-
 }

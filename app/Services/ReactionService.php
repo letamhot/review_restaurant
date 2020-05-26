@@ -4,24 +4,19 @@ namespace App\Services;
 
 use App\Models\Post;
 use App\Repositories\Implement\PostRepositoryImpl;
+use App\Repositories\PostRepository;
 use App\Repositories\TagRepository;
-use Cog\Laravel\Love\ReactionType\Models\ReactionType;
 use Illuminate\Support\Facades\Auth;
 
 class ReactionService
 {
     protected $postRepository;
     protected $tagRepository;
-    protected $reactionLikeType;
-    protected $reactionStarType;
-    protected $reactionFavoriteType;
-    public function __construct(PostRepositoryImpl $postRepository, TagRepository $tagRepository)
+
+    public function __construct(PostRepository $postRepository, TagRepository $tagRepository)
     {
         $this->tagRepository = $tagRepository;
         $this->postRepository = $postRepository;
-        $this->reactionLikeType = ReactionType::fromName('Like');
-        $this->reactionStarType = ReactionType::fromName('Star'); // bookmark
-        $this->reactionFavoriteType = ReactionType::fromName('Heart'); // follow Tag
     }
 
     /**
@@ -38,56 +33,28 @@ class ReactionService
             $user = Auth::user();
             $post = $this->postRepository->findById($request->postId);
 
-            $reactionType = ReactionType::fromName($request->reactionType);
-
-            $reacter = $user->getLoveReacter();
-            $reactant = $post->getLoveReactant();
-
-            if ($reacter->hasReactedTo($reactant, $reactionType)) {
-                $reacter->unreactTo($reactant, $reactionType);
+            if ($request->reactionType == 'like') {
+                if ($user->hasLiked($post)) {
+                    $user->toggleLike($post);
+                } else {
+                    $user->like($post);
+                }
             } else {
-                $reacter->reactTo($reactant, $reactionType);
+                if ($user->hasFavorited($post)) {
+                    $user->favorite($post);
+                } else {
+                    $user->toggleFavorite($post);
+                }
             }
 
             return response()->json([
                 'status' => [
-                    'like' => $reacter->hasReactedTo($reactant, $this->reactionLikeType),
-                    'star' => $reacter->hasReactedTo($reactant, $this->reactionStarType),
+                    'like' => $user->hasLiked($post),
+                    'favorite' => $user->hasFavorited($post),
                 ],
                 'totals' => [
-                    'likes' => $reactant->getReactionCounterOfType($this->reactionLikeType)->getCount(),
-                    'stars' => $reactant->getReactionCounterOfType($this->reactionStarType)->getCount(),
-                ],
-            ], 200);
-        } catch (\Exception $e) {
-            return $this->msgError($e->getMessage());
-        }
-    }
-
-    public function followTag($request)
-    {
-        try {
-            $user = Auth::user();
-            $tag = $this->tagRepository->findById($request->tagId);
-
-            $reactionType = ReactionType::fromName($request->reactionType);
-
-            $reacter = $user->getLoveReacter();
-            $reactant = $tag->getLoveReactant();
-
-            if ($reacter->hasReactedTo($reactant, $reactionType)) {
-                $reacter->unreactTo($reactant, $reactionType);
-            } else {
-                $reacter->reactTo($reactant, $reactionType);
-            }
-
-            return response()->json([
-                'status' => [
-                    'heart' => $reacter->hasReactedTo($reactant, $this->reactionFavoriteType),
-
-                ],
-                'totals' => [
-                    'hearts' => $reactant->getReactionCounterOfType($this->reactionFavoriteType)->getCount(),
+                    'likes' => $post->likes()->count(),
+                    'favorites' => $post->favorites()->count(),
                 ],
             ], 200);
         } catch (\Exception $e) {
@@ -101,13 +68,12 @@ class ReactionService
     public function getTotalReactionOneReactant($post)
     {
         try {
-            $reactant = $post->getLoveReactant();
-
             $totalReaction = [];
-            $totalReaction['totalLike'] = $reactant->getReactionCounterOfType($this->reactionLikeType)->getCount();
-            $totalReaction['totalStar'] = $reactant->getReactionCounterOfType($this->reactionStarType)->getCount();
-            return $totalReaction;
 
+            $totalReaction['totalLikes'] = $post->likers()->count();
+            $totalReaction['totalFavorites'] = $post->favoriters()->count();
+
+            return $totalReaction;
         } catch (\Exception $e) {
             return null;
         }
@@ -117,22 +83,41 @@ class ReactionService
      * Check auth user has reacted to certain model
      *
      */
-    public function isUserReacted($post)
+    public function isUserReacted($user, $post)
     {
         try {
-            $reactant = $post->getLoveReactant();
-            $reacter = Auth::user()->getLoveReacter();
             $reactionResult = [];
-            $reactionResult['isLiked'] = $reacter->hasReactedTo($reactant, $this->reactionLikeType);
-            $reactionResult['isStarred'] = $reacter->hasReactedTo($reactant, $this->reactionStarType);
+            $reactionResult['isLiked'] = $user->hasLiked($post);
+            $reactionResult['isFavorited'] = $user->hasFavorited($post);
 
             return $reactionResult;
-
         } catch (\Exception $e) {
             return null;
         }
     }
 
+    /**
+     * Get total favorite and favorite list
+     */
+    public function getUserFavoriteList($user)
+    {
+        try {
+            $favorites  = $user->favorites()->get();
+            $userFavoriteList = [];
+            $userFavoriteList['totalCount'] = $favorites->count();
+            $userFavoriteList['listAll'] = $favorites;
+
+            return $userFavoriteList;
+
+            // return response()->json($userFavoriteList, 200);
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
+    /**
+     * Message info to JSON
+     */
     protected function msgError($msg = null)
     {
         return response()->json([
