@@ -4,15 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use App\Services\ArticleService;
+
 use Illuminate\Support\Facades\Auth;
 
 class ArticleController extends Controller
 {
     protected $articleService;
 
+
     public function __construct(ArticleService $articleService)
     {
         $this->articleService = $articleService;
+
     }
 
     /**
@@ -22,7 +25,7 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        //
+
     }
 
     /**
@@ -59,5 +62,8 @@ class ArticleController extends Controller
         }
         return null;
     }
+
+
+
 
 }

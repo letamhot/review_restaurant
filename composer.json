@@ -10,6 +10,7 @@
     "require": {
         "php": "^7.2",
         "doctrine/dbal": "^2.10",
+        "edujugon/push-notification": "^4.3",
         "fideloper/proxy": "^4.0",
         "guzzlehttp/guzzle": "^6.5",
         "laravel/framework": "^6.2",
@@ -19,6 +20,7 @@
         "overtrue/laravel-favorite": "^2.0",
         "overtrue/laravel-follow": "^2.1",
         "overtrue/laravel-like": "^2.0",
+        "mckenziearts/laravel-notify": "^1.1",
         "risul/laravel-like-comment": "^2.0",
         "yajra/laravel-datatables-oracle": "^9.10",
         "yoeunes/toastr": "^1.2"

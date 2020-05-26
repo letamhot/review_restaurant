@@ -15,9 +15,8 @@
 
 Auth::routes([
     'register' => false,
-    'reset' => false]);
-]);
-
+    'reset' => false
+    ]);
 
 Route::get('/', function () {
     return view('front-end.landing-page');
@@ -63,6 +62,9 @@ Route::group(['middleware' => ['auth','can:isAdmin']], function () {
     Route::delete('/post/{post}/emptyTrash', 'PostController@emptyTrash')->name('post.emptyTrash');
     Route::patch('/post/{post}/restoreTrash', 'PostController@restoreTrash')->name('post.restoreTrash');
     Route::get('/post/trash/sd', 'PostController@getTrashRecords')->name('post.trash');
+    Route::get('/post/check-status', 'PostController@checkstatus')->name('post.checkstatus');
+    Route::get('/post/status', 'PostController@status')->name('post.status');
+    Route::post('/post/check/{id}', 'PostController@check')->name('post.check');
 });
 
 
@@ -79,4 +81,11 @@ Route::group(['middleware' => ['auth','can:isAdmin','can:isUser]], function () {
 
 Route::get('/api/category', 'CategoryController@Api_category')->name('api.category');
 Route::get('/post/showTag', 'PostController@showTag')->name('post.showTag');
+
+Route::resource('/article', 'ArticleController');
+Route::get('/show/{id}', 'ArticleController@show');
+
+Route::get('/listAll', 'ArticleController@index');
+
+
 

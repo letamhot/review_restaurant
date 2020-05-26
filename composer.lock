@@ -5,6 +5,7 @@
         "This file is @generated automatically"
     ],
     "content-hash": "7fd69cbe15e9ab9e6ff327f835a2a8ad",
+    "content-hash": "c10988f98532f6e4763af4a40df4110f",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -525,6 +526,68 @@
                 "schedule"
             ],
             "time": "2019-03-31T00:38:28+00:00"
+        },
+        {
+            "name": "edujugon/push-notification",
+            "version": "v4.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Edujugon/PushNotification.git",
+                "reference": "582afc20a6385852419fc6cbfda7e2c0021af64e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Edujugon/PushNotification/zipball/582afc20a6385852419fc6cbfda7e2c0021af64e",
+                "reference": "582afc20a6385852419fc6cbfda7e2c0021af64e",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^6.3",
+                "illuminate/notifications": "~5.8 || ^6.0 || ^7.0",
+                "illuminate/support": "~5.8 || ^6.0 || ^7.0",
+                "php": "^7.1.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^7.5 || ^8.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Edujugon\\PushNotification\\Providers\\PushNotificationServiceProvider"
+                    ],
+                    "aliases": {
+                        "PushNotification": "Edujugon\\PushNotification\\Facades\\PushNotification"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Edujugon\\PushNotification\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Eduardo Marcos",
+                    "email": "edujugon@gmail.com"
+                }
+            ],
+            "description": "Laravel Package to send push notifications to Android and IOS devices. (GCM,FCM,APN)",
+            "keywords": [
+                "FCM",
+                "apn",
+                "gcm",
+                "high",
+                "laravel",
+                "notification",
+                "priority",
+                "push"
+            ],
+            "time": "2020-03-07T07:24:28+00:00"
         },
         {
             "name": "egulias/email-validator",
@@ -1413,6 +1476,67 @@
             "time": "2016-08-17T00:36:58+00:00"
         },
         {
+            "name": "mckenziearts/laravel-notify",
+            "version": "v1.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mckenziearts/laravel-notify.git",
+                "reference": "aa66ae440f5b2b9a8aa35def9a9cafe498264d6f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mckenziearts/laravel-notify/zipball/aa66ae440f5b2b9a8aa35def9a9cafe498264d6f",
+                "reference": "aa66ae440f5b2b9a8aa35def9a9cafe498264d6f",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "~5.0|~6.0|~7.0",
+                "php": ">=7.1"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.0",
+                "phpunit/phpunit": "^8.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Mckenziearts\\Notify\\LaravelNotifyServiceProvider"
+                    ],
+                    "aliases": {
+                        "Notify": "Mckenziearts\\Notify\\Facades\\LaravelNotify"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Mckenziearts\\Notify\\": "src/"
+                },
+                "files": [
+                    "src/helpers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Arthur Monney",
+                    "email": "monneylobe@gmail.com",
+                    "homepage": "https://arthurmonney.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Flexible flash notifications for Laravel",
+            "homepage": "https://github.com/mckenziearts/laravel-notify",
+            "keywords": [
+                "laravel",
+                "laravel-notify"
+            ],
+            "time": "2020-02-22T00:53:36+00:00"
+        },
+        {
             "name": "monolog/monolog",
             "version": "2.1.0",
             "source": {
@@ -1880,6 +2004,7 @@
             ],
             "description": "👍 User-like features for Laravel Application.",
             "time": "2020-04-10T15:28:07+00:00"
+
         },
         {
             "name": "paragonie/random_compat",

@@ -51,6 +51,16 @@ class User extends Authenticatable
         return $this->hasMany(Post::class, 'user_id', 'id');
     }
 
+    public function messages()
+    {
+        return $this->hasMany(Messages::class);
+    }
+
+    public function following()
+    {
+        return $this->belongsToMany(User::class,'follower', 'user_id', 'following_id' );
+    }
+
     /**
      * Get the route key for the model instead of real ID.
      *
@@ -86,7 +96,6 @@ class User extends Authenticatable
             // 'admin'  => $user->role === 'Admin', // bool
         ];
     }
-
 
     public function routeNotificationForApn(){
     return $this->ios_push_token;
