@@ -16,6 +16,8 @@
 Auth::routes([
     'register' => false,
     'reset' => false]);
+]);
+
 
 Route::get('/', function () {
     return view('front-end.landing-page');
@@ -37,6 +39,7 @@ Route::patch('/category/{category}/restoreTrash', 'CategoryController@restoreTra
 Route::get('/category/trash/sd', 'CategoryController@getTrashRecords')->name('category.trash');
 // ADMIN - User CRUD
 Route::resource('/user', 'UserController');
+
 
 // ADMIN - Tag CRUD
 Route::resource('/tag', 'TagController');

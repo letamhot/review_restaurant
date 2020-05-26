@@ -21,6 +21,7 @@ class Tag extends Model implements ReactableContract
         'name', 'slug',
     ];
 
+
     public function post()
     {
         return $this->belongsToMany(Post::class)->withTimestamps();

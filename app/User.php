@@ -86,4 +86,9 @@ class User extends Authenticatable
             // 'admin'  => $user->role === 'Admin', // bool
         ];
     }
+
+
+    public function routeNotificationForApn(){
+    return $this->ios_push_token;
+    }
 }
