@@ -175,6 +175,8 @@ return [
         App\Providers\UserServiceProvider::class,
         // Post Provider
         App\Providers\PostServiceProvider::class,
+        // Message Provider
+        App\Providers\MessageServiceProvider::class,
         // Tag Provider
         App\Providers\TagServiceProvider::class,
         // Yajra DataTables
@@ -191,6 +193,10 @@ return [
 
         //Risul Like-comment
         risul\LaravelLikeComment\LikeCommentServiceProvider::class,
+        
+        //Motification
+        Mckenziearts\Notify\LaravelNotifyServiceProvider::class,
+
 
     ],
 

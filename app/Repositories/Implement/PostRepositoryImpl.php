@@ -55,17 +55,15 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
                 $post =  $this->getPost();
                 $post->user_id = $userID;
                 $post->category_id = $request->category_id;
-                // $post->tag_id = $request->tag;
 
                 $post->title = $title;
-                // using the mutator setSlugAttribute()
                 $post->slug = $title;
                 $post->cover_image = $imageName;
                 $post->content = $request->content;
-                if($request->is_approved == 'on')
-                {
+                if($userID == 1){
                     $post->is_approved = 1;
-                } else {    
+                }else
+                {
                     $post->is_approved = 0;
                 }
                 $post->save();
@@ -84,7 +82,6 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
     {
         try {
             $image = $request->cover_image;
-            // dd($image);
             $title = $request->title;
             if (isset($image)) {
                     // tạo tên file duy nhất ko trùng lặp
@@ -112,10 +109,10 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
             $post->user_id = $userID;
             $post->category_id = $request->category_id;
             $post->title = $title;
-            // using the mutator setSlugAttribute()
             $post->slug = $title;
             $post->cover_image = $imageName;
             $post->content = $request->content;
+          
             if($request->is_approved == 'on')
             {
                 $post->is_approved = 1;
@@ -174,24 +171,26 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
             return null;
         }
     }
-    public function getDate(){
+
+    public function status(){
         try {
-            $data = Post::whereDate("created_at", date("d"))->take(5);
+            $data = Post::where("is_approved", false)->orderBy('created_at', 'DESC')->get();
 
             return $data;
         } catch (\Exception $e) {
             return null;
         }
     }
+    public function check($request, $id)
+    {
+        $post = $this->getPost()::findOrFail($id);
+        $post->is_approved = 1;
+        $post->update();
+        return true;
 
-    public function getMonth(){
-        try {
-            $data = Post::whereMonth("created_at", date("m"))->take();
 
-            return $data;
-        } catch (\Exception $e) {
-            return null;
-        }
+
+
     }
 
 

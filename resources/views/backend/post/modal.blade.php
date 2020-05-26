@@ -46,8 +46,8 @@
                                 <textarea class="form-control" rows="5" id="content" name="content"
                                     placeholder="Content"></textarea>
                             </div>
-                            <div class="form-group custom-checkbox">
-                                <input type="checkbox" class="form-control-input checkbox" id="is_approved"
+                            <div class="form-group custom-checkbox" id="check" hidden>
+                                <input type="checkbox" class="form-control-input checkbox" id="is_approved" 
                                     name="is_approved">
                                 <label class="form-control-label" for="is_approved">Active</label>
                             </div>

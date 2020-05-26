@@ -209,7 +209,14 @@
                 </div>
             </ul>
         </aside>
-
+        {{-- <div class="card-body">
+            @foreach($messages as $message)
+                {{$message->body}}
+                <br>
+                <small>{{$message->created_at->format('d/m/Y')}}</small>
+                <hr>
+            @endforeach
+        </div> --}}
         <div class="main-content">
             <div class="tab-controllers" id="data-category">
 
@@ -516,6 +523,7 @@
             </div>
         </aside>
     </main>
+
     <script>
         var myIndex = 0;
             carousel();

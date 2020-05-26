@@ -27,12 +27,13 @@ class PostServiceImpl extends BaseServiceImpl implements PostService
     {
         return app()->make($this->getModelRepository())->getAllTag();
     }
-    public function getDate()
+
+    public function status()
     {
-        return app()->make($this->getModelRepository())->getDate();
+        return app()->make($this->getModelRepository())->status();
     }
-    public function getMonth()
+    public function check($request, $post)
     {
-        return app()->make($this->getModelRepository())->getMonth();
+        return app()->make($this->getModelRepository())->check($request, $post);
     }
 }
