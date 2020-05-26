@@ -17,7 +17,6 @@
 Auth::routes([
     'register' => false,
     'reset' => false]);
-    'reset' => false,
 ]);
 
 
@@ -51,12 +50,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::patch('/tags/{tag}/restoreTrash', 'TagController@restoreTrash')->name('tag.restoreTrash');
     Route::get('/tags/trash/sd', 'TagController@getTrashRecords')->name('tag.trash');
 });
-
-// ADMIN - Tag CRUD
-Route::resource('/tag', 'TagController');
-Route::delete('/tag/{tag}/emptyTrash', 'TagController@emptyTrash')->name('tag.emptyTrash');
-Route::patch('/tag/{tag}/restoreTrash', 'TagController@restoreTrash')->name('tag.restoreTrash');
-Route::get('/tag/trash/sd', 'TagController@getTrashRecords')->name('tag.trash');
 
 
 Route::group(['middleware' => ['auth']], function () {

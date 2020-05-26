@@ -78,9 +78,6 @@ class TagController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function show(Tag $tag)
-    {
-        //
     public function show(Tag $Tag)
     {
         // NOT DEFINE YET WHEN USING AJAX
@@ -123,15 +120,12 @@ class TagController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function update($id)
-    {
         // USING store() METHOD - createOrUpdate
 
-     * @return \Illuminate\Http\Response
+     /* @return \Illuminate\Http\Response
      */
     public function update(Request $request, Tag $Tag)
     {
-        // NOT AJAX
         $result = $this->tagService->update($request, $Tag);
 
         return $this->goTo($result);
@@ -187,33 +181,13 @@ class TagController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getTrashRecords()
-    {
-        try {
-            return $this->tagService->getAllOnlyTrashed();
-        } catch (\Exception $e) {
-            return $e->getMessage();
-        }
-    }
+    
 
     /**
      * Restore record from SoftDelete.
      *
      * @param mixed $id
      */
-    public function restoreTrash($id)
-    {
-        try {
-            $result = $this->tagService->restoreSoftDelete($id);
-            if ($result) {
-                return response()->json(['success' => 'Item restored successfully.']);
-            }
-
-            return response()->json($result);
-        } catch (\Exception $e) {
-            return response()->json($e->getMessage());
-        }
-    }
 
     /**
      * ForceDelete records which has been deleted by SoftDelete.
@@ -268,7 +242,7 @@ class TagController extends Controller
         }
     }
 
-     * True value - return index view
+     /* True value - return index view
      * False value - return previous page
      * Not for AJAX.
      *
@@ -282,26 +256,12 @@ class TagController extends Controller
             return redirect()->route($this->path.'index');
         }
         // Toastr::error('Something went wrong!', 'Error');
-
+    }
     /**
      * ForceDelete records which has been deleted by SoftDelete.
      *
      * @param mixed $id
      */
-    public function emptyTrash($id)
-    {
-        try {
-            $result = $this->tagService->permanentDestroySoftDeleted($id);
-
-            if ($result) {
-                return response()->json(['success' => 'Category permanently deleted successfully']);
-            }
-
-            return $this->errorFailMessage();
-        } catch (\Exception $e) {
-            return $this->errorMessage();
-        }
-    }
 
     /**
      * Display validation errors of request.

@@ -16,22 +16,11 @@ class Tag extends Model
         'name', 'slug',
     ];
 
-    public function posts()
-
-    public function getRouteKeyName()
-    {
-        return 'slug';
-    }
-
     /**
      * Set the proper slug attribute.
      *
      * @param string $value
      */
-    public function setSlugAttribute($value)
-    {
-        $this->attributes['slug'] = Str::slug($value);
-    }
     public function post()
     {
         return $this->belongsToMany(Post::class)->withTimestamps();
