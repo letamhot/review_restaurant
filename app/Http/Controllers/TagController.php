@@ -31,7 +31,7 @@ class TagController extends Controller
                 return $this->tagService->getAll();
             }
 
-            return view($this->path.'index');
+            return view($this->path . 'index');
         } catch (\Exception $e) {
             return $this->errorExceptionMessage();
             return $e->getMessage();
@@ -116,14 +116,10 @@ class TagController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      * @param \App\Models\Tag          $tag
-     * @param mixed                    $id
      *
      * @return \Illuminate\Http\Response
      */
-        // USING store() METHOD - createOrUpdate
 
-     /* @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Tag $Tag)
     {
         $result = $this->tagService->update($request, $Tag);
@@ -175,19 +171,6 @@ class TagController extends Controller
             return response()->json($e->getMessage());
         }
     }
-
-    /**
-     * Display a listing of the resource (Soft Delete).
-     *
-     * @return \Illuminate\Http\Response
-     */
-    
-
-    /**
-     * Restore record from SoftDelete.
-     *
-     * @param mixed $id
-     */
 
     /**
      * ForceDelete records which has been deleted by SoftDelete.
@@ -242,26 +225,22 @@ class TagController extends Controller
         }
     }
 
-     /* True value - return index view
-     * False value - return previous page
-     * Not for AJAX.
-     *
-     * @param bool $result
-     */
-    protected function goTo($result)
-    {
+/**
+ * True value - return index view
+ * False value - return previous page
+ * Not for AJAX.
+ *
+ * @param bool $result
+ */
+    function goto ($result) {
         if ($result) {
             // Toastr::success('Successfully! :)', 'Success');
 
-            return redirect()->route($this->path.'index');
+            return redirect()->route($this->path . 'index');
         }
         // Toastr::error('Something went wrong!', 'Error');
     }
-    /**
-     * ForceDelete records which has been deleted by SoftDelete.
-     *
-     * @param mixed $id
-     */
+
 
     /**
      * Display validation errors of request.

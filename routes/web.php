@@ -11,15 +11,12 @@
 |
  */
 
-
-
 // DISABLE REGISTER
+
 Auth::routes([
     'register' => false,
     'reset' => false]);
 ]);
-
-
 
 
 Route::get('/', function () {
@@ -31,7 +28,6 @@ Route::get('/page-detail', function () {
 });
 Route::get('/api/category', 'CategoryController@Api_category')->name('api.category');
 
-Auth::routes();
 // OAuth login
 Route::get('oauth/redirect/{driver}', 'SocialAuthController@redirect')->name('social.redirect');
 Route::get('oauth/callback/{driver}', 'SocialAuthController@callback')->name('social.callback');
@@ -43,14 +39,13 @@ Route::patch('/category/{category}/restoreTrash', 'CategoryController@restoreTra
 Route::get('/category/trash/sd', 'CategoryController@getTrashRecords')->name('category.trash');
 // ADMIN - User CRUD
 Route::resource('/user', 'UserController');
-// ADMIN - Tag CRUD
-Route::group(['middleware' => ['auth']], function () {
-    Route::resource('/tag', 'TagController');
-    Route::delete('/tags/{tag}/emptyTrash', 'TagController@emptyTrash')->name('tag.emptyTrash');
-    Route::patch('/tags/{tag}/restoreTrash', 'TagController@restoreTrash')->name('tag.restoreTrash');
-    Route::get('/tags/trash/sd', 'TagController@getTrashRecords')->name('tag.trash');
-});
 
+
+// ADMIN - Tag CRUD
+Route::resource('/tag', 'TagController');
+Route::delete('/tag/{tag}/emptyTrash', 'TagController@emptyTrash')->name('tag.emptyTrash');
+Route::patch('/tag/{tag}/restoreTrash', 'TagController@restoreTrash')->name('tag.restoreTrash');
+Route::get('/tag/trash/sd', 'TagController@getTrashRecords')->name('tag.trash');
 
 Route::group(['middleware' => ['auth']], function () {
     Route::resource('api/post', 'PostController');
@@ -75,7 +70,6 @@ Route::group(['middleware' => ['auth']], function () {
 
 
 
-
 });
 Route::group(['middleware' => ['auth']], function () {
 
@@ -85,3 +79,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/roles/trash/sd', 'RoleController@getTrashRecords')->name('role.trash');
 
 });
+
+Route::get('/show/{id}', 'ArticleController@show');
+
+Route::get('/listAll', 'ArticleController@index');

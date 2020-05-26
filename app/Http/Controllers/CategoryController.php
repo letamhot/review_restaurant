@@ -212,8 +212,7 @@ class CategoryController extends Controller
      *
      * @param bool $result
      */
-    protected function goTo($result)
-    {
+    function goto ($result) {
         if ($result) {
             // Toastr::success('Successfully! :)', 'Success');
 
