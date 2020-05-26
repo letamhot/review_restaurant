@@ -122,7 +122,6 @@ class TagController extends Controller
 
     public function update(Request $request, Tag $Tag)
     {
-        // NOT AJAX
         $result = $this->tagService->update($request, $Tag);
 
         return $this->goTo($result);
@@ -225,6 +224,7 @@ class TagController extends Controller
             return $this->errorExceptionMessage();
         }
     }
+
 /**
  * True value - return index view
  * False value - return previous page
@@ -240,6 +240,7 @@ class TagController extends Controller
         }
         // Toastr::error('Something went wrong!', 'Error');
     }
+
 
     /**
      * Display validation errors of request.

@@ -16,6 +16,8 @@
 Auth::routes([
     'register' => false,
     'reset' => false]);
+]);
+
 
 Route::get('/', function () {
     return view('front-end.landing-page');
@@ -24,7 +26,7 @@ Route::get('/', function () {
 Route::get('/page-detail', function () {
     return view('front-end.page_detail');
 });
-Route::get('/api/category', 'CategoryController@Api_category')->name('api.category');
+
 
 // OAuth login
 Route::get('oauth/redirect/{driver}', 'SocialAuthController@redirect')->name('social.redirect');
@@ -32,7 +34,7 @@ Route::get('oauth/callback/{driver}', 'SocialAuthController@callback')->name('so
 
 Route::group(['middleware' => ['auth','can:isAdmin']], function () {
     
-// ADMIN - Category CRUD
+    // ADMIN - Category CRUD
     Route::resource('/category', 'CategoryController');
     Route::delete('/category/{category}/emptyTrash', 'CategoryController@emptyTrash')->name('category.emptyTrash');
     Route::patch('/category/{category}/restoreTrash', 'CategoryController@restoreTrash')->name('category.restoreTrash');
@@ -45,31 +47,36 @@ Route::group(['middleware' => ['auth','can:isAdmin']], function () {
     Route::delete('/tag/{tag}/emptyTrash', 'TagController@emptyTrash')->name('tag.emptyTrash');
     Route::patch('/tag/{tag}/restoreTrash', 'TagController@restoreTrash')->name('tag.restoreTrash');
     Route::get('/tag/trash/sd', 'TagController@getTrashRecords')->name('tag.trash');
-});
-
-Route::group(['middleware' => ['auth']], function () {
-    Route::resource('api/post', 'PostController');
-
-    Route::get('/post', function () {
-        return view('backend.post.index');
-    });
-    Route::post('/post/add', 'PostController@store')->name('post.store');
-    Route::get('/post/show/{id}', 'PostController@show')->name('post.show');
-
-    Route::post('post/delete/{id}', 'PostController@destroy');
-    Route::get('post/get/{id}', 'PostController@edit');
-    Route::post('post/update/{id}', 'PostController@update');
-    Route::delete('/post/{post}/emptyTrash', 'PostController@emptyTrash')->name('post.emptyTrash');
-    Route::patch('/post/{post}/restoreTrash', 'PostController@restoreTrash')->name('post.restoreTrash');
-    Route::get('/post/trash/sd', 'PostController@getTrashRecords')->name('post.trash');
-    Route::get('/post/all-category', 'PostController@getAllCategory')->name('post.getAllCategory');
-
-    Route::get('/post/all-tag', 'PostController@getAllTag')->name('post.getAllTag');
-    Route::get('/post/showTag', 'PostController@showTag')->name('post.showTag');
-});
-Route::group(['middleware' => ['auth']], function () {
+  
+    // ADMIN - Role CRUD
     Route::resource('/role', 'RoleController');
     Route::delete('/roles/{role}/emptyTrash', 'RoleController@emptyTrash')->name('role.emptyTrash');
     Route::patch('/roles/{role}/restoreTrash', 'RoleController@restoreTrash')->name('role.restoreTrash');
     Route::get('/roles/trash/sd', 'RoleController@getTrashRecords')->name('role.trash');
+  
+    // ADMIN - Post CRUD
+    Route::get('/post', function () {
+        return view('backend.post.index');
+    });
+    Route::resource('api/post', 'PostController');
+    Route::post('post/delete/{id}', 'PostController@destroy');
+    Route::delete('/post/{post}/emptyTrash', 'PostController@emptyTrash')->name('post.emptyTrash');
+    Route::patch('/post/{post}/restoreTrash', 'PostController@restoreTrash')->name('post.restoreTrash');
+    Route::get('/post/trash/sd', 'PostController@getTrashRecords')->name('post.trash');
 });
+
+
+Route::group(['middleware' => ['auth','can:isAdmin','can:isUser]], function () {
+   
+    Route::post('/post/add', 'PostController@store')->name('post.store');
+    Route::get('/post/show/{id}', 'PostController@show')->name('post.show');
+    Route::get('post/get/{id}', 'PostController@edit');
+    Route::post('post/update/{id}', 'PostController@update');
+    Route::get('/post/all-category', 'PostController@getAllCategory')->name('post.getAllCategory');
+    Route::get('/post/all-tag', 'PostController@getAllTag')->name('post.getAllTag');
+
+});
+
+Route::get('/api/category', 'CategoryController@Api_category')->name('api.category');
+Route::get('/post/showTag', 'PostController@showTag')->name('post.showTag');
+
