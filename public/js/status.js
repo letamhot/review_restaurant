@@ -1,13 +1,13 @@
-var post = post || {}
-post.drawTrash = function() {
+var check = check || {}
+check.drawCheck = function() {
     $.ajax({
         type: 'GET',
-        url: '/post/trash/sd',
+        url: '/post/status',
         success: function(res) {
-            $('#post').text('Post Trashed');
+            $('#post').text('Post Status Check');
             $('#create').hide();
             $('#trash').hide();
-            $('#list').show();
+            $('#list').hide();
 
             $('#reloadtbody').empty();
             $.each(res, function(index, value) {
@@ -23,27 +23,20 @@ post.drawTrash = function() {
                             <td>${value.created_at}</td>
                             <td>${value.updated_at}</td>
                             <td>
-                                <a id="show" href="javascript:;" class="btn btn-primary" onclick="post.show(${value.id})"><i class="fa fa-eye"
-                                        aria-hidden="true"></i></a>
-                                <a href="javascript:;" class="btn btn-primary" onclick="post.restore(${value.id})"><i
-                                        class="fa fa-window-restore"></i></a>
-                                <a href="javascript:;" class="btn btn-danger" onclick="post.delete(${value.id})"><i class="fa fa-trash"></i></a>
-
+                                <a id="show" href="javascript:;" class = "btn btn-primary" onclick="check.show(${value.id})"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                <a id="check" href="javascript:;" class = "btn btn-primary" onclick="check.check(${value.id})"><i class="fa fa-edit" aria-hidden="true"></i></a>
                             </td>
                         </tr>
-
                     `
-                );
+                )
             });
             $('#tbUser').DataTable();
         }
     });
 }
-post.showTrash = function() {
-    post.drawTrash();
-}
 
-post.show = function(id) {
+
+check.show = function(id) {
     $.ajax({
         type: 'GET',
         url: '/post/show/' + id,
@@ -58,40 +51,11 @@ post.show = function(id) {
         }
     });
 }
-post.restore = function(id) {
-    bootbox.confirm({
-        title: "Destroy planet?",
-        message: "Do you want to activate the Deathstar now? This cannot be undone.",
-        buttons: {
-            cancel: {
-                label: '<i class="fa fa-times"></i> Cancel'
-            },
-            confirm: {
-                label: '<i class="fa fa-check"></i> Restore'
-            }
-        },
-        callback: function(result) {
-            if (result) {
-                $.ajax({
-                    url: "/post/" + id + "/restoreTrash",
-                    method: 'PATCH',
-                    dataType: 'json',
-                    contentType: 'application/json',
-                    success: function(res) {
-                        $.msgNotification("success", "Restore successfully");
 
-                        post.drawTrash();
-                    }
-                })
-            }
-        }
-    })
-};
-
-post.delete = function(id) {
+check.check = function(id) {
     bootbox.confirm({
         title: 'Remove post?',
-        message: 'Do you want to remove the post now',
+        message: 'Do you want to check status the post now',
         buttons: {
             cancel: {
                 label: '<i class="fa fa-times"></i> No'
@@ -103,22 +67,36 @@ post.delete = function(id) {
         callback: function(result) {
             if (result) {
                 $.ajax({
-                    url: "/post/" + id + "/emptyTrash",
-                    method: 'DELETE',
+                    url: '/post/check/' + id,
+                    method: 'POST',
                     dataType: 'json',
                     contentType: 'application/json',
                     success: function(res) {
-                        $.msgNotification("success", "Remove successfully");
+                        $.msgNotification("success", "Check successfully");
 
-                        post.drawTrash();
+                        check.drawCheck();
                     }
-                })
+                });
             }
         }
-    })
-};
+    });
+}
+
+
+
+
+
+
+
+
+
+
+check.init = function() {
+    check.drawCheck();
+}
 
 $(document).ready(function() {
+    check.init();
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
