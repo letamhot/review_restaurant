@@ -4,25 +4,31 @@ namespace App\Http\Controllers;
 
 use App\Services\ReactionService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ReactionController extends Controller
 {
-
     protected $reactionService;
 
-    public function __construct(ReactionService $reactService)
+    public function __construct(ReactionService $reactionService)
     {
-        $this->reactService = $reactService;
+        $this->reactionService = $reactionService;
     }
 
+    /**
+     * React as Like or Favorite
+     */
     public function react(Request $request)
     {
         return $this->reactionService->react($request);
     }
 
-    public function followTag(Request $request)
+    /**
+     * get bookmark list of current auth user
+     */
+    public function getUserFavoriteList()
     {
-        return $this->reactionService->followTag($request);
+        $user = Auth::user();
+        return $this->reactionService->getUserFavoriteList($user);
     }
-
 }
