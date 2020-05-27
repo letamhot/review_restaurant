@@ -6,12 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-
+use Overtrue\LaravelFavorite\Traits\Favoriter;
+use Overtrue\LaravelFollow\Followable;
+use Overtrue\LaravelLike\Traits\Liker;
 
 class User extends Authenticatable
 {
+    use Liker;
+    use Favoriter;
     use Notifiable;
     use SoftDeletes;
+    use Followable;
 
     protected $dates = ['deleted_at'];
     protected $guarded = [];
@@ -73,17 +78,16 @@ class User extends Authenticatable
         return ucfirst($value);
     }
 
-    
     public static function getAuthor($id)
     {
         $user = self::find($id);
         return [
-            'id'     => $user->id,
-            'name'   => $user->name,
-            'email'  => $user->email,
-            'url'    => '',  // Optional
-            'avatar' => 'gravatar',  // Default avatar
-            'admin'  => $user->role === 'Admin', // bool
+            'id' => $user->id,
+            'name' => $user->name,
+            'email' => $user->email,
+            'url' => '', // Optional
+            'avatar' => 'gravatar', // Default avatar
+            // 'admin'  => $user->role === 'Admin', // bool
         ];
     }
 }

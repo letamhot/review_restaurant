@@ -21,10 +21,10 @@
                 Đăng bài
             </a>
             @endif
-            <a href="javascript:;" class="linh-nav-icon-button"><i title="Thông báo" style="color:rebeccapurple;"
+            {{--  <a href="javascript:;" class="linh-nav-icon-button"><i title="Thông báo" style="color:rebeccapurple;"
                     class="fa fa-bell-o" aria-hidden="true"></i></a>
             <a href="javascript:;" class="linh-nav-icon-button"><i class="fa fa-bell-o" aria-hidden="true"></i></a>
-            <a href="javascript:;" class="linh-nav-icon-button"><i class="fa fa-bell-o" aria-hidden="true"></i></a>
+            <a href="javascript:;" class="linh-nav-icon-button"><i class="fa fa-bell-o" aria-hidden="true"></i></a>  --}}
         </div>
     </nav>
 </header>

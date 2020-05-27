@@ -15,6 +15,7 @@
     <!-- General CSS Files -->
     <link rel="stylesheet" href="{{ asset('assets/backend/modules/bootstrap/css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{ asset('assets/backend/modules/fontawesome/css/all.min.css')}}">
+  
 
     <!-- CSS for specific page -->
     @stack('css')
@@ -95,12 +96,16 @@
     <script src="{{ asset('assets/backend/js/stisla.js') }}"></script>
     <!-- Template JS File -->
     <script src="{{ asset('assets/backend/js/scripts.js') }}"></script>
+  
     @endif
 
     <!-- Custom JS File -->
     @stack('js')
     @stack('js-post')
+    @stack('js-posts')
+
     @stack('js-role')
+    @stack('js-tag') 
 </body>
 
 </html>

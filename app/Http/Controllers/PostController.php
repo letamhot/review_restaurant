@@ -28,17 +28,20 @@ class PostController extends Controller
     public function index()
     {
         $posts = $this->postService->getAll();
+
         // $post = Post::find()->tag();
         // $atri = Post_Tag::all();
         // foreach($posts as $a){
         //     $a['tag_name'] = $a->tag()->pluck('name')->toArray();
         // }l
 
+
         foreach ($posts as $key => $post) {
             $posts[$key]['name'] = User::find($post['user_id'])->name;
-            // $post['category_name'] = Category::find($post['category_id'])->name;
             $posts[$key]['category_name'] = $post->category->name;
+
             $posts[$key]['tag_name'] = $post->tag;
+            $posts[$key]['tag_name'] = implode(', ', $post->tag()->pluck('name')->toArray());
         }
 
         return response()->json($posts);
@@ -202,7 +205,28 @@ class PostController extends Controller
             return $this->errorMessage();
         }
     }
-
+    public function checkstatus()
+    {
+        return view('backend.post.inactive');
+    }
+    public function status()
+    {
+        $posts = $this->postService->status();
+        if ($posts) {
+            foreach ($posts as $key => $post) {
+                $posts[$key]['name'] = User::find($post['user_id'])->name;
+                $posts[$key]['category_name'] = $post->category->name;
+                $posts[$key]['tag_name'] = implode(', ', $post->tag()->pluck('name')->toArray());
+            }
+        }
+        // dd($posts);
+        return response()->json($posts, 200);
+    }
+    public function check(Request $request, $id)
+    {
+        $posts = $this->postService->check($request, $id);
+        return response()->json($posts, 200);
+    }
     protected function errorValidateMessage()
     {
         return response()->json(['errors' => PostRequest::errors()->all()]);
@@ -234,5 +258,15 @@ class PostController extends Controller
         ];
 
         return response()->json($msg);
+    }
+    public function showNewsOfMonth()
+    {
+        $newsmonth = Post::whereMonth('created_at', '=', Carbon::now()->month)->get();
+        return view('front-end.landing-page', compact('newsmonth'));
+    }
+    public function alllatestnews()
+    {
+        $alllatestnew = Post::whereMonth('created_at', '=', Carbon::now()->month)->get();
+        return view('front-end.latest-news', compact('alllatestnew'));
     }
 }

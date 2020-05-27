@@ -601,7 +601,7 @@ main {
     color: #444;
 }
 
-.test{
+.test div{
     display:none;
     padding: 10px;
     border-width: 0 1px 1px 0;
@@ -638,3 +638,16 @@ main {
     background-color: #fff;
     color: #33739E;
 }
+/* .avatar {
+width: 50px;
+height: 50px;
+border-radius: 50%;
+} */
+/* .date{
+    font-size: x-small;
+}
+div.text{
+border: #444;
+width: 100%;
+
+} */

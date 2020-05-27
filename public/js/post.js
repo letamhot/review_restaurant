@@ -101,6 +101,7 @@ post.getDetail = function(id) {
         type: 'GET',
         url: '/post/get/' + id,
         success: function(data) {
+            $('#check').prop("hidden", false);
             console.log(data);
             $('#title').val(data.title);
             $.get("/post/all-category", function(categories) {

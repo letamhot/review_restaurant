@@ -2,13 +2,20 @@
 
 namespace App\Models;
 
+use App\Traits\EloquentScope;
+
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
+use Overtrue\LaravelFavorite\Traits\Favoriteable;
+use Overtrue\LaravelLike\Traits\Likeable;
 
 class Post extends Model
 {
     use SoftDeletes;
+    use EloquentScope;
+    use Likeable;
+    use Favoriteable;
 
     protected $dates = ['deleted_at'];
 
@@ -35,29 +42,18 @@ class Post extends Model
     }
 
     /**
-     * Eloquent Query Scopes
-     *  approved().
-     *
-     * @param mixed $query
-     */
-    public function scopeApproved($query)
-    {
-        return $query->where('is_approved', 1);
-    }
-
-    /**
-     * Eloquent Query Scopes
-     *  lastDays().
+     * Eloquent Query Scopes get X days before
+     * For example lastDays($number).
      *
      * @param mixed $query
      * @param mixed $number
      */
-    public function scopeLastDays($query, $number)
-    {
-        $dates = \Carbon\Carbon::today()->subDays($number);
+    // public function scopeLastDays($query, $number)
+    // {
+    //     $dates = \Carbon\Carbon::today()->subDays($number);
 
-        return $query->where('created_at', '>=', $dates);
-    }
+    //     return $query->where('created_at', '>=', $dates);
+    // }
 
     /**
      * Get the route key for the model.

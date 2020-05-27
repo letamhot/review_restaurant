@@ -40,7 +40,7 @@
                     </a>
                 </li>
                 @else
-                <a href="/login" class="tweet-item__title">
+                <a href="/post" class="tweet-item__title">
                     <div class="tweet-item__bulletsizebar">
                         <i class="fa fa-area-chart fa-2x" style="color: green" aria-hidden="true"></i>
                     </div>
@@ -86,7 +86,14 @@
                 </div>
             </ul>
         </aside>
-
+        {{-- <div class="card-body">
+            @foreach($messages as $message)
+                {{$message->body}}
+        <br>
+        <small>{{$message->created_at->format('d/m/Y')}}</small>
+        <hr>
+        @endforeach
+        </div> --}}
         <div class="main-content">
             <div class="tab-controllers" id="data-category">
                 {{-- phần các nút category --}}
@@ -125,20 +132,19 @@
 
         <aside class="right-side">
             <div class="hot-tweet-list">
-                <a style="text-decoration: none; color: brown; text-align: justify " href=""><i style="color: brown"
-                        class="fa fa-hand-o-right fa-3x" aria-hidden="true"></i>Xem
+                <a href="/alllatestnews" style="text-decoration: none; color: brown; text-align: justify " href=""><i
+                        style="color: brown" class="fa fa-hand-o-right fa-3x" aria-hidden="true"></i>Xem
                     Tất
                     Cả Tin Mới Nhất</a>
-                <h5></h5>
                 <h5 class="hot-tweet-list__title"><span class="newsicon">News</span> Mới Nhất Trong Ngày </h5>
 
                 <ul>
+                    @foreach ($newsday as $day)
                     <li>
-                        <a href="" class="tweet-item__title">
+                        <a href="{{ route('showpostdetail', ['id' => $day->id ]) }}" class="tweet-item__title">
                             <div class="tweet-item__bullet"></div>
                             <div class="tweet-item__content">
-                                <span>Can you see your desktop home
-                                    screen</span>
+                                <span>{{$day->title}}</span>
                                 <div>
                                     <i class="fa fa-bell-o" aria-hidden="true"></i>
 
@@ -147,47 +153,21 @@
                             </div>
                         </a>
                     </li>
-                    <li>
-                        <a href="" class="tweet-item__title">
-                            <div class="tweet-item__bullet"></div>
-                            <div class="tweet-item__content">
-                                <span>Can you see your desktop home
-                                    screen</span>
-                                <div>
-                                    <i class="fa fa-bell-o" aria-hidden="true"></i>
+                    @endforeach
 
-                                    <span class="tweet-item__count">359</span>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="" class="tweet-item__title">
-                            <div class="tweet-item__bullet"></div>
-                            <div class="tweet-item__content">
-                                <span>Can you see your desktop home
-                                    screen</span>
-                                <div>
-                                    <i class="fa fa-bell-o" aria-hidden="true"></i>
-
-                                    <span class="tweet-item__count">359</span>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
                 </ul>
             </div>
 
             <div class="hot-tweet-list">
-                <h5 class="hot-tweet-list__title">Mới Nhất Tuần</h5>
+                <h5 class="hot-tweet-list__title">Mới nhất Tuần</h5>
 
                 <ul>
+                    @foreach ($newsmonth as $week)
                     <li>
-                        <a href="" class="tweet-item__title">
+                        <a href="{{ route('showpostdetail', ['id' => $week->id ]) }}" class="tweet-item__title">
                             <div class="tweet-item__bullet"></div>
                             <div class="tweet-item__content">
-                                <span>Can you see your desktop home
-                                    screen</span>
+                                <span>{{ $week->title }}</span>
                                 <div>
                                     <i class="fa fa-bell-o" aria-hidden="true"></i>
 
@@ -196,34 +176,8 @@
                             </div>
                         </a>
                     </li>
-                    <li>
-                        <a href="" class="tweet-item__title">
-                            <div class="tweet-item__bullet"></div>
-                            <div class="tweet-item__content">
-                                <span>Can you see your desktop home
-                                    screen</span>
-                                <div>
-                                    <i class="fa fa-bell-o" aria-hidden="true"></i>
+                    @endforeach
 
-                                    <span class="tweet-item__count">359</span>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="" class="tweet-item__title">
-                            <div class="tweet-item__bullet"></div>
-                            <div class="tweet-item__content">
-                                <span>Can you see your desktop home
-                                    screen</span>
-                                <div>
-                                    <i class="fa fa-bell-o" aria-hidden="true"></i>
-
-                                    <span class="tweet-item__count">359</span>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
                 </ul>
             </div>
 
@@ -231,12 +185,12 @@
                 <h5 class="hot-tweet-list__title">Mới Nhất Tháng</h5>
 
                 <ul>
+                    @foreach ($newsmonth as $month)
                     <li>
-                        <a href="" class="tweet-item__title">
+                        <a href="{{ route('showpostdetail', ['id' => $month->id ]) }}" class="tweet-item__title">
                             <div class="tweet-item__bullet"></div>
                             <div class="tweet-item__content">
-                                <span>Can you see your desktop home
-                                    screen</span>
+                                <span>{{$month->title }}</span>
                                 <div>
                                     <i class="fa fa-bell-o" aria-hidden="true"></i>
 
@@ -245,38 +199,14 @@
                             </div>
                         </a>
                     </li>
-                    <li>
-                        <a href="" class="tweet-item__title">
-                            <div class="tweet-item__bullet"></div>
-                            <div class="tweet-item__content">
-                                <span>Can you see your desktop home
-                                    screen</span>
-                                <div>
-                                    <i class="fa fa-bell-o" aria-hidden="true"></i>
+                    @endforeach
 
-                                    <span class="tweet-item__count">359</span>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="" class="tweet-item__title">
-                            <div class="tweet-item__bullet"></div>
-                            <div class="tweet-item__content">
-                                <span>Can you see your desktop home
-                                    screen</span>
-                                <div>
-                                    <i class="fa fa-bell-o" aria-hidden="true"></i>
 
-                                    <span class="tweet-item__count">359</span>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
                 </ul>
             </div>
         </aside>
     </main>
+
     <script>
         var myIndex = 0;
             carousel();
@@ -351,23 +281,12 @@
                             <img
                               style="width:100%; height: 350px"  src="/posts/${value.cover_image}">
                         </div>
-                        <a href="/post_web/${value.id}" class="tweet-card__title">${value.title}</a>
-                        </div>
-                        <div class="tweet-card__actions-container">
-
-                            <div>
-                                <button class="linh-button button-md">
-                                    <i class="fa fa-bell-o" aria-hidden="true"></i>
-                                    5947 reactions
-                                </button>
-                                <button class="linh-button button-md">
-                                    <i class="fa fa-bell-o" aria-hidden="true"></i>
-                                    175 comments
-                                </button>
-                            </div>
+                        <h2>
+                        <a href="/post_web/${value.id}" class="tweet-card__title">${value.title}</a></h2>
                         </div>
                     </div>
                 </div>
+                <hr>
                             `
                         )
                     });

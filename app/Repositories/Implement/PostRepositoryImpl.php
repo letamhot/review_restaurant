@@ -13,7 +13,6 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
 
-
 // use Illuminate\Http\Request;
 class PostRepositoryImpl extends EloquentRepository implements PostRepository
 {
@@ -29,7 +28,6 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
 
     public function create($request)
     {
-
         try {
             $image =  $request->file('cover_image');
             // dd($image);
@@ -55,14 +53,12 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
             $post =  $this->getPost();
             $post->user_id = $userID;
             $post->category_id = $request->category_id;
-            // $post->tag_id = $request->tag;
 
             $post->title = $title;
-            // using the mutator setSlugAttribute()
             $post->slug = $title;
             $post->cover_image = $imageName;
             $post->content = $request->content;
-            if ($request->is_approved == 'on') {
+            if ($userID == 1) {
                 $post->is_approved = 1;
             } else {
                 $post->is_approved = 0;
@@ -83,7 +79,6 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
     {
         try {
             $image = $request->cover_image;
-            // dd($image);
             $title = $request->title;
             if (isset($image)) {
                 // tạo tên file duy nhất ko trùng lặp
@@ -111,10 +106,10 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
             $post->user_id = $userID;
             $post->category_id = $request->category_id;
             $post->title = $title;
-            // using the mutator setSlugAttribute()
             $post->slug = $title;
             $post->cover_image = $imageName;
             $post->content = $request->content;
+
             if ($request->is_approved == 'on') {
                 $post->is_approved = 1;
             } else {
@@ -173,6 +168,24 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
         } catch (\Exception $e) {
             return null;
         }
+    }
+
+    public function status()
+    {
+        try {
+            $data = Post::where("is_approved", false)->orderBy('created_at', 'DESC')->get();
+
+            return $data;
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+    public function check($request, $id)
+    {
+        $post = $this->getPost()::findOrFail($id);
+        $post->is_approved = 1;
+        $post->update();
+        return true;
     }
 
 
