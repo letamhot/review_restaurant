@@ -37,8 +37,6 @@
         <div class="card-body">
             <div class="mb-3 float-left">
                 <a id="list" href="javascript:;" class="btn btn-primary btn-icon icon-left" onclick="post.init();"><i class="fas fa-chevron-left"></i>Back</a>
-                <a href="javascript:;" id="create" class="btn btn-success" onclick="post.showModal();"
-                    data-toggle="modal" data-target="#addpostmodal"><i class="fa fa-plus"></i> Create</a>
             </div>
             <div class="mb-3 float-right">
                 <a id="trash" href="javascript:;" class="btn btn-info" onclick="post.showTrash();"
@@ -115,4 +113,6 @@
     var imgURL = "{{ asset('posts/') }}";
 </script>
 <script src="{{ asset('js/user_post.js') }}"></script>
+<script src="{{ asset('js/test.js') }}"></script>
+
 @endpush
