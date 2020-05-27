@@ -67,6 +67,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/post/showTag', 'PostController@showTag')->name('post.showTag');
     Route::get('/post/status', 'PostController@status')->name('post.status');
     Route::post('/post/check/{id}', 'PostController@check')->name('post.check');
+    Route::get('/post/user-post', 'PostController@user_post')->name('post.user-post');
+
+    Route::get('/post/postuser', 'PostController@postuser')->name('post.postuser');
+
 
 
 

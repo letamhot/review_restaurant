@@ -207,6 +207,27 @@ class PostController extends Controller
         // dd($posts);
         return response()->json( $posts, 200);
     }
+
+    public function user_post()
+    {
+        return view('backend.post.postUser');
+    }
+    public function postuser()
+    {
+        $posts = $this->postService->user_post();
+        if ($posts){
+            foreach ($posts as $key => $post) {
+                $posts[$key]['name'] = User::find($post['user_id'])->name;
+                $posts[$key]['category_name'] = $post->category->name;
+                $posts[$key]['tag_name'] = implode(', ',$post->tag()->pluck('name')->toArray());
+
+    
+            }
+        }
+        // dd($posts);
+        return response()->json( $posts, 200);
+    }
+
     public function check(Request $request, $id)
     {
         $posts = $this->postService->check($request, $id);
