@@ -36,31 +36,6 @@ post.drawData = function() {
         }
     });
 }
-$('#addform').on('submit', function(e) {
-    e.preventDefault();
-    if ($('#addform').valid()) {
-        if ($('#postid').val() == 0) {
-
-            // console.log('aa');
-            $.ajax({
-                type: 'POST',
-                url: '/post/add',
-                data: new FormData(this),
-                cache: false,
-                contentType: false,
-                processData: false,
-                dataType: "json",
-                success: function(data) {
-                    $('#addpostmodal').modal('hide')
-                    $.msgNotification("success", "Created successfully");
-
-                    post.drawData();
-                }
-            });
-        }
-    }
-
-});
 
 post.show = function(id) {
     $.ajax({
@@ -195,36 +170,6 @@ $('#addform').on('submit', function(e) {
     }
 });
 
-
-post.resetForm = function() {
-    $('#title').val('');
-    $('#coverimage').prop('');
-    $('#content').val('');
-    $('#is_approved').prop('');
-    $('#postid').val('0')
-    $('#addpostmodal').find('#exampleModalScrollableTitle').text('Create New Post');
-    $('.modal-footer').find('#submit').text('Create');
-    var form = $('#addform').validate({
-        ignore: [],
-        debug: false,
-        rules: {
-            title: {
-                required: true,
-                minlength: 2,
-                maxlength: 50,
-            },
-        },
-        messages: {
-            title: {
-                required: "Please enter a name",
-                minlength: "Please enter at least 2 characters.",
-                maxlength: "Please enter no more than 50 characters.",
-            },
-        },
-    });
-
-    form.resetForm();
-}
 
 
 post.remove = function(id) {
