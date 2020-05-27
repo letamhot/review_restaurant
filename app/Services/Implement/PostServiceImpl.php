@@ -15,7 +15,6 @@ class PostServiceImpl extends BaseServiceImpl implements PostService
     public function getModelRepository()
     {
         return PostRepository::class;
-
     }
 
     public function getAllCategory()
@@ -27,6 +26,7 @@ class PostServiceImpl extends BaseServiceImpl implements PostService
     {
         return app()->make($this->getModelRepository())->getAllTag();
     }
+
     public function user_post()
     {
         return app()->make($this->getModelRepository())->user_post();

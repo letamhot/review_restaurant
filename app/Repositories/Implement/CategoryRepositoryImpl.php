@@ -96,9 +96,9 @@ class CategoryRepositoryImpl extends EloquentRepository implements CategoryRepos
     public function destroy($object)
     {
         try {
-            if ('other' == $object->name) {
-                return false;
-            }
+            // if ('other' == $object->name) {
+            //     return false;
+            // }
             // find category has name 'Other'
             $defaultCategory = $this->getCategory()->whereName('other')->firstOrFail();
             // set new category_id for related post before delete

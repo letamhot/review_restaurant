@@ -29,9 +29,11 @@ class ReactionService
      */
     public function react($request)
     {
+
         try {
             $user = Auth::user();
             $post = $this->postRepository->findById($request->postId);
+            $result = [];
 
             if ($request->reactionType == 'like') {
                 if ($user->hasLiked($post)) {
@@ -39,24 +41,33 @@ class ReactionService
                 } else {
                     $user->like($post);
                 }
-            } else {
+                $result = [
+                    'type' => 'like',
+                    'status' => [
+                        'like' => $user->hasLiked($post),
+                    ],
+                    'totals' => [
+                        'likes' => $post->likes()->count(),
+                    ],
+                ];
+            } else if ($request->reactionType == 'star') {
                 if ($user->hasFavorited($post)) {
-                    $user->favorite($post);
-                } else {
                     $user->toggleFavorite($post);
+                } else {
+                    $user->favorite($post);
                 }
+                $result = [
+                    'type' => 'favorite',
+                    'status' => [
+                        'favorite' => $user->hasFavorited($post),
+                    ],
+                    'totals' => [
+                        'favorites' => $post->favorites()->count(),
+                    ],
+                ];
             }
 
-            return response()->json([
-                'status' => [
-                    'like' => $user->hasLiked($post),
-                    'favorite' => $user->hasFavorited($post),
-                ],
-                'totals' => [
-                    'likes' => $post->likes()->count(),
-                    'favorites' => $post->favorites()->count(),
-                ],
-            ], 200);
+            return response()->json($result, 200);
         } catch (\Exception $e) {
             return $this->msgError($e->getMessage());
         }
