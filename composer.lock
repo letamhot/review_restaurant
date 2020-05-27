@@ -4,8 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7fd69cbe15e9ab9e6ff327f835a2a8ad",
-    "content-hash": "c10988f98532f6e4763af4a40df4110f",
+    "content-hash": "7d50f2257685b4eacbdadba886450e03",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -892,16 +891,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v6.18.15",
+            "version": "v6.18.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "a1fa3ddc0bb5285cafa6844b443633f7627d75dc"
+                "reference": "73f18a6bc58fb91aa83925161db25aa3674b73e9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/a1fa3ddc0bb5285cafa6844b443633f7627d75dc",
-                "reference": "a1fa3ddc0bb5285cafa6844b443633f7627d75dc",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/73f18a6bc58fb91aa83925161db25aa3674b73e9",
+                "reference": "73f18a6bc58fb91aa83925161db25aa3674b73e9",
                 "shasum": ""
             },
             "require": {
@@ -1035,7 +1034,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2020-05-19T17:03:02+00:00"
+            "time": "2020-05-26T14:31:44+00:00"
         },
         {
             "name": "laravel/socialite",
@@ -2004,7 +2003,6 @@
             ],
             "description": "👍 User-like features for Laravel Application.",
             "time": "2020-04-10T15:28:07+00:00"
-
         },
         {
             "name": "paragonie/random_compat",

@@ -8,7 +8,6 @@
     <title>Review Nhà Hàng</title>
 
     <link rel="stylesheet" href="{{asset('assets/style.css')}}" />
-    @notifyCss
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.2/components/icon.min.css" rel="stylesheet">

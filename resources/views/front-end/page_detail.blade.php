@@ -1,5 +1,11 @@
 @extends('front-end.layout.web')
-
+@push('detail-css')
+<link href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.2/components/icon.min.css" rel="stylesheet">
+<link href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.2/components/comment.min.css" rel="stylesheet">
+<link href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.2/components/form.min.css" rel="stylesheet">
+<link href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.2/components/button.min.css" rel="stylesheet">
+<link href="{{ asset('/vendor/laravelLikeComment/css/style.css') }}" rel="stylesheet">
+@endpush
 <body>
     <header>
         @include('front-end.partials.nav')
@@ -100,6 +106,9 @@
                     <input class="linh-button button-lg button-success" type="submit" value="Gửi Bình Luận">
                 </form>
             </div>
+
+            @include('laravelLikeComment::comment', ['comment_item_id' => 'video_12'])
+
             <div class="tweet-card">
                 <div class="main-content-comment">
                     <button id="hide">Hide</button>
@@ -200,7 +209,10 @@
             </div>
         </aside>
     </main>
-
+@push('detail-js')
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script src="{{ asset('/vendor/laravelLikeComment/js/script.js') }}" type="text/javascript"></script>
+@endpush
     <script src="https://code.jquery.com/jquery-3.5.1.js"
         integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous">
     </script>
@@ -219,3 +231,4 @@
         });
     </script>
     @endsection
+

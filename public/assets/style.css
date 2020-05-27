@@ -7,7 +7,9 @@ body {
     padding: 0;
 }
 
+
 /* Button Styles */
+
 .linh-button {
     border: none;
     border-radius: 3px;
@@ -41,11 +43,11 @@ body {
 .linh-button.button-silver {
     background-color: silver;
 }
+
 .linh-button.button-success {
     background-color: green;
     color: yellow;
 }
-
 
 .linh-button.outline {
     background-color: transparent;
@@ -60,6 +62,7 @@ body {
     background-color: blue;
     color: white;
 }
+
 
 /* Background Button Styles */
 
@@ -127,6 +130,7 @@ body {
     height: 100%;
 }
 
+
 /* Nav Icon Butons */
 
 .linh-nav-icon-button {
@@ -145,6 +149,7 @@ body {
 .linh-nav-icon-button:hover {
     background-color: silver;
 }
+
 
 /* Hot Tweet List */
 
@@ -204,6 +209,7 @@ body {
     color: rgba(0, 0, 0, 0.7);
 }
 
+
 /* Tweet Card */
 
 .tweet-card {
@@ -221,11 +227,13 @@ body {
     border-radius: 50%;
     overflow: hidden;
 }
+
 .tweet-card__thumbnail img {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
+
 .tweet-card__background img {
     width: 100%;
     height: 500px;
@@ -285,6 +293,7 @@ body {
 .tweet-card__tags-container {
     margin-bottom: 10px;
 }
+
 .tweet-card__tags-container a {
     text-decoration: none;
     font-size: 15px;
@@ -296,6 +305,7 @@ body {
     color: black;
 }
 
+
 /* Main nav */
 
 .main-nav {
@@ -304,7 +314,8 @@ body {
     align-items: center;
     justify-content: space-between;
     overflow: hidden;
-    position: fixed; /* Set the navbar to fixed position */
+    position: fixed;
+    /* Set the navbar to fixed position */
     top: 0;
     width: 100%;
     background-color: white;
@@ -342,16 +353,21 @@ body {
     padding: 20px;
     justify-content: center;
 }
+
+
 /* left side */
+
 .left-side {
     width: 250px;
     flex-shrink: 0;
 }
+
 .left-side ul {
     width: 230px;
     list-style: none;
     font-weight: bolder;
 }
+
 .tweet-item__bulletsizebar {
     box-sizing: border-box;
     width: 10px;
@@ -361,13 +377,17 @@ body {
     transform: translateY(2px);
     flex-shrink: 0;
 }
+
 .tagscroll {
     border: 3px;
     width: 200px;
     height: 300px;
     overflow: scroll;
 }
+
+
 /* detail-page */
+
 .post-card {
     background-color: white;
     margin-bottom: 8px;
@@ -375,6 +395,7 @@ body {
     border-radius: 4px;
     box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
 }
+
 .post__title {
     display: block;
     text-decoration: none;
@@ -382,29 +403,35 @@ body {
     margin-bottom: 10px;
     font-weight: bold;
 }
+
 .post__content {
     margin-left: 56px;
 }
+
 .post_review {
     border-color: aqua solid !important;
 }
+
 footer {
     height: 200px;
     text-align: center;
     background-color: whitesmoke;
 }
+
 .post-review {
     display: inline-flex;
     justify-content: space-between;
     /* width: 1000px; */
     margin-left: 30px;
 }
+
 .post-review-card {
     width: 400px;
     border: solid;
     color: silver;
     margin: 10px;
 }
+
 .post-review-card__title {
     display: block;
     text-decoration: none;
@@ -412,25 +439,30 @@ footer {
     margin: 10px;
     font-weight: bold;
 }
+
 .post-review-card__content {
     text-decoration: none;
     color: blue;
     text-align: justify;
     font-weight: bold;
 }
+
 main {
     padding: 50px;
 }
+
 .main-content-comment {
     flex-grow: 1;
     margin-top: 50px;
     padding: 0 12px 10px 10px;
 }
+
 .comment__info {
     display: inline-block;
     vertical-align: 5;
     padding-bottom: 1px;
 }
+
 .comment__avatar-wrapper {
     display: inline-block;
     width: 70px;
@@ -438,12 +470,16 @@ main {
     border-radius: 50%;
     overflow: hidden;
 }
+
 .comment__avatar-wrapper img {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
+
+
 /* nav left size detail*/
+
 .main-container-detail {
     padding: 30px 5px 5px 5px;
     display: flex;
@@ -456,26 +492,29 @@ main {
     width: 70px;
     flex-shrink: 0;
 }
+
 .left-side-detail ul {
     width: 200px;
     list-style: none;
     font-weight: bolder;
 }
-.menu{
+
+.menu {
     background: whitesmoke;
     width: 80px;
     height: 100%;
-    padding:0px;
+    padding: 0px;
     list-style-type: none;
     text-align: left;
     position: fixed;
 }
-.menu span{
+
+.menu span {
     font-size: smaller;
     font-weight: bolder;
 }
 
-  textarea {
+textarea {
     width: 800px;
     height: 150px;
     padding: 12px 20px;
@@ -484,14 +523,15 @@ main {
     border-radius: 4px;
     background-color: #f8f8f8;
     resize: none;
-  }
+}
 
-  .main-container-detail {
+.main-container-detail {
     padding-top: 25px;
     display: flex;
     justify-content: space-between;
     background-color: #f8f8f8;
 }
+
 .right-side-detail {
     padding-top: 25px;
     width: 250px;
@@ -503,4 +543,3 @@ main {
     background-color: aquamarine;
     text-decoration: none;
 }
-
