@@ -65,10 +65,10 @@ Route::group(['middleware' => ['auth','can:isAdmin']], function () {
     Route::get('/post/check-status', 'PostController@checkstatus')->name('post.checkstatus');
     Route::get('/post/status', 'PostController@status')->name('post.status');
     Route::post('/post/check/{id}', 'PostController@check')->name('post.check');
-});
 
 
-Route::group(['middleware' => ['auth','can:isAdmin','can:isUser]], function () {
+
+Route::group(['middleware' => ['auth','can:isAdmin'||'can:isUser]], function () {
    
     Route::post('/post/add', 'PostController@store')->name('post.store');
     Route::get('/post/show/{id}', 'PostController@show')->name('post.show');
@@ -76,6 +76,9 @@ Route::group(['middleware' => ['auth','can:isAdmin','can:isUser]], function () {
     Route::post('post/update/{id}', 'PostController@update');
     Route::get('/post/all-category', 'PostController@getAllCategory')->name('post.getAllCategory');
     Route::get('/post/all-tag', 'PostController@getAllTag')->name('post.getAllTag');
+    Route::get('/post/user-post', 'PostController@user_post')->name('post.user-post');
+
+    Route::get('/post/postuser', 'PostController@postuser')->name('post.postuser');
 
 });
 

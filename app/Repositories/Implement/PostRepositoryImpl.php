@@ -148,10 +148,6 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
         $result = $this->getPost()->onlyTrashed()->find($id);
         return $result;
     }
-
-    // public function getAll(){
-    //     return $this->getPost()->orderBy('created_at','desc')->get();
-    // }
     public function getAllCategory(){
         try {
             $data = Category::select('id','name');
@@ -165,6 +161,16 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
     public function getAllTag(){
         try {
             $data = Tag::select('id','name');
+
+            return $data;
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
+    public function user_post(){
+        try {
+            $data = Post::whereUserId(Auth::user()->id)->orderBy('created_at', 'DESC')->get();
 
             return $data;
         } catch (\Exception $e) {
