@@ -15,16 +15,16 @@
           <li class="dropdown">
               <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-newspaper"></i> <span>Posts</span></a>
               <ul class="dropdown-menu">
-                  <li><a class="nav-link" href="#">All Posts</a></li>
-                  <li><a class="nav-link" href="#">Pending Posts</a></li>
+                  <li><a class="nav-link" href="{{url('post')}}">All Posts</a></li>
+                  <li><a class="nav-link" href="{{route('post.checkstatus')}}">Pending Posts</a></li>
               </ul>
           </li>
-          <li><a class="nav-link" href="#"><i class="fas fa-list"></i> <span>Categories</span></a></li>
-          <li><a class="nav-link" href="#"><i class="fas fa-tag"></i> <span>Tags</span></a></li>
+          <li><a class="nav-link" href="{{route('category.index')}}"><i class="fas fa-list"></i> <span>Categories</span></a></li>
+          <li><a class="nav-link" href="{{route('tag.index')}}"><i class="fas fa-tag"></i> <span>Tags</span></a></li>
           <li class="dropdown">
               <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-user"></i> <span>Users</span></a>
               <ul class="dropdown-menu">
-                  <li><a class="nav-link" href="#">All Users</a></li>
+                  <li><a class="nav-link" href="{{route('user.index')}}">All Users</a></li>
                   <li><a class="nav-link" href="#">Subscribers</a></li>
               </ul>
           </li>

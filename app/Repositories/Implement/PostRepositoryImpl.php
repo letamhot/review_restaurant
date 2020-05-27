@@ -145,11 +145,12 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
         return $result;
     }
 
+
     // public function getAll(){
     //     return $this->getPost()->orderBy('created_at','desc')->get();
     // }
-    public function getAllCategory()
-    {
+
+    public function getAllCategory(){
         try {
             $data = Category::select('id', 'name');
 
@@ -170,8 +171,18 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
         }
     }
 
-    public function status()
-    {
+
+    public function user_post(){
+        try {
+            $data = Post::whereUserId(Auth::user()->id)->orderBy('created_at', 'DESC')->get();
+
+            return $data;
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
+    public function status(){
         try {
             $data = Post::where("is_approved", false)->orderBy('created_at', 'DESC')->get();
 
