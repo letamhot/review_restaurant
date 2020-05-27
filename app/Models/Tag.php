@@ -3,15 +3,13 @@
 namespace App\Models;
 
 use App\Traits\EloquentScope;
-use Cog\Contracts\Love\Reactable\Models\Reactable as ReactableContract;
-use Cog\Laravel\Love\Reactable\Models\Traits\Reactable;
+
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
-class Tag extends Model implements ReactableContract
+class Tag extends Model
 {
-    use Reactable;
     use SoftDeletes;
     use EloquentScope;
 

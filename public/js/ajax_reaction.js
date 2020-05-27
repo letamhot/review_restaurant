@@ -38,19 +38,18 @@ $("body").on('click', '#user_like,#user_star', function (e) {
             if (data.status.like) {
                 $('#user_like').toggleClass("btn-primary");
             } else if (data.status.like == false) {
-                $('#user_star').toggleClass("btn-light");
+                $('#user_like').toggleClass("btn-light");
             }
-            if (data.status.star) {
+            if (data.status.favorite) {
                 $('#user_star').toggleClass("btn-primary");
-            } else if (data.status.star == false) {
+            } else if (data.status.favorite == false) {
                 $('#user_star').toggleClass("btn-light");
             }
 
             // modify new value
-            $('#like_count').text(data.totals.like);
-            $('#bookmark_count').text(data.totals.star);
-
-        },
+            $('#like_count').text(data.totals.likes);
+            $('#bookmark_count').text(data.totals.favorites);
+        }
     });
 });
 
