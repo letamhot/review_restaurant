@@ -96,7 +96,6 @@ class CategoryRepositoryImpl extends EloquentRepository implements CategoryRepos
     public function destroy($object)
     {
         try {
-
             // set new category_id for related post before delete
             $object->posts()->whereCategoryId($object->id)->update(['category_id' => 1]);
 

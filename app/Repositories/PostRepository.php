@@ -13,4 +13,8 @@ interface PostRepository extends BaseRepository
     public function check($request, $post);
 
     public function postStatistic();
+
+    public function user_post();
 }
+
+

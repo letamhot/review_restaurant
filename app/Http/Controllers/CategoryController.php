@@ -45,9 +45,14 @@ class CategoryController extends Controller
         return response()->json($data);
     }
 
-    public function api_find_post($id)
+    public function Api_find_post($id)
     {
-        $data = Post::find($id);
+        $data = Post::where('category_id', $id)->get();
+        foreach ($data as $key => $value) {
+            $data[$key]['users_name'] = $value->user->name;
+            $data[$key]['post_tag'] = implode(',', $value->tag()->pluck('name')->toArray());
+            $data[$key]['users_avatar'] = $value->user->avatar;
+        }
         return response()->json($data);
     }
     /**
