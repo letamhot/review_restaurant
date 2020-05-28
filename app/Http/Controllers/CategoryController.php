@@ -73,6 +73,9 @@ class CategoryController extends Controller
     public function store(CategoryRequest $request)
     {
         try {
+            if ($request->category_id == '1') {
+                return $this->errorFailMessage('Can not modify default resource!');
+            }
             $result = $this->categoryService->ajaxStore($request);
 
             if ($result) {
@@ -139,16 +142,15 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         try {
+            if ($id == '1') {
+                return $this->errorFailMessage('Can not delete default resource!');
+            }
+
             $category = $this->categoryService->findById($id);
             $result = $this->categoryService->destroy($category);
+
             if ($result) {
                 return response()->json(['success' => 'Category deleted successfully']);
-            }
-            if (false == $result) {
-                return response()->json([
-                    'status' => 202,
-                    'errors' => ['Failed!', 'Can not delete default resource!'],
-                ]);
             }
 
             return $this->errorFailMessage();
@@ -253,13 +255,13 @@ class CategoryController extends Controller
     /**
      * Display failed errors of request.
      */
-    protected function errorFailMessage()
+    protected function errorFailMessage($msg = null)
     {
-        $msg = [
+        $message = [
             'status' => 500,
-            'errors' => ['Failed!', 'Unknown error!'],
+            'errors' => ['Failed!', $msg ?? 'Unknown error!'],
         ];
 
-        return response()->json($msg);
+        return response()->json($message);
     }
 }
