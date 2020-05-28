@@ -17,8 +17,8 @@ class TagSeeder extends Seeder
         DB::table('tags')->insert(array(
             0 =>
             array(
-                'name' => 'seafood',
-                'slug' => Str::slug('seafood'),
+                'name' => 'other',
+                'slug' => Str::slug('other'),
             ),
             1 =>
             array(
@@ -51,6 +51,5 @@ class TagSeeder extends Seeder
                 'slug' => Str::slug('đồ ăn nhanh'),
             ),
         ));
-    
     }
 }
