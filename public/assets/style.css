@@ -354,6 +354,9 @@ body {
     padding: 20px;
     justify-content: center;
 }
+.tab-controllers a {
+    font-size: 20px;
+}
 /* left side */
 .left-side {
     padding-left: 0px;
@@ -381,6 +384,16 @@ body {
     width: 200px;
     height: 300px;
     overflow: scroll;
+}
+.tagscrolltag {
+    direction:rtl;
+    border: 3px;
+    width: 200px;
+    height: 300px;
+    overflow: scroll;
+}
+.tagscrolltag div{
+    direction:ltr;
 }
 /* detail-page */
 .post-card {
@@ -651,3 +664,9 @@ border: #444;
 width: 100%;
 
 } */
+.profile_user {
+    padding-left:20px ;
+}
+.profile_user a {
+   text-decoration: none;
+}

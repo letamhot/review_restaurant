@@ -100,9 +100,9 @@ class CategoryRepositoryImpl extends EloquentRepository implements CategoryRepos
             //     return false;
             // }
             // find category has name 'Other'
-            $defaultCategory = $this->getCategory()->whereName('other')->firstOrFail();
+            // $defaultCategory = $this->getCategory()->whereId(0)->firstOrFail();
             // set new category_id for related post before delete
-            $object->posts()->whereCategoryId($object->id)->update(['category_id' => $defaultCategory->id]);
+            // $object->posts()->whereCategoryId($object->id)->update(['category_id' => 1]);
 
             return parent::destroy($object);
         } catch (\Exception $e) {

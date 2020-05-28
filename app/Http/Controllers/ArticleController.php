@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use App\Services\ArticleService;
+use Carbon\Carbon;
 
 use Illuminate\Support\Facades\Auth;
 
@@ -15,7 +16,6 @@ class ArticleController extends Controller
     public function __construct(ArticleService $articleService)
     {
         $this->articleService = $articleService;
-
     }
 
     /**
@@ -25,7 +25,8 @@ class ArticleController extends Controller
      */
     public function index()
     {
-
+        $allpost =  $this->articleService->getAll();
+        return view('front-end.allpost', compact('allpost'));
     }
 
     /**
@@ -36,7 +37,9 @@ class ArticleController extends Controller
      */
     public function show($id)
     {
-        return $this->articleService->showDetail($id);
+        $post_detail =  $this->articleService->showDetail($id);
+        // dd($post_detail);
+        return view('front-end.page_detail', compact('post_detail'));
     }
 
     public function getLatestPost($number)
@@ -63,7 +66,17 @@ class ArticleController extends Controller
         return null;
     }
 
-
-
-
+    public function showLatestArticles($id)
+    {
+        if ($id === "1") {
+            $news = Post::where('created_at', '>=', Carbon::now()->subdays(1))->take(3)->get();
+            return response()->json($news);
+        } else if ($id === "2") {
+            $news = Post::where('created_at', '>=', Carbon::now()->subdays(7))->take(3)->get();
+            return response()->json($news);
+        } else {
+            $news = Post::whereMonth('created_at', '=', Carbon::now()->month)->get();
+            return response()->json($news);
+        }
+    }
 }

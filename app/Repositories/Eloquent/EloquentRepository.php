@@ -53,7 +53,7 @@ abstract class EloquentRepository implements BaseRepository
         try {
             return $this->model->findOrFail($id);
         } catch (\Exception $e) {
-            return null;
+            return $e->getMessage();
         }
     }
 

@@ -4,13 +4,8 @@
     <header>
         @include('front-end.partials.nav')
         <div class="tweet-card__background">
-            <img class="mySlides" src="https://indonepaltour.com/img/resort_img.jpeg" style="width: 100%;" />
-            <img class="mySlides" src="https://globalfoodworld.life/wp-content/uploads/2020/03/T%C3%A1gide-s.jpg"
+            <img class="mySlides" src="https://hadleycourt.com/wp-content/uploads/2016/02/jetset2.jpg"
                 style="width: 100%;" />
-            <img class="mySlides"
-                src="https://eaglepoint.gregorynarayan.com/wp-content/uploads/2014/01/Hotel-Wailea-Pool-Evening2.jpg"
-                style="width: 100%;" />
-            <img class="mySlides" src="https://u.realgeeks.media/siliconbeachhomesinla/food.jpg" style="width: 100%;" />
         </div>
     </header>
     @section('content')
@@ -29,25 +24,17 @@
                 </li>
                 @if(Auth::user())
                 <li>
-                    <div class="profile_user">
-                        <img src="{{  Auth::user()->avatar }}" alt="John"
-                            style="width:30; height:30px; border-radius:50%; display:inline">
-                        <a href="">{{ Auth::user()->name }}</a>
-                    </div>
-
-                </li>
-                <li>
-                    <a href="/contact" class="tweet-item__title">
+                    <a href="/post" class="tweet-item__title">
                         <div class="tweet-item__bulletsizebar">
-                            <i class="fa fa-bell fa-2x" style="color: red" aria-hidden="true"></i>
+                            <i class="fa fa-area-chart fa-2x" style="color: green" aria-hidden="true"></i>
                         </div>
                         <div class="tweet-item__content">
-                            Thông Báo
+                            Admin
                         </div>
                     </a>
                 </li>
                 @else
-                <a href="/login" class="tweet-item__title">
+                <a href="/post" class="tweet-item__title">
                     <div class="tweet-item__bulletsizebar">
                         <i class="fa fa-area-chart fa-2x" style="color: green" aria-hidden="true"></i>
                     </div>
@@ -78,7 +65,7 @@
                 </li>
             </ul>
             <ul>
-                <p style="text-align:center; color:blue"><i class="fa fa-home fa-2x" style="color: green"
+                <p style="text-align:center; color:blue"><i class="fa fa-home fa-2x" style="color: red"
                         aria-hidden="true"></i> Các Loại Nhà Hàng</p>
                 <div class="tagscroll">
                     @foreach ($categories as $category )
@@ -94,44 +81,55 @@
                 </div>
             </ul>
         </aside>
+
         <div class="main-content">
-            <div class="tab-controllers" id="data-category">
-                {{-- phần các nút category --}}
-                <a onclick=latest.show(1); class="linh-bg-button active">Ngày</a>
-                <a onclick=latest.show(2); class="linh-bg-button active">Tuần</a>
-                <a onclick=latest.show(3); class="linh-bg-button active">Tháng</a>
-            </div>
-            <div id="data-content" class="tweet-card">
+            <div class="tweet-card">
+                @foreach ( $category_detail->posts as $post_category )
+                <div class="tweet-card__header">
+                    <div class="tweet-card__avatar-wrapper">
+                        <img src="{{$post_category->user->avatar}}">
+                    </div>
 
-            </div>
-            <div id="data" class="tweet-card__tags-container">
-            </div>
-            <div class="tweet-card__actions-container">
-                <div>
-                    {{-- <button class="linh-button button-md">
-                        <i class="fa fa-bell-o" aria-hidden="true"></i>
-                        5947 reactions
-                    </button>
-                    <button class="linh-button button-md">
-                        <i class="fa fa-bell-o" aria-hidden="true"></i>
-                        175 comments
-                    </button>
+                    <div class="tweet-card__info">
+                        <p style="text-decoration: none" href="/post_user/{{$post_category->user->id}}"
+                            class="tweet-card__user-name">{{ $post_category->user->name }}</p>
+                        <span class="tweet-card__date-post">{{$post_category->user->created_at}}</span>
+                    </div>
                 </div>
 
-                <div>
-                    <span class="tweet-card__read-count">
-                        13 min read
-                    </span>
+                <div class="tweet-card__content">
+                    <div class="tweet-card__thumbnail">
+                        <img style="width:100%; height: 350px" src="/posts/{{$post_category->cover_image}}">
+                    </div>
 
-                    <button class="linh-button button-md button-silver">
-                        Save
-                    </button>
-                </div> --}}
+                    <h2><a href="{{ route('showpostdetail', ['id' => $post_category->id ]) }}"
+                            class="tweet-card__title">{{ $post_category->title }}</a></h2>
+
+                    @foreach ($post_category->tag as $value)
+                    <a href="{{ route('showdetailtag', $value->id) }}"
+                        style="color: blue; text-decoration:none; font-weight: bolder;">
+                        #{{ $value->name }}
+                    </a>
+                    @endforeach
+                    <div class="tweet-card__actions-container">
+                        <div>
+                            <button class="linh-button button-md">
+                                {{ $post_category->totalLike}} Yêu Thích
+                            </button>
+                            <button class="linh-button button-md">
+                                {{$post_category->totalComment}} Bình Luận
+                            </button>
+                        </div>
+                    </div>
+
                 </div>
+                <hr>
+                @endforeach
             </div>
         </div>
 
-        </div>
+
+
 
         <aside class="right-side">
             <div class="hot-tweet-list">
@@ -206,53 +204,5 @@
     </script>
     <script src="https://code.jquery.com/jquery-3.5.1.js"
         integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous">
-    </script>
-    <script>
-        var latest = latest || { }
-        latest.show = function(id) {
-            // console.log(id);
-            $.ajax({
-                type: "GET",
-                url: "/api/latestnews/" + id,
-                dataType: 'json',
-                success: function(data) {
-                    console.log(data)
-                    $("#data-content").empty();
-                    $.each( data, function( key, value ) {
-                        $("#data-content").append(
-                            `
-                        <div class="tweet-card__avatar-wrapper">
-                            <img
-                                src="${value.users_avatar}" />
-                        </div>
-
-                        <div class="tweet-card__info">
-                            <a style="text-decoration:none" href="/post_user/${value.user_id}" class="tweet-card__user-name">${value.users_name}</a>
-                            <span class="tweet-card__date-post">${value.created_at}</span>
-                        </div>
-                    </div>
-
-                    <div class="tweet-card__content">
-                        <div class="tweet-card__thumbnail">
-                            <img
-                              style="width:100%; height: 350px"  src="/posts/${value.cover_image}">
-                        </div>
-                        <h2>
-                        <a href="/post_web/${value.id}" class="tweet-card__title">${value.title}</a></h2>
-                        </div>
-                    </div>
-                </div>
-                <hr>
-                            `
-                        )
-                    });
-                }
-            });
-        };
-    $(document).ready(function () {
-            // category.drawdata();
-            latest.show(1);
-    });
-
     </script>
     @endsection
