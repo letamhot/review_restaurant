@@ -13,7 +13,6 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
 
-
 // use Illuminate\Http\Request;
 class PostRepositoryImpl extends EloquentRepository implements PostRepository
 {
@@ -29,49 +28,45 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
 
     public function create($request)
     {
-     
         try {
-                $image =  $request->file('cover_image');
-                // dd($image);
-                $title = $request->title;
-                    if (isset($image)) {
-                        // tạo tên file duy nhất ko trùng lặp
-                        $currentDate = Carbon::now()->toDateString();
-                        $imageName = $currentDate.'-'.uniqid().'.'.$image->getClientOriginalExtension();
-                        // trỏ tới thư mục public/post
-                        $path = public_path().'/posts';
-                        // nếu chưa có thư mục thì tạo thư mục
-                        if (!File::exists($path)) {
-                            File::makeDirectory($path, 0777, true);
-                        }
-   
-                        // lưu ảnh
-                        $image->move($path, $imageName);
-                    } else {
-                        // đặt giá trị mặc định cho file
-                        $imageName = 'default.png';
-                    }
-                $userID = Auth::id();
-                $post =  $this->getPost();
-                $post->user_id = $userID;
-                $post->category_id = $request->category_id;
-                // $post->tag_id = $request->tag;
+            $image =  $request->file('cover_image');
+            // dd($image);
+            $title = $request->title;
+            if (isset($image)) {
+                // tạo tên file duy nhất ko trùng lặp
+                $currentDate = Carbon::now()->toDateString();
+                $imageName = $currentDate . '-' . uniqid() . '.' . $image->getClientOriginalExtension();
+                // trỏ tới thư mục public/post
+                $path = public_path() . '/posts';
+                // nếu chưa có thư mục thì tạo thư mục
+                if (!File::exists($path)) {
+                    File::makeDirectory($path, 0777, true);
+                }
 
-                $post->title = $title;
-                // using the mutator setSlugAttribute()
-                $post->slug = $title;
-                $post->cover_image = $imageName;
-                $post->content = $request->content;
-                if($request->is_approved == 'on')
-                {
-                    $post->is_approved = 1;
-                } else {    
-                    $post->is_approved = 0;
-                }
-                $post->save();
-                foreach($request->tag as $tag){
-                    $post->tag()->attach($tag);
-                }
+                // lưu ảnh
+                $image->move($path, $imageName);
+            } else {
+                // đặt giá trị mặc định cho file
+                $imageName = 'default.png';
+            }
+            $userID = Auth::id();
+            $post =  $this->getPost();
+            $post->user_id = $userID;
+            $post->category_id = $request->category_id;
+
+            $post->title = $title;
+            $post->slug = $title;
+            $post->cover_image = $imageName;
+            $post->content = $request->content;
+            if ($userID == 1) {
+                $post->is_approved = 1;
+            } else {
+                $post->is_approved = 0;
+            }
+            $post->save();
+            foreach ($request->tag as $tag) {
+                $post->tag()->attach($tag);
+            }
         } catch (\Exception $e) {
             dd($e->getMessage());
             // return null;
@@ -84,40 +79,38 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
     {
         try {
             $image = $request->cover_image;
-            // dd($image);
             $title = $request->title;
             if (isset($image)) {
-                    // tạo tên file duy nhất ko trùng lặp
-                    $currentDate = Carbon::now()->toDateString();
-                    $imageName = $currentDate.'-'.uniqid().'.'.$image->getClientOriginalExtension();
-                    // trỏ tới thư mục public/post
-                    $path = public_path().'/posts';
-                    // nếu chưa có thư mục thì tạo thư mục
-                    if (!File::exists($path)) {
-                        File::makeDirectory($path, 0777, true);
-                    }
-                    
-                    $oldPath = public_path()."/posts/".$post->cover_image;
-                    if (File::exists($oldPath)) {
-                        File::delete($oldPath);
-                    }
-                    // lưu ảnh
-                    $image->move($path, $imageName);
-                } else {
-                    // đặt giá trị mặc định cho file
-                    $imageName = $post->cover_image;
+                // tạo tên file duy nhất ko trùng lặp
+                $currentDate = Carbon::now()->toDateString();
+                $imageName = $currentDate . '-' . uniqid() . '.' . $image->getClientOriginalExtension();
+                // trỏ tới thư mục public/post
+                $path = public_path() . '/posts';
+                // nếu chưa có thư mục thì tạo thư mục
+                if (!File::exists($path)) {
+                    File::makeDirectory($path, 0777, true);
                 }
-         
+
+                $oldPath = public_path() . "/posts/" . $post->cover_image;
+                if (File::exists($oldPath)) {
+                    File::delete($oldPath);
+                }
+                // lưu ảnh
+                $image->move($path, $imageName);
+            } else {
+                // đặt giá trị mặc định cho file
+                $imageName = $post->cover_image;
+            }
+
             $userID = Auth::id();
             $post->user_id = $userID;
             $post->category_id = $request->category_id;
             $post->title = $title;
-            // using the mutator setSlugAttribute()
             $post->slug = $title;
             $post->cover_image = $imageName;
             $post->content = $request->content;
-            if($request->is_approved == 'on')
-            {
+
+            if ($request->is_approved == 'on') {
                 $post->is_approved = 1;
             } else {
                 $post->is_approved = 0;
@@ -125,7 +118,7 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
             $post->update();
 
             $post->tag()->detach();
-            foreach($request->tag as $tag){
+            foreach ($request->tag as $tag) {
                 $post->tag()->attach($tag);
             }
         } catch (\Exception $e) {
@@ -152,12 +145,14 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
         return $result;
     }
 
+
     // public function getAll(){
     //     return $this->getPost()->orderBy('created_at','desc')->get();
     // }
+
     public function getAllCategory(){
         try {
-            $data = Category::select('id','name');
+            $data = Category::select('id', 'name');
 
             return DataTables::of($data)->toJson();
         } catch (\Exception $e) {
@@ -165,9 +160,10 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
         }
     }
 
-    public function getAllTag(){
+    public function getAllTag()
+    {
         try {
-            $data = Tag::select('id','name');
+            $data = Tag::select('id', 'name');
 
             return $data;
         } catch (\Exception $e) {
@@ -176,11 +172,36 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
     }
 
 
+    public function user_post(){
+        try {
+            $data = Post::whereUserId(Auth::user()->id)->orderBy('created_at', 'DESC')->get();
+
+            return $data;
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
+    public function status(){
+        try {
+            $data = Post::where("is_approved", false)->orderBy('created_at', 'DESC')->get();
+
+            return $data;
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+    public function check($request, $id)
+    {
+        $post = $this->getPost()::findOrFail($id);
+        $post->is_approved = 1;
+        $post->update();
+        return true;
+    }
+
+
     protected function getPost()
     {
         return app()->make($this->getModel());
     }
-
-    
-
 }

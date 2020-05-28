@@ -37,18 +37,20 @@ class CategoryController extends Controller
             return $this->errorExceptionMessage();
         }
     }
-    public function Api_category()
+    public function showAllCategory()
     {
-        $data = $this->categoryService->getAll();
+        $categories = $this->categoryService->getAll();
         // $data = Category::all();
         // dd($data);
-        return response()->json($data);
+        return view('front-end.landing-page', compact('categories'));
     }
 
-    public function api_find_post($id)
+    public function showdetailcategory($id)
     {
-        $data = Post::find($id);
-        return response()->json($data);
+
+        $category_detail = $this->categoryService->findById($id);
+
+        return view('front-end.categories', compact('category_detail'));
     }
     /**
      * Show the form for creating a new resource.
@@ -134,9 +136,16 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         try {
-            $result = $this->categoryService->destroy($id);
+            $category = $this->categoryService->findById($id);
+            $result = $this->categoryService->destroy($category);
             if ($result) {
                 return response()->json(['success' => 'Category deleted successfully']);
+            }
+            if (false == $result) {
+                return response()->json([
+                    'status' => 202,
+                    'errors' => ['Failed!', 'Can not delete default resource!'],
+                ]);
             }
 
             return $this->errorFailMessage();
@@ -205,7 +214,7 @@ class CategoryController extends Controller
      *
      * @param bool $result
      */
-    protected function goTo($result)
+    function goto($result)
     {
         if ($result) {
             // Toastr::success('Successfully! :)', 'Success');
@@ -247,7 +256,6 @@ class CategoryController extends Controller
         $msg = [
             'status' => 500,
             'errors' => ['Failed!', 'Unknown error!'],
-            'success' => false,
         ];
 
         return response()->json($msg);

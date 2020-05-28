@@ -26,15 +26,14 @@ class TagRequest extends FormRequest
         return [
             'name' => [
                 'required',
-                'string',
-                'min:3',
-                'max:33',
-                'unique:tags'
+                'min:2',
+                'max:50',
+                'unique:tags',
             ],
         ];
     }
 
-    /**
+    /*
      * Custom message for validation.
      *
      * @return array

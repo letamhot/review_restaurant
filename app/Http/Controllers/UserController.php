@@ -30,7 +30,7 @@ class UserController extends Controller
                 return $this->userService->getAll();
             }
 
-            return view($this->path.'index');
+            return view($this->path . 'index');
         } catch (\Exception $e) {
             return $this->errorExceptionMessage();
         }
@@ -65,7 +65,6 @@ class UserController extends Controller
     {
         // dataTables
     }
-
     /**
      * Show the form for editing the specified resource.
      *

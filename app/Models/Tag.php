@@ -2,22 +2,41 @@
 
 namespace App\Models;
 
+use App\Traits\EloquentScope;
+
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
-
 class Tag extends Model
 {
     use SoftDeletes;
-    protected $dates = ['deleted_at'];
+    use EloquentScope;
 
-    // protected $hidden = ['created_at', 'updated_at'];
+    protected $dates = ['deleted_at'];
 
     protected $fillable = [
         'name', 'slug',
     ];
 
+
+    public function post()
+    {
+
+        return $this->belongsToMany(Post::class, 'post_tag', 'tag_id', 'post_id')->withTimestamps();
+        return $this->belongsToMany(Post::class)->withTimestamps();
+    }
+
+    public function post_tag()
+    {
+        return $this->hasMany(Post_Tag::class, 'tag_id ', 'id')->withTimestamps();
+    }
+
+    /*
+     * Get the route key for the model.
+     *
+     * @return string
+     */
     public function getRouteKeyName()
     {
         return 'slug';
@@ -31,13 +50,5 @@ class Tag extends Model
     public function setSlugAttribute($value)
     {
         $this->attributes['slug'] = Str::slug($value);
-    }
-    public function post()
-    {
-        return $this->belongsToMany(Tag::class, 'post_tag', 'post_id', 'tag_id')->withTimestamps();
-    }
-    public function post_tag()
-    {
-        return $this->hasMany(Post_Tag::class, 'tag_id ', 'id')->withTimestamps();
     }
 }

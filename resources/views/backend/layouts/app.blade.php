@@ -102,8 +102,11 @@
     <!-- Custom JS File -->
     @stack('js')
     @stack('js-post')
+    @stack('js-posts')
+
     @stack('js-role')
     @stack('js-tag') 
+    @stack('js-userPost')
 </body>
 
 </html>

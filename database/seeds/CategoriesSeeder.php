@@ -17,55 +17,34 @@ class CategoriesSeeder extends Seeder
         DB::table('categories')->insert(array(
             0 =>
             array(
-                'name' => 'Nhà hàng Thái Lan',
-                'slug' => Str::slug('nhà hàng thái lan'),
+                'name' => 'Loại Nhà hàng Khác',
+                'slug' => Str::slug('oại nhà hàng Khác'),
             ),
             1 =>
             array(
-                'name' => 'Nhà hàng Nhật Bản',
-                'slug' => Str::slug('nhà hàng nhật bản'),
+                'name' => 'Nhà hàng Tiệc Cưới',
+                'slug' => Str::slug('nhà hàng tiệc cưới'),
             ),
             2 =>
             array(
-                'name' => 'Nhà hàng Hàn Quốc',
+                'name' => 'Nhà hàng Cà Phê',
                 'slug' => Str::slug('nhà hàng hàn quốc'),
             ),
             3 =>
             array(
-                'name' => 'Nhà hàng Anh',
-                'slug' => Str::slug('nhà hàng anh'),
+                'name' => 'Nhà hàng Chay',
+                'slug' => Str::slug('nhà hàng chay'),
             ),
             4 =>
             array(
-                'name' => 'Nhà hàng Mỹ',
-                'slug' => Str::slug('nhà hàng mỹ'),
+                'name' => 'Nhà hàng mặn',
+                'slug' => Str::slug('nhà hàng mặn'),
             ),
             5 =>
             array(
-                'name' => 'Nhà hàng Hà Lan',
-                'slug' => Str::slug('nhà hàng hà lan'),
-            ),
-            6 =>
-            array(
-                'name' => 'Nhà hàng Trung Quốc',
-                'slug' => Str::slug('nhà hàng trung quốc'),
-            ),
-            7 =>
-            array(
-                'name' => 'Nhà hàng Việt Nam',
-                'slug' => Str::slug('nhà hàng việt nam'),
-            ),
-            8 =>
-            array(
-                'name' => 'Nhà hàng Thụy Sỹ',
-                'slug' => Str::slug('nhà hàng thụy sỹ'),
-            ),
-            9 =>
-            array(
-                'name' => 'Nhà hàng Đức',
-                'slug' => Str::slug('nhà hàng đức'),
+                'name' => 'Nhà hàng Bar',
+                'slug' => Str::slug('nhà hàng bar'),
             ),
         ));
     }
-    
 }

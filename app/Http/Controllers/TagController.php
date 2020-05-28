@@ -27,11 +27,13 @@ class TagController extends Controller
     {
         try {
             if ($request->ajax()) {
+                return $this->tagService->getAllAJAX();
                 return $this->tagService->getAll();
             }
 
-            return view($this->path.'index');
+            return view($this->path . 'index');
         } catch (\Exception $e) {
+            return $this->errorExceptionMessage();
             return $e->getMessage();
         }
     }
@@ -49,6 +51,8 @@ class TagController extends Controller
     /**
      * Store a newly created resource in storage.
      *
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(TagRequest $request)
@@ -60,12 +64,31 @@ class TagController extends Controller
                 return response()->json(['success' => 'Tag saved successfully']);
             }
 
+            return $this->errorFailMessage();
+        } catch (\Exception $e) {
+            return $this->errorExceptionMessage();
             return response()->json($result);
         } catch (\Exception $e) {
             return response()->json($e->getMessage());
         }
     }
+    public function showAllTag()
+    {
+        $tags = $this->tagService->getAll();
+        return view('front-end.landing-page', compact('tags'));
+    }
+    public function showAllTagAjax()
+    {
+        $tags = $this->tagService->getAll();
+        return response()->json($tags);
+    }
 
+
+    public function showdetailtag($id)
+    {
+        $tagdetail = $this->tagService->findById($id);
+        return view('front-end.tagdetail', compact('tagdetail'));
+    }
     /**
      * Display the specified resource.
      *
@@ -79,6 +102,9 @@ class TagController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
+     * @param \App\Models\Tag $tag
+     * @param mixed           $id
+
      * @param mixed $id
      *
      * @return \Illuminate\Http\Response
@@ -91,6 +117,10 @@ class TagController extends Controller
                 return response()->json($tag);
             }
 
+            return $this->errorFailMessage();
+        } catch (\Exception $e) {
+            return $this->errorExceptionMessage();
+
             return response()->json($tag);
         } catch (\Exception $e) {
             return response()->json($e->getMessage());
@@ -100,11 +130,14 @@ class TagController extends Controller
     /**
      * Update the specified resource in storage.
      *
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Tag          $tag
+     *
      * @return \Illuminate\Http\Response
      */
+
     public function update(Request $request, Tag $Tag)
     {
-        // NOT AJAX
         $result = $this->tagService->update($request, $Tag);
 
         return $this->goTo($result);
@@ -113,6 +146,8 @@ class TagController extends Controller
     /**
      * Remove the specified resource from storage.
      *
+     * @param \App\Models\Tag $tag
+     * @param mixed           $id
      * @param mixed $id
      *
      * @return \Illuminate\Http\Response
@@ -120,6 +155,21 @@ class TagController extends Controller
     public function destroy($id)
     {
         try {
+            $tag = $this->tagService->findById($id);
+            $result = $this->tagService->destroy($tag);
+            if ($result) {
+                return response()->json(['success' => 'Tag deleted successfully']);
+            }
+            if (false == $result) {
+                return response()->json([
+                    'status' => 202,
+                    'errors' => ['Failed!', 'Can not delete default resource!'],
+                ]);
+            }
+
+            return $this->errorFailMessage();
+        } catch (\Exception $e) {
+            return $this->errorMessage();
             $tag = Tag::findById($id);
             // update new value for each post before delete Tag
             $tag->posts()->whereTagId($id)->update(['tag_id' => 1]);
@@ -130,39 +180,6 @@ class TagController extends Controller
             $result = $this->tagService->destroy($id);
             if ($result) {
                 return response()->json(['success' => 'Tag deleted successfully']);
-            }
-
-            return response()->json($result);
-        } catch (\Exception $e) {
-            return response()->json($e->getMessage());
-        }
-    }
-
-    /**
-     * Display a listing of the resource (Soft Delete).
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function getTrashRecords()
-    {
-        try {
-            return $this->tagService->getAllOnlyTrashed();
-        } catch (\Exception $e) {
-            return $e->getMessage();
-        }
-    }
-
-    /**
-     * Restore record from SoftDelete.
-     *
-     * @param mixed $id
-     */
-    public function restoreTrash($id)
-    {
-        try {
-            $result = $this->tagService->restoreSoftDelete($id);
-            if ($result) {
-                return response()->json(['success' => 'Item restored successfully.']);
             }
 
             return response()->json($result);
@@ -192,23 +209,54 @@ class TagController extends Controller
     }
 
     /**
-     * True value - return index view
-     * False value - return previous page
-     * Not for AJAX.
+     * Display a listing of the resource (Soft Delete).
      *
-     * @param bool $result
+     * @return \Illuminate\Http\Response
      */
-    protected function goTo($result)
+    public function getTrashRecords()
     {
+        try {
+            return $this->tagService->getAllOnlyTrashedAJAX();
+        } catch (\Exception $e) {
+            return $this->errorExceptionMessage();
+        }
+    }
+
+    /**
+     * Restore record from SoftDelete.
+     *
+     * @param mixed $id
+     */
+    public function restoreTrash($id)
+    {
+        try {
+            $result = $this->tagService->restoreSoftDelete($id);
+            if ($result) {
+                return response()->json(['success' => 'Item restored successfully.']);
+            }
+
+            return $this->errorFailMessage();
+        } catch (\Exception $e) {
+            return $this->errorExceptionMessage();
+        }
+    }
+
+/**
+ * True value - return index view
+ * False value - return previous page
+ * Not for AJAX.
+ *
+ * @param bool $result
+ */
+    function goto ($result) {
         if ($result) {
             // Toastr::success('Successfully! :)', 'Success');
 
-            return redirect()->route($this->path.'index');
+            return redirect()->route($this->path . 'index');
         }
         // Toastr::error('Something went wrong!', 'Error');
-
-        return back();
     }
+
 
     /**
      * Display validation errors of request.
@@ -240,6 +288,7 @@ class TagController extends Controller
         $msg = [
             'status' => 500,
             'errors' => ['Failed!', 'Unknown error!'],
+
             'success' => false,
         ];
 

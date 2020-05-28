@@ -20,27 +20,7 @@ class CategoryRepositoryImpl extends EloquentRepository implements CategoryRepos
     }
 
     /**
-     * Re-define getAllOnlyTrashed() function for dataTable AJAX.
-     *  Using for CategoryController@destroy.
-     *
-     * @param mixed $id
-     */
-    public function destroy($id)
-    {
-        try {
-            $category = $this->findById($id);
-            // update new value for each post before delete category
-            $category->posts()->whereCategoryId($id)->update(['category_id' => 1]);
-            $category->posts()->detach();
-
-            return $category->delete();
-        } catch (\Exception $e) {
-            return null;
-        }
-    }
-
-    /**
-     * Re-define getAll() function for dataTable AJAX.
+     * Override method getAll() function for dataTable AJAX.
      * Using for CategoryController@index.
      */
     public function getAllAJAX()
@@ -102,6 +82,29 @@ class CategoryRepositoryImpl extends EloquentRepository implements CategoryRepos
                 ['id' => $categoryId],
                 ['name' => $request->name, 'slug' => $request->name]
             );
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
+    /**
+     * Override method destroy() function for dataTable AJAX.
+     * Using for CategoryController@destroy.
+     *
+     * @param mixed $object
+     */
+    public function destroy($object)
+    {
+        try {
+            // if ('other' == $object->name) {
+            //     return false;
+            // }
+            // find category has name 'Other'
+            // $defaultCategory = $this->getCategory()->whereId(0)->firstOrFail();
+            // set new category_id for related post before delete
+            // $object->posts()->whereCategoryId($object->id)->update(['category_id' => 1]);
+
+            return parent::destroy($object);
         } catch (\Exception $e) {
             return null;
         }

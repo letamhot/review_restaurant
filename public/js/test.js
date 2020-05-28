@@ -10,7 +10,6 @@ post.drawTrash = function() {
             $('#list').show();
 
             $('#reloadtbody').empty();
-            console.log(res);
             $.each(res, function(index, value) {
                 $('#reloadtbody').append(
                     `
@@ -21,7 +20,6 @@ post.drawTrash = function() {
                             <td>${value.title}</td>
                             <td>${value.slug}</td>
                             <td><img src="${imgURL}/${value.cover_image}" width="60px" height="60px" alt=""></td>
-                            <td>${value.is_approved ? 'active' : 'inactive'} </td>
                             <td>${value.created_at}</td>
                             <td>${value.updated_at}</td>
                             <td>
