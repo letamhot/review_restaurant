@@ -13,6 +13,7 @@ $(function () {
 
 // #guest_like, #guest_star ID of clicked button
 $("body").on('click', '#guest_like,#guest_star', function () {
+    console.log('click');
     $.msgLoginFirst();
 });
 
@@ -22,6 +23,8 @@ $("body").on('click', '#user_like,#user_star', function (e) {
     reactionType = $(this).data("name"); // value of data-name
     postId = $(this).data("id"); // value of data-id
 
+    console.log(reactionType);
+    console.log(postId);
     $.ajax({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -30,25 +33,38 @@ $("body").on('click', '#user_like,#user_star', function (e) {
             "reactionType": reactionType,
             "postId": postId
         },
-        url: SITEURL + "/postlike",
+        url: SITEURL + "/post/react",
         type: "POST",
         dataType: "json",
         success: function (data, textStatus, jQxhr) {
+            console.log(data);
             // toggle class of button
-            if (data.status.like) {
-                $('#user_like').toggleClass("btn-primary");
-            } else if (data.status.like == false) {
-                $('#user_like').toggleClass("btn-light");
-            }
-            if (data.status.favorite) {
-                $('#user_star').toggleClass("btn-primary");
-            } else if (data.status.favorite == false) {
-                $('#user_star').toggleClass("btn-light");
+
+            if (data.type == 'like') {
+                if (data.status.like) {
+                    $('#user_like i').removeClass("fa-heart-o");
+                    $('#user_like i').addClass("fa-heart");
+                } else if (data.status.like == false) {
+                    $('#user_like i').removeClass("fa-heart");
+                    $('#user_like i').addClass("fa-heart-o");
+                }
+                console.log(data.status.like);
+                // modify new value
+                $('#like_count').text(data.totals.likes);
             }
 
-            // modify new value
-            $('#like_count').text(data.totals.likes);
-            $('#bookmark_count').text(data.totals.favorites);
+            if (data.type == 'favorite') {
+                  if (data.status.favorite) {
+                $('#user_star i').removeClass("fa-bookmark-o");
+                $('#user_star i').addClass("fa-bookmark");
+                } else if (data.status.favorite == false) {
+                    $('#user_star i').removeClass("fa-bookmark");
+                    $('#user_star i').addClass("fa-bookmark-o");
+                }
+                console.log(data.status.favorite);
+                $('#bookmark_count').text(data.totals.favorites);
+            }
+
         }
     });
 });

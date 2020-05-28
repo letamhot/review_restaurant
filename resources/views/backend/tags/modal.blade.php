@@ -22,7 +22,6 @@
                         <div class="col-sm-12">
                             <input type="text" class="form-control" id="name" name="name" placeholder="Enter Name"
                                 value="" maxlength="50" data-rule-required="true" />
-                            <input type="text" class="form-control" id="name" name="name" placeholder="Enter Name" value="" maxlength="50" data-rule-required="true" />
                         </div>
                     </div>
                 </div>
@@ -30,7 +29,6 @@
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="submit" type="button" class="btn btn-primary" id="btn_save" value="create">Save
                         changes</button>
-                    <button type="submit" type="button" class="btn btn-primary" id="btn_save" value="create">Save changes</button>
                 </div>
             </form>
         </div>
@@ -56,5 +54,4 @@
             </div>
         </div>
     </div>
-</div>
 </div>

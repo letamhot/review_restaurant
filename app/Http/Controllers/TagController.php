@@ -28,13 +28,11 @@ class TagController extends Controller
         try {
             if ($request->ajax()) {
                 return $this->tagService->getAllAJAX();
-                return $this->tagService->getAll();
             }
 
-            return view($this->path . 'index');
+            return view($this->path.'index');
         } catch (\Exception $e) {
             return $this->errorExceptionMessage();
-            return $e->getMessage();
         }
     }
 
@@ -45,7 +43,7 @@ class TagController extends Controller
      */
     public function create()
     {
-        // NOT DEFINE YET WHEN USING AJAX
+        return view('tags.create');
     }
 
     /**
@@ -67,9 +65,6 @@ class TagController extends Controller
             return $this->errorFailMessage();
         } catch (\Exception $e) {
             return $this->errorExceptionMessage();
-            return response()->json($result);
-        } catch (\Exception $e) {
-            return response()->json($e->getMessage());
         }
     }
 
@@ -78,9 +73,9 @@ class TagController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function show(Tag $Tag)
+    public function show(Tag $tag)
     {
-        // NOT DEFINE YET WHEN USING AJAX
+        //
     }
 
     /**
@@ -88,8 +83,6 @@ class TagController extends Controller
      *
      * @param \App\Models\Tag $tag
      * @param mixed           $id
-
-     * @param mixed $id
      *
      * @return \Illuminate\Http\Response
      */
@@ -104,10 +97,6 @@ class TagController extends Controller
             return $this->errorFailMessage();
         } catch (\Exception $e) {
             return $this->errorExceptionMessage();
-
-            return response()->json($tag);
-        } catch (\Exception $e) {
-            return response()->json($e->getMessage());
         }
     }
 
@@ -116,15 +105,13 @@ class TagController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      * @param \App\Models\Tag          $tag
+     * @param mixed                    $id
      *
      * @return \Illuminate\Http\Response
      */
-
-    public function update(Request $request, Tag $Tag)
+    public function update($id)
     {
-        $result = $this->tagService->update($request, $Tag);
-
-        return $this->goTo($result);
+        // USING store() METHOD - createOrUpdate
     }
 
     /**
@@ -132,7 +119,6 @@ class TagController extends Controller
      *
      * @param \App\Models\Tag $tag
      * @param mixed           $id
-     * @param mixed $id
      *
      * @return \Illuminate\Http\Response
      */
@@ -154,41 +140,6 @@ class TagController extends Controller
             return $this->errorFailMessage();
         } catch (\Exception $e) {
             return $this->errorMessage();
-            $tag = Tag::findById($id);
-            // update new value for each post before delete Tag
-            $tag->posts()->whereTagId($id)->update(['tag_id' => 1]);
-            $tag->posts()->detach();
-
-            $result = $tag->delete();
-
-            $result = $this->tagService->destroy($id);
-            if ($result) {
-                return response()->json(['success' => 'Tag deleted successfully']);
-            }
-
-            return response()->json($result);
-        } catch (\Exception $e) {
-            return response()->json($e->getMessage());
-        }
-    }
-
-    /**
-     * ForceDelete records which has been deleted by SoftDelete.
-     *
-     * @param mixed $id
-     */
-    public function emptyTrash($id)
-    {
-        try {
-            $result = $this->tagService->permanentDestroySoftDeleted($id);
-
-            if ($result) {
-                return response()->json(['success' => 'Tag permanently deleted successfully']);
-            }
-
-            return response()->json($result);
-        } catch (\Exception $e) {
-            return response()->json($e->getMessage());
         }
     }
 
@@ -225,22 +176,25 @@ class TagController extends Controller
         }
     }
 
-/**
- * True value - return index view
- * False value - return previous page
- * Not for AJAX.
- *
- * @param bool $result
- */
-    function goto ($result) {
-        if ($result) {
-            // Toastr::success('Successfully! :)', 'Success');
+    /**
+     * ForceDelete records which has been deleted by SoftDelete.
+     *
+     * @param mixed $id
+     */
+    public function emptyTrash($id)
+    {
+        try {
+            $result = $this->tagService->permanentDestroySoftDeleted($id);
 
-            return redirect()->route($this->path . 'index');
+            if ($result) {
+                return response()->json(['success' => 'Category permanently deleted successfully']);
+            }
+
+            return $this->errorFailMessage();
+        } catch (\Exception $e) {
+            return $this->errorMessage();
         }
-        // Toastr::error('Something went wrong!', 'Error');
     }
-
 
     /**
      * Display validation errors of request.
@@ -272,8 +226,6 @@ class TagController extends Controller
         $msg = [
             'status' => 500,
             'errors' => ['Failed!', 'Unknown error!'],
-
-            'success' => false,
         ];
 
         return response()->json($msg);

@@ -42,9 +42,7 @@ class TagRepositoryImpl extends EloquentRepository implements TagRepository
             ;
         } catch (\Exception $e) {
             return null;
-
         }
-
     }
 
     /**
@@ -65,7 +63,8 @@ class TagRepositoryImpl extends EloquentRepository implements TagRepository
                 ->with('trash_count', function () use ($data) {
                     return $data->count();
                 })
-                ->toJson();
+                ->toJson()
+            ;
         } catch (\Exception $e) {
             return null;
         }
@@ -85,31 +84,6 @@ class TagRepositoryImpl extends EloquentRepository implements TagRepository
                 ['id' => $tagId],
                 ['name' => $request->name, 'slug' => $request->name]
             );
-
-        } catch (\Exception $e) {
-            return null;
-        }
-    }
-    /**
-     * Re-define getAllOnlyTrashed() function for dataTable AJAX.
-     *  Using for TagController@getTrashRecords.
-     */
-    public function getAllOnlyTrashed()
-    {
-        try {
-            $data = $this->getTag()::select('*')->onlyTrashed();
-            $allTag = $this->getTag()::select('id')->withTrashed();
-
-            return DataTables::of($data)
-                ->addIndexColumn()
-                ->with('all_count', function () use ($allTag) {
-                    return $allTag->count();
-                })
-                ->with('trash_count', function () use ($data) {
-                    return $data->count();
-                })
-                ->toJson()
-            ;
         } catch (\Exception $e) {
             return null;
         }
@@ -134,7 +108,6 @@ class TagRepositoryImpl extends EloquentRepository implements TagRepository
             $object->posts()->detach();
 
             return parent::destroy($object);
-
         } catch (\Exception $e) {
             return null;
         }

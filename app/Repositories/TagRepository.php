@@ -1,5 +1,6 @@
 <?php
 
+
 namespace App\Repositories;
 
 interface TagRepository extends BaseRepository
@@ -9,5 +10,5 @@ interface TagRepository extends BaseRepository
     public function getAllAJAX();
 
     public function getAllOnlyTrashedAJAX();
-  
 }
+  

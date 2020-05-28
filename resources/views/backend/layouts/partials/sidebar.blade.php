@@ -27,7 +27,6 @@
               <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-user"></i> <span>Users</span></a>
               <ul class="dropdown-menu">
                   <li><a class="nav-link" href="{{route('user.index')}}">All Users</a></li>
-                  <li><a class="nav-link" href="#">Subscribers</a></li>
               </ul>
           </li>
           <li class="menu-header">User</li>

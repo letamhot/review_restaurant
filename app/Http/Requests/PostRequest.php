@@ -35,6 +35,9 @@ class PostRequest extends FormRequest
             ],
 
             'cover_image' => 'required',
+            'tag' =>'required|array|min:1|max:4',
+
+
         ];
     }
 
