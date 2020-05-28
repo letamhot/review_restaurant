@@ -10,12 +10,21 @@
 |
  */
 // DISABLE REGISTER
+
+use App\Notifications\InvoicePaid;
+use App\User;
+
+
 Auth::routes([
     'register' => false,
     'reset' => false
 ]);
 Route::get('/', function () {
-    return view('front-end.landing-page');
+    // $user = Auth::user();
+    // $when = now()->addMinutes(10);
+    // Notification::send($user, new InvoicePaid)->delay($when);  
+    // $user->notify(new InvoicePaid(User::findOrFail(2)));
+    return view('front-end.landingpage');
 });
 Route::get('/page-detail', function () {
     return view('front-end.page_detail');
@@ -46,15 +55,13 @@ Route::group(['middleware' => ['auth', 'can:isAdmin']], function () {
         return view('backend.post.index');
     });
     Route::resource('api/post', 'PostController');
-    Route::post('post/delete/{id}', 'PostController@destroy');
-    Route::delete('/post/{post}/emptyTrash', 'PostController@emptyTrash')->name('post.emptyTrash');
-    Route::patch('/post/{post}/restoreTrash', 'PostController@restoreTrash')->name('post.restoreTrash');
-    Route::get('/post/trash/sd', 'PostController@getTrashRecords')->name('post.trash');
+
     Route::get('/post/check-status', 'PostController@checkstatus')->name('post.checkstatus');
     Route::get('/post/status', 'PostController@status')->name('post.status');
     Route::post('/post/check/{id}', 'PostController@check')->name('post.check');
 
 });
+
 
 
 
@@ -67,6 +74,11 @@ Route::group(['middleware' => ['auth','can:isAdmin'||'can:isUser]], function () 
     Route::get('/post/all-category', 'PostController@getAllCategory')->name('post.getAllCategory');
     Route::get('/post/all-tag', 'PostController@getAllTag')->name('post.getAllTag');
     Route::get('/post/user-post', 'PostController@user_post')->name('post.user-post');
+    Route::post('post/delete/{id}', 'PostController@destroy');
+    Route::delete('/post/{post}/emptyTrash', 'PostController@emptyTrash')->name('post.emptyTrash');
+    Route::patch('/post/{post}/restoreTrash', 'PostController@restoreTrash')->name('post.restoreTrash');
+    Route::get('/post/trash/sd', 'PostController@getTrashRecords')->name('post.trash');
+
     Route::get('/post/postuser', 'PostController@postuser')->name('post.postuser');
 
 

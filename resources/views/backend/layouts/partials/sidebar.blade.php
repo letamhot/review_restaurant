@@ -17,6 +17,8 @@
               <ul class="dropdown-menu">
                   <li><a class="nav-link" href="{{url('post')}}">All Posts</a></li>
                   <li><a class="nav-link" href="{{route('post.checkstatus')}}">Pending Posts</a></li>
+                  <li><a class="nav-link" href="{{route('post.user-post')}}">User Posts</a></li>
+
               </ul>
           </li>
           <li><a class="nav-link" href="{{route('category.index')}}"><i class="fas fa-list"></i> <span>Categories</span></a></li>
