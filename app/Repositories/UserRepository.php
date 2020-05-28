@@ -12,4 +12,6 @@ interface UserRepository extends BaseRepository
 
     // add Role value to JSON
     public function addRoleToJSON($id);
+
+    public function userStatistic();
 }

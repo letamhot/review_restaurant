@@ -110,6 +110,15 @@ class RoleRepositoryImpl extends EloquentRepository implements RoleRepository
         }
     }
 
+    public function roleStatistic()
+    {
+        try {
+            return $this->getRole()->count();
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
     /**
      * Make Model class.
      */
@@ -117,5 +126,4 @@ class RoleRepositoryImpl extends EloquentRepository implements RoleRepository
     {
         return app()->make($this->getModel());
     }
-    
 }

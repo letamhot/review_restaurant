@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Traits\EloquentScope;
-
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
@@ -19,8 +18,7 @@ class Tag extends Model
         'name', 'slug',
     ];
 
-
-    public function post()
+    public function posts()
     {
         return $this->belongsToMany(Post::class)->withTimestamps();
     }

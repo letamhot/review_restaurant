@@ -4,8 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7fd69cbe15e9ab9e6ff327f835a2a8ad",
-    "content-hash": "c10988f98532f6e4763af4a40df4110f",
+    "content-hash": "7d50f2257685b4eacbdadba886450e03",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -2004,7 +2003,6 @@
             ],
             "description": "👍 User-like features for Laravel Application.",
             "time": "2020-04-10T15:28:07+00:00"
-
         },
         {
             "name": "paragonie/random_compat",
