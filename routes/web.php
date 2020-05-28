@@ -11,16 +11,12 @@
  */
 // DISABLE REGISTER
 
-use App\Notifications\InvoicePaid;
-use App\Models\User;
 
 Auth::routes([
     'register' => false,
     'reset' => false
 ]);
-Route::get('/', function () {
-    // $user = User::find(1);
-    
+Route::get('/', function () {    
     return view('front-end.landing-page');
 });
 Route::get('/page-detail', function () {
