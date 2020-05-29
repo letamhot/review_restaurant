@@ -12,15 +12,17 @@ class InvoicePaid extends Notification
 {
     use Queueable;
     public $user;
+    public $post;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($user)
+    public function __construct($user , $post)
     {
         $this->user = $user;
+        $this->post = $post;
 
     }
 
@@ -60,6 +62,7 @@ class InvoicePaid extends Notification
         return [
             'user_id' => $this->user->id,
             'user_name' => $this->user->name,
+            'post_name' => $this->post->title,
         ];
     }
 }

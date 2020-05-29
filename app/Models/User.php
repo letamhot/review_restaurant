@@ -86,7 +86,7 @@ class User extends Authenticatable
             'name' => $user->name,
             'email' => $user->email,
             'url' => '', // Optional
-            'avatar' => 'gravatar', // Default avatar
+            'avatar' => $user->avatar, // Default avatar
             // 'admin'  => $user->role === 'Admin', // bool
         ];
     }

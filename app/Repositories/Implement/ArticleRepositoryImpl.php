@@ -54,6 +54,11 @@ class ArticleRepositoryImpl extends EloquentRepository implements ArticleReposit
         return $this->getPostModel()::latest()->approved(true)->whereCategoryId($category_id)->get();
     }
 
+    public function getPostsByCategory($category_id)
+    {
+        return $this->getPostModel()::latest()->approved(true)->whereCategoryId($category_id)->get();
+    }
+
     public function getTopReactPost($days, $number, $sort_by = 'desc')
     {
         $posts =  $this->getPostModel()::lastDays($days)->approved(true)

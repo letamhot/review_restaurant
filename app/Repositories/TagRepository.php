@@ -1,5 +1,6 @@
 <?php
 
+
 namespace App\Repositories;
 
 interface TagRepository extends BaseRepository
@@ -12,3 +13,4 @@ interface TagRepository extends BaseRepository
 
     public function tagStatistic();
 }
+  

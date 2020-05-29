@@ -32,17 +32,6 @@
                     <li><a class="nav-link" href="{{route('user.index')}}">All Users</a></li>
                 </ul>
             </li>
-            {{--  <li class="menu-header">User</li>
-            <li class="dropdown">
-                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-bookmark"></i>
-                    <span>General</span></a>
-                <ul class="dropdown-menu">
-                    <li><a class="nav-link" href="#">Bookmarks</a></li>
-                    <li><a class="nav-link" href="#">Following</a></li>
-                </ul>
-            </li>
-            <li><a class="nav-link" href="#"><i class="fas fa-bell"></i> <span>Notification</span></a></li>
-            <li><a class="nav-link" href="#"><i class="fas fa-user-cog"></i> <span>Profile</span></a></li>  --}}
         </ul>
         <div class="mt-4 mb-4 p-3 hide-sidebar-mini">
             <a href="#" class="nav-link">

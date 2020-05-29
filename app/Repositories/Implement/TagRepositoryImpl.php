@@ -63,7 +63,8 @@ class TagRepositoryImpl extends EloquentRepository implements TagRepository
                 ->with('trash_count', function () use ($data) {
                     return $data->count();
                 })
-                ->toJson();
+                ->toJson()
+            ;
         } catch (\Exception $e) {
             return null;
         }

@@ -199,6 +199,10 @@ return [
         //Motification
         Mckenziearts\Notify\LaravelNotifyServiceProvider::class,
 
+        //share
+        Jorenvh\Share\Providers\ShareServiceProvider::class,
+
+
 
     ],
 

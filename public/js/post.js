@@ -154,12 +154,24 @@ post.getDetail = function(id) {
                         minlength: 2,
                         maxlength: 50,
                     },
+                    'tag[]': {
+                        required: true,
+                        minlength: 1,
+                        maxlength: 4
+
+                    },
                 },
                 messages: {
                     title: {
                         required: "Please enter a name",
                         minlength: "Please enter at least 2 characters.",
                         maxlength: "Please enter no more than 50 characters.",
+                    },
+
+                    'tag[]': {
+                        required: "Please enter a tag",
+                        minlength: "Please enter at least 1 characters.",
+                        maxlength: "Please enter no more than 4 characters.",
                     },
                 },
             });
@@ -213,6 +225,12 @@ post.resetForm = function() {
                 minlength: 2,
                 maxlength: 50,
             },
+            'tag[]': {
+                required: true,
+                minlength: 1,
+                maxlength: 4
+
+            },
         },
         messages: {
             title: {
@@ -220,6 +238,12 @@ post.resetForm = function() {
                 minlength: "Please enter at least 2 characters.",
                 maxlength: "Please enter no more than 50 characters.",
             },
+            'tag[]': {
+                required: "Please enter a tag",
+                minlength: "Please enter at least 1 characters.",
+                maxlength: "Please enter no more than 4 characters.",
+            },
+
         },
     });
 

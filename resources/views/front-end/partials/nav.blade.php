@@ -23,11 +23,10 @@
                     Đăng bài
                 </a>
             </div>
-
             @else
-            <a style="text-decoration: none" href="/login" class="linh-button button-lg button-primary">
+            <li><a style="text-decoration: none" href="/login" class="linh-button button-lg button-primary">
                 Đăng bài
-            </a>
+            </a></li>
             @endif
         </div>
     </nav>

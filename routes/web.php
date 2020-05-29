@@ -16,12 +16,15 @@ Auth::routes([
     'register' => false,
     'reset' => false
 ]);
-Route::get('/', function () {
-    return view('front-end.landingpage');
+
+Route::get('/', function () {    
+    return view('front-end.landing-page');
 });
+
 Route::get('/page-detail', function () {
     return view('front-end.page_detail');
 });
+
 // OAuth login
 Route::get('oauth/redirect/{driver}', 'SocialAuthController@redirect')->name('social.redirect');
 Route::get('oauth/callback/{driver}', 'SocialAuthController@callback')->name('social.callback');
@@ -60,6 +63,7 @@ Route::group(['middleware' => ['auth', 'can:isAdmin' || 'can:isUser']], function
         return view('backend.post.index');
     });
     Route::resource('api/post', 'PostController');
+
     Route::post('/post/add', 'PostController@store')->name('post.store');
     Route::get('/post/show/{id}', 'PostController@show')->name('post.show');
     Route::get('post/get/{id}', 'PostController@edit');
@@ -71,9 +75,9 @@ Route::group(['middleware' => ['auth', 'can:isAdmin' || 'can:isUser']], function
     Route::delete('/post/{post}/emptyTrash', 'PostController@emptyTrash')->name('post.emptyTrash');
     Route::patch('/post/{post}/restoreTrash', 'PostController@restoreTrash')->name('post.restoreTrash');
     Route::get('/post/trash/sd', 'PostController@getTrashRecords')->name('post.trash');
-
     Route::get('/post/postuser', 'PostController@postuser')->name('post.postuser');
 });
+
 Route::get('/api/category', 'CategoryController@Api_category')->name('api.category');
 Route::get('/post/showTag', 'PostController@showTag')->name('post.showTag');
 Route::get('/', 'TagController@showAllTag');
