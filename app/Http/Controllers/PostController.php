@@ -81,7 +81,6 @@ class PostController extends Controller
      */
     public function store(PostRequest $request)
     {
-        // dd($request->all());
         $this->postService->create($request);
         return redirect()->route('post.index');
     }
@@ -101,8 +100,6 @@ class PostController extends Controller
     public function showPostDetail($id)
     {
         $post_detail = $this->postService->findById($id);
-        // $post_detail['array_tag'] = $post_detail->tag;
-        // dd($post_detail);
         return view('front-end.page_detail', compact('post_detail'));
     }
     public function showUser($id)
@@ -121,8 +118,6 @@ class PostController extends Controller
         $obj = $this->postService->findByID($id);
         $obj->tags = $obj->tag->pluck('id')->toArray();
         return response()->json($obj, 200);
-        // return view('post.edit', compact('post'));
-
     }
     /**
      * Update the specified resource in storage.
@@ -143,7 +138,6 @@ class PostController extends Controller
         }
 
         return redirect()->route('post.index');
-        // return $this->goTo($result);
     }
 
     /**
@@ -219,7 +213,6 @@ class PostController extends Controller
                 $posts[$key]['tag_name'] = implode(', ', $post->tag()->pluck('name')->toArray());
             }
         }
-        // dd($posts);
         return response()->json($posts, 200);
     }
 
@@ -239,7 +232,6 @@ class PostController extends Controller
     
             }
         }
-        // dd($posts);
         return response()->json( $posts, 200);
     }
 

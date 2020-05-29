@@ -5,6 +5,8 @@ namespace App\Repositories\Implement;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\Tag;
+use App\Models\User;
+use App\Notifications\InvoicePaid;
 use App\Repositories\PostRepository;
 use App\Repositories\Eloquent\EloquentRepository;
 use Illuminate\Support\Str;
@@ -30,7 +32,6 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
     {
         try {
             $image =  $request->file('cover_image');
-            // dd($image);
             $title = $request->title;
             if (isset($image)) {
                 // tạo tên file duy nhất ko trùng lặp
@@ -42,7 +43,6 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
                 if (!File::exists($path)) {
                     File::makeDirectory($path, 0777, true);
                 }
-
                 // lưu ảnh
                 $image->move($path, $imageName);
             } else {
@@ -63,10 +63,20 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
             } else {
                 $post->is_approved = 0;
             }
+            if(Auth::user()->role_id !== "1"){
+                $adminUser = User::where("role_id", 1)->get();
+                $user = Auth::user();
+                foreach($adminUser as $admin){
+                $admin->notify(new InvoicePaid( $user, $post));
+                }
+            }            
             $post->save();
+            
             foreach ($request->tag as $tag) {
                 $post->tag()->attach($tag);
             }
+            
+            
         } catch (\Exception $e) {
             dd($e->getMessage());
             // return null;
@@ -145,11 +155,6 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
         return $result;
     }
 
-
-    // public function getAll(){
-    //     return $this->getPost()->orderBy('created_at','desc')->get();
-    // }
-
     public function getAllCategory(){
         try {
             $data = Category::select('id', 'name');
@@ -185,6 +190,7 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
     public function status(){
         try {
             $data = Post::where("is_approved", false)->orderBy('created_at', 'DESC')->get();
+            
 
             return $data;
         } catch (\Exception $e) {
@@ -195,10 +201,16 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
     {
         $post = $this->getPost()::findOrFail($id);
         $post->is_approved = 1;
+        $user = User::find($post->user_id);
+        $user->notify(new InvoicePaid( Auth::user(), $post));
         $post->update();
         return true;
     }
 
+    public function postStatistic()
+    {
+        
+    }
 
     protected function getPost()
     {

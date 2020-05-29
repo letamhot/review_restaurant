@@ -4,7 +4,6 @@
     <header>
         @include('front-end.partials.nav')
         <div class="tweet-card__background">
-            <!-- <img src="https://indonepaltour.com/img/resort_img.jpeg" /> -->
             <img class="mySlides" src="https://indonepaltour.com/img/resort_img.jpeg" style="width: 100%;" />
             <img class="mySlides" src="https://globalfoodworld.life/wp-content/uploads/2020/03/T%C3%A1gide-s.jpg"
                 style="width: 100%;" />
@@ -30,17 +29,25 @@
                 </li>
                 @if(Auth::user())
                 <li>
-                    <a href="/post" class="tweet-item__title">
+                    <div class="profile_user">
+                        <img src="{{  Auth::user()->avatar }}" alt="John"
+                            style="width:30; height:30px; border-radius:50%; display:inline">
+                        <a href="">{{ Auth::user()->name }}</a>
+                    </div>
+
+                </li>
+                <li>
+                    <a href="/contact" class="tweet-item__title">
                         <div class="tweet-item__bulletsizebar">
-                            <i class="fa fa-area-chart fa-2x" style="color: green" aria-hidden="true"></i>
+                            <i class="fa fa-bell fa-2x" style="color: red" aria-hidden="true"></i>
                         </div>
                         <div class="tweet-item__content">
-                            Admin
+                            Thông Báo
                         </div>
                     </a>
                 </li>
                 @else
-                <a href="/post" class="tweet-item__title">
+                <a href="/login" class="tweet-item__title">
                     <div class="tweet-item__bulletsizebar">
                         <i class="fa fa-area-chart fa-2x" style="color: green" aria-hidden="true"></i>
                     </div>
@@ -71,32 +78,28 @@
                 </li>
             </ul>
             <ul>
-                <p style="text-align:center; color:blue"><i class="fa fa-tags" style="color: red"
-                        aria-hidden="true"></i> #HashTag</p>
+                <p style="text-align:center; color:blue"><i class="fa fa-home fa-2x" style="color: green"
+                        aria-hidden="true"></i> Các Loại Nhà Hàng</p>
                 <div class="tagscroll">
-                    @foreach ($tags as $tag )
+                    @foreach ($categories as $category )
                     <li>
-                        <a href="{{ route('showdetailtag', ['id' => $tag->id ]) }}" class="tweet-item__title">
+                        <a href="{{ route('showdetailcategory', ['id' => $category->id ]) }}" class="tweet-item__title">
                             <div class="tweet-item__content">
-                                {{ $tag->name }}
+                                {{ $category->name }}
                             </div>
+
                         </a>
                     </li>
                     @endforeach
                 </div>
             </ul>
         </aside>
-        {{-- <div class="card-body">
-            @foreach($messages as $message)
-                {{$message->body}}
-        <br>
-        <small>{{$message->created_at->format('d/m/Y')}}</small>
-        <hr>
-        @endforeach
-        </div> --}}
         <div class="main-content">
             <div class="tab-controllers" id="data-category">
                 {{-- phần các nút category --}}
+                <a onclick=latest.show(1); class="linh-bg-button active">Ngày</a>
+                <a onclick=latest.show(2); class="linh-bg-button active">Tuần</a>
+                <a onclick=latest.show(3); class="linh-bg-button active">Tháng</a>
             </div>
             <div id="data-content" class="tweet-card">
 
@@ -132,77 +135,54 @@
 
         <aside class="right-side">
             <div class="hot-tweet-list">
-                <a href="/alllatestnews" style="text-decoration: none; color: brown; text-align: justify " href=""><i
-                        style="color: brown" class="fa fa-hand-o-right fa-3x" aria-hidden="true"></i>Xem
-                    Tất
-                    Cả Tin Mới Nhất</a>
-                <h5 class="hot-tweet-list__title"><span class="newsicon">News</span> Mới Nhất Trong Ngày </h5>
+                <a href="#" style="text-decoration: none; color: brown; text-align: justify " href=""><i
+                        style="color: brown" class="fa fa-hand-o-right fa-3x" aria-hidden="true"></i>Xem tất cả các bài
+                    viết tại đây</a>
+                <h5 class="hot-tweet-list__title"><span class="newsicon">HOT</span> Có thể bạn quan
+                    tâm </h5>
 
                 <ul>
-                    @foreach ($newsday as $day)
+                    {{-- @foreach ($newsday as $day)
                     <li>
                         <a href="{{ route('showpostdetail', ['id' => $day->id ]) }}" class="tweet-item__title">
-                            <div class="tweet-item__bullet"></div>
-                            <div class="tweet-item__content">
-                                <span>{{$day->title}}</span>
-                                <div>
-                                    <i class="fa fa-bell-o" aria-hidden="true"></i>
+                    <div class="tweet-item__bullet"></div>
+                    <div class="tweet-item__content">
+                        <span>{{$day->title}}</span>
+                        <div>
+                            <i class="fa fa-bell-o" aria-hidden="true"></i>
 
-                                    <span class="tweet-item__count">359</span>
-                                </div>
-                            </div>
-                        </a>
+                            <span class="tweet-item__count">359</span>
+                        </div>
+                    </div>
+                    </a>
                     </li>
-                    @endforeach
+                    @endforeach--}}
+                    Các bài viết random bỏ vào đây
+                    <br>
+                    Các bài viết random bỏ vào đây
+                    <br>
+                    Các bài viết random bỏ vào đây
+                    <br>
+                    Các bài viết random bỏ vào đây
 
                 </ul>
+                <hr>
             </div>
 
             <div class="hot-tweet-list">
-                <h5 class="hot-tweet-list__title">Mới nhất Tuần</h5>
-
-                <ul>
-                    @foreach ($newsmonth as $week)
-                    <li>
-                        <a href="{{ route('showpostdetail', ['id' => $week->id ]) }}" class="tweet-item__title">
-                            <div class="tweet-item__bullet"></div>
-                            <div class="tweet-item__content">
-                                <span>{{ $week->title }}</span>
-                                <div>
-                                    <i class="fa fa-bell-o" aria-hidden="true"></i>
-
-                                    <span class="tweet-item__count">359</span>
-                                </div>
+                <p style="text-align:center; color:blue"><i class="fa fa-tags" style="color: red"
+                        aria-hidden="true"></i> #Hashtag</p>
+                <div class="tagscrolltag">
+                    @foreach ($tags as $tag )
+                    <li style="list-style:none; font-weight: bolder">
+                        <a href="{{ route('showdetailtag', ['id' => $tag->id ]) }}" class="tweet-item__title">
+                            <div style="color:purple" class="tweet-item__content">
+                                <span style="color:red">#</span>{{ $tag->name }}
                             </div>
                         </a>
                     </li>
                     @endforeach
-
-                </ul>
-            </div>
-
-            <div class="hot-tweet-list">
-                <h5 class="hot-tweet-list__title">Mới Nhất Tháng</h5>
-
-                <ul>
-                    @foreach ($newsmonth as $month)
-                    <li>
-                        <a href="{{ route('showpostdetail', ['id' => $month->id ]) }}" class="tweet-item__title">
-                            <div class="tweet-item__bullet"></div>
-                            <div class="tweet-item__content">
-                                <span>{{$month->title }}</span>
-                                <div>
-                                    <i class="fa fa-bell-o" aria-hidden="true"></i>
-
-                                    <span class="tweet-item__count">359</span>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    @endforeach
-
-
-                </ul>
+                </div>
             </div>
         </aside>
     </main>
@@ -228,41 +208,17 @@
         integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous">
     </script>
     <script>
-        var category = category || { }
-        var tag = tag || { }
-        category.drawdata = function () {
+        var latest = latest || { }
+        latest.show = function(id) {
+            // console.log(id);
             $.ajax({
                 type: "GET",
-                url: "/api/category",
-                dataType: 'json',
-                success: function(data) {
-                    $.each( data, function( key, value ) {
-                        $("#data-category").append(
-                            `
-                            <a onclick = category.show(${value.id}); class="linh-bg-button active">${value.name}</a>
-                            `
-                        )
-                    });
-                }
-            });
-        }
-        category.show = function(id) {
-            $.ajax({
-                type: "GET",
-                url: "/api/categorypost/" + id,
+                url: "/api/latestnews/" + id,
                 dataType: 'json',
                 success: function(data) {
                     console.log(data)
                     $("#data-content").empty();
                     $.each( data, function( key, value ) {
-                        // let tag = value.post_tag.split(',');
-                        // $.each(tag, (i,v)=>{
-                        //     tag[i] = `#${v}`;
-                        // });
-                        // console.log(tag);
-                        // $.each(value.post_tag, (i,v)=>{
-                        //     console.log(i,v);
-                        // });
                         $("#data-content").append(
                             `
                         <div class="tweet-card__avatar-wrapper">
@@ -294,8 +250,8 @@
             });
         };
     $(document).ready(function () {
-            category.drawdata();
-            category.show(1);
+            // category.drawdata();
+            latest.show(1);
     });
 
     </script>

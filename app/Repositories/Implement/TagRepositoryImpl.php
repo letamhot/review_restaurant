@@ -63,7 +63,8 @@ class TagRepositoryImpl extends EloquentRepository implements TagRepository
                 ->with('trash_count', function () use ($data) {
                     return $data->count();
                 })
-                ->toJson();
+                ->toJson()
+            ;
         } catch (\Exception $e) {
             return null;
         }
@@ -124,7 +125,6 @@ class TagRepositoryImpl extends EloquentRepository implements TagRepository
             // set new tag_id for related post before delete
             $object->posts()->whereTagId($object->id)->update(['tag_id' => 1]);
             // $object->posts()->detach();
-
             return parent::destroy($object);
         } catch (\Exception $e) {
             return $e->getMessage();

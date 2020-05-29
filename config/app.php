@@ -197,6 +197,10 @@ return [
         //Motification
         Mckenziearts\Notify\LaravelNotifyServiceProvider::class,
 
+        //share
+        Jorenvh\Share\Providers\ShareServiceProvider::class,
+
+
 
     ],
 
@@ -249,5 +253,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
+        'Share' => Jorenvh\Share\ShareFacade::class,
+
     ],
 ];
