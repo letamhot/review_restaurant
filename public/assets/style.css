@@ -5,7 +5,6 @@ html {
 body {
     margin: 0;
     padding: 0;
-
 }
 
 
@@ -147,7 +146,6 @@ body {
     text-decoration: none;
 }
 
-
 .linh-nav-icon-button:hover {
     background-color: silver;
 }
@@ -156,8 +154,8 @@ body {
 /* Hot Tweet List */
 
 .hot-tweet-list {
-   color: blue;
-   font-style: oblique;
+    color: blue;
+    font-style: oblique;
 }
 
 .hot-tweet-list__title {
@@ -335,7 +333,6 @@ body {
 
 .main-container {
     padding-top: 12px;
-
     display: flex;
     justify-content: space-between;
     background-color: #f8f8f8;
@@ -355,7 +352,6 @@ body {
 
 .right-side {
     padding-top: 70px;
-
     width: 250px;
     flex-shrink: 0;
 }
@@ -365,14 +361,12 @@ body {
     padding: 20px;
     justify-content: center;
 }
-<<<<<<< HEAD
 
-
-=======
 .tab-controllers a {
     font-size: 20px;
 }
->>>>>>> master
+
+
 /* left side */
 
 .left-side {
@@ -405,21 +399,20 @@ body {
     height: 300px;
     overflow: scroll;
 }
-<<<<<<< HEAD
 
-
-=======
 .tagscrolltag {
-    direction:rtl;
+    direction: rtl;
     border: 3px;
     width: 200px;
     height: 300px;
     overflow: scroll;
 }
-.tagscrolltag div{
-    direction:ltr;
+
+.tagscrolltag div {
+    direction: ltr;
 }
->>>>>>> master
+
+
 /* detail-page */
 
 .post-card {
@@ -570,43 +563,45 @@ textarea {
     padding-top: 100px;
     width: 250px;
     flex-shrink: 0;
-
-
 }
 
 .hot-user {
-    height:200px;
+    height: 200px;
     border: 1px solid black;
     background-color: white;
     text-decoration: none;
     position: fixed;
-
-
 }
 
-.newsicon{
-    font-size: 17px ;
+.newsicon {
+    font-size: 17px;
     color: yellow;
     width: 10px;
     height: 10px;
     background-color: blue;
-   animation-name: example;
-   animation-duration: 0.5s;
-   animation-iteration-count: infinite;
+    animation-name: example;
+    animation-duration: 0.5s;
+    animation-iteration-count: infinite;
 }
+
 @keyframes example {
-    from {background-color:blue;}
-    to {background-color: red;}
-   }
-.user__background{
-    border: double  3px #230045;
+    from {
+        background-color: blue;
+    }
+    to {
+        background-color: red;
+    }
+}
+
+.user__background {
+    border: double 3px #230045;
     padding-top: 100px;
     padding-left: 300px;
     width: 100%;
-    height:300px ;
-    background-color:#ffe7fc;
-
+    height: 300px;
+    background-color: #ffe7fc;
 }
+
 .user__avatar-wrapper {
     display: inline-block;
     width: 100px;
@@ -614,23 +609,27 @@ textarea {
     border-radius: 50%;
     overflow: hidden;
 }
-.contact{
+
+.contact {
     display: inline-block;
     width: 30%;
     height: 300px;
 }
+
 .card {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     max-width: 300px;
     margin: auto;
     text-align: center;
     font-family: arial;
-  }
-  .title {
+}
+
+.title {
     color: grey;
     font-size: 18px;
-  }
-  .card button {
+}
+
+.card button {
     border: none;
     outline: 0;
     display: inline-block;
@@ -641,21 +640,20 @@ textarea {
     cursor: pointer;
     width: 100%;
     font-size: 18px;
-  }
-
-  .card a {
-    text-decoration: none;
-<<<<<<< HEAD
 }
-=======
+
+.card a {
+    text-decoration: none;
     font-size: 22px;
     color: black;
-  }
+}
 
-  .card button:hover, a:hover {
+.card button:hover,
+a:hover {
     opacity: 0.7;
-  }
-  .main-content {
+}
+
+.main-content {
     background-color: #f6f6f6;
     width: 400px;
     margin: 20px auto;
@@ -663,8 +661,8 @@ textarea {
     color: #444;
 }
 
-.test div{
-    display:none;
+.test div {
+    display: none;
     padding: 10px;
     border-width: 0 1px 1px 0;
     border-style: solid;
@@ -673,11 +671,13 @@ textarea {
     margin-bottom: 5px;
     background-color: #f1f1f1;
 }
+
 .totop {
     position: fixed;
     bottom: 10px;
     right: 20px;
 }
+
 .totop a {
     display: none;
 }
@@ -696,30 +696,16 @@ textarea {
     -moz-transition: all 600ms ease-in-out;
     -o-transition: all 600ms ease-in-out;
 }
+
 #loadMore:hover {
     background-color: #fff;
     color: #33739E;
 }
-/* .avatar {
-width: 50px;
-height: 50px;
-border-radius: 50%;
-} */
-/* .date{
-    font-size: x-small;
-}
-div.text{
-border: #444;
-width: 100%;
 
-} */
-<<<<<<< HEAD
->>>>>>> af31e44ca47ba7b5a17cdf3283c5c50b7a57f16a
-=======
 .profile_user {
-    padding-left:20px ;
+    padding-left: 20px;
 }
+
 .profile_user a {
-   text-decoration: none;
+    text-decoration: none;
 }
->>>>>>> master

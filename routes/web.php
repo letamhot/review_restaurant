@@ -11,7 +11,6 @@
  */
 // DISABLE REGISTER
 
-
 Auth::routes([
     'register' => false,
     'reset' => false
@@ -43,39 +42,24 @@ Route::group(['middleware' => ['auth', 'can:isAdmin']], function () {
     Route::delete('/roles/{role}/emptyTrash', 'RoleController@emptyTrash')->name('role.emptyTrash');
     Route::patch('/roles/{role}/restoreTrash', 'RoleController@restoreTrash')->name('role.restoreTrash');
     Route::get('/roles/trash/sd', 'RoleController@getTrashRecords')->name('role.trash');
-<<<<<<< HEAD
-    
-
-=======
     // ADMIN - Post CRUD
 
     Route::post('post/delete/{id}', 'PostController@destroy');
     Route::delete('/post/{post}/emptyTrash', 'PostController@emptyTrash')->name('post.emptyTrash');
     Route::patch('/post/{post}/restoreTrash', 'PostController@restoreTrash')->name('post.restoreTrash');
     Route::get('/post/trash/sd', 'PostController@getTrashRecords')->name('post.trash');
->>>>>>> master
     Route::get('/post/check-status', 'PostController@checkstatus')->name('post.checkstatus');
     Route::get('/post/status', 'PostController@status')->name('post.status');
     Route::post('/post/check/{id}', 'PostController@check')->name('post.check');
 });
-<<<<<<< HEAD
-Route::group(['middleware' => ['auth','can:isAdmin'||'can:isUser']], function () {
-   
-// ADMIN - Post CRUD
-Route::get('/post', function () {
-    return view('backend.post.index');
-});
-=======
-
-
 
 Route::group(['middleware' => ['auth', 'can:isAdmin' || 'can:isUser']], function () {
 
     Route::get('/post', function () {
         return view('backend.post.index');
     });
->>>>>>> master
     Route::resource('api/post', 'PostController');
+
     Route::post('/post/add', 'PostController@store')->name('post.store');
     Route::get('/post/show/{id}', 'PostController@show')->name('post.show');
     Route::get('post/get/{id}', 'PostController@edit');
@@ -87,6 +71,8 @@ Route::group(['middleware' => ['auth', 'can:isAdmin' || 'can:isUser']], function
     Route::delete('/post/{post}/emptyTrash', 'PostController@emptyTrash')->name('post.emptyTrash');
     Route::patch('/post/{post}/restoreTrash', 'PostController@restoreTrash')->name('post.restoreTrash');
     Route::get('/post/trash/sd', 'PostController@getTrashRecords')->name('post.trash');
+
+
     Route::get('/post/postuser', 'PostController@postuser')->name('post.postuser');
 });
 Route::get('/api/category', 'CategoryController@Api_category')->name('api.category');

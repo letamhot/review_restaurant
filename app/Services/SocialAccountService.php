@@ -69,6 +69,9 @@ class SocialAccountService
     protected function sendSuccessResponse()
     {
         // return redirect('/dashboard');
+        if (Auth::user()->role_id == 1) {
+            return redirect()->to('/admin/dashboard');
+        }
         return redirect()->to(Session::get('pre_url'));
     }
 

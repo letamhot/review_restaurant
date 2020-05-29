@@ -56,6 +56,10 @@ class TagController extends Controller
     public function store(TagRequest $request)
     {
         try {
+            if ($request->tag_id == '1') {
+                return $this->errorFailMessage('Can not modify default resource!');
+            }
+
             $result = $this->tagService->ajaxStore($request);
 
             if ($result) {
@@ -125,21 +129,42 @@ class TagController extends Controller
     public function destroy($id)
     {
         try {
+            if ($id == '1') {
+                return $this->errorFailMessage('Can not delete default resource!');
+            }
+            return $this->errorFailMessage();
+        } catch (\Exception $e) {
+            return $this->errorMessage();
             $tag = $this->tagService->findById($id);
             $result = $this->tagService->destroy($tag);
+
             if ($result) {
                 return response()->json(['success' => 'Tag deleted successfully']);
-            }
-            if (false == $result) {
-                return response()->json([
-                    'status' => 202,
-                    'errors' => ['Failed!', 'Can not delete default resource!'],
-                ]);
             }
 
             return $this->errorFailMessage();
         } catch (\Exception $e) {
-            return $this->errorMessage();
+            return response()->json($e->getMessage());
+        }
+    }
+
+    /**
+     * ForceDelete records which has been deleted by SoftDelete.
+     *
+     * @param mixed $id
+     */
+    public function emptyTrash($id)
+    {
+        try {
+            $result = $this->tagService->permanentDestroySoftDeleted($id);
+
+            if ($result) {
+                return response()->json(['success' => 'Tag permanently deleted successfully']);
+            }
+
+            return response()->json($result);
+        } catch (\Exception $e) {
+            return response()->json($e->getMessage());
         }
     }
 
@@ -176,25 +201,8 @@ class TagController extends Controller
         }
     }
 
-    /**
-     * ForceDelete records which has been deleted by SoftDelete.
-     *
-     * @param mixed $id
-     */
-    public function emptyTrash($id)
-    {
-        try {
-            $result = $this->tagService->permanentDestroySoftDeleted($id);
 
-            if ($result) {
-                return response()->json(['success' => 'Category permanently deleted successfully']);
-            }
 
-            return $this->errorFailMessage();
-        } catch (\Exception $e) {
-            return $this->errorMessage();
-        }
-    }
 
     /**
      * Display validation errors of request.
@@ -221,13 +229,14 @@ class TagController extends Controller
     /**
      * Display failed errors of request.
      */
-    protected function errorFailMessage()
+    protected function errorFailMessage($msg = null)
     {
-        $msg = [
+        $message = [
             'status' => 500,
-            'errors' => ['Failed!', 'Unknown error!'],
+            'errors' => ['Failed!', $msg],
+            'success' => false,
         ];
 
-        return response()->json($msg);
+        return response()->json($message);
     }
 }

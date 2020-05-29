@@ -88,6 +88,30 @@ class TagRepositoryImpl extends EloquentRepository implements TagRepository
             return null;
         }
     }
+    /**
+     * Re-define getAllOnlyTrashed() function for dataTable AJAX.
+     *  Using for TagController@getTrashRecords.
+     */
+    public function getAllOnlyTrashed()
+    {
+        try {
+            $data = $this->getTag()::select('*')->onlyTrashed();
+            $allTag = $this->getTag()::select('id')->withTrashed();
+
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->with('all_count', function () use ($allTag) {
+                    return $allTag->count();
+                })
+                ->with('trash_count', function () use ($data) {
+                    return $data->count();
+                })
+                ->toJson()
+            ;
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
 
     /**
      * Override method destroy() function for dataTable AJAX.
@@ -98,18 +122,24 @@ class TagRepositoryImpl extends EloquentRepository implements TagRepository
     public function destroy($object)
     {
         try {
-            if ($object->name == 'other') {
-                return false;
-            }
-            // find Tag has name 'Other'
-            $defaultTag = $this->getTag()->whereName('other')->firstOrFail();
             // set new tag_id for related post before delete
-            $object->posts()->whereTagId($object->id)->update(['tag_id' => $defaultTag->id]);
-            $object->posts()->detach();
-
+            $object->posts()->whereTagId($object->id)->update(['tag_id' => 1]);
+            // $object->posts()->detach();
             return parent::destroy($object);
         } catch (\Exception $e) {
-            return null;
+            return $e->getMessage();
+        }
+    }
+
+    public function tagStatistic()
+    {
+        try {
+            $tagStatistic = [];
+            $tagStatistic['all_tags'] = $this->getTag()->count();
+            $tagStatistic['active_tags'] = $this->getTag()->whereNull('deleted_at')->count();
+            return $tagStatistic;
+        } catch (\Exception $e) {
+            return $e->getMessage();
         }
     }
 

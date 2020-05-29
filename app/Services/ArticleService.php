@@ -13,4 +13,6 @@ interface ArticleService extends BaseService
     public function getTopReactPost($days, $number, $sort_by);
 
     public function getAllBookmarked($user);
+
+    public function getPostsByCategory($category_id);
 }

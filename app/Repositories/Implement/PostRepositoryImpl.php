@@ -207,6 +207,10 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
         return true;
     }
 
+    public function postStatistic()
+    {
+        
+    }
 
     protected function getPost()
     {
