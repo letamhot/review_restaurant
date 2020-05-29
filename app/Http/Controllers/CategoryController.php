@@ -37,23 +37,20 @@ class CategoryController extends Controller
             return $this->errorExceptionMessage();
         }
     }
-    public function Api_category()
+    public function showAllCategory()
     {
-        $data = $this->categoryService->getAll();
+        $categories = $this->categoryService->getAll();
         // $data = Category::all();
         // dd($data);
-        return response()->json($data);
+        return view('front-end.landing-page', compact('categories'));
     }
 
-    public function Api_find_post($id)
+    public function showdetailcategory($id)
     {
-        $data = Post::where('category_id', $id)->get();
-        foreach ($data as $key => $value) {
-            $data[$key]['users_name'] = $value->user->name;
-            $data[$key]['post_tag'] = implode(',', $value->tag()->pluck('name')->toArray());
-            $data[$key]['users_avatar'] = $value->user->avatar;
-        }
-        return response()->json($data);
+
+        $category_detail = $this->categoryService->findById($id);
+
+        return view('front-end.categories', compact('category_detail'));
     }
     /**
      * Show the form for creating a new resource.
@@ -217,7 +214,8 @@ class CategoryController extends Controller
      *
      * @param bool $result
      */
-    function goto ($result) {
+    function goto($result)
+    {
         if ($result) {
             // Toastr::success('Successfully! :)', 'Success');
 

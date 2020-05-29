@@ -30,7 +30,7 @@ class ArticleRepositoryImpl extends EloquentRepository implements ArticleReposit
     {
         // dd($this->getPostModel());
         // return post has been approved or abort-404
-        return $this->getPostModel()::whereId($id)->approved(true)->firstOrFail();
+        return $this->getPostModel()::whereId($id)->approved(true)->with('tag')->firstOrFail();
     }
 
     public function getRandomPost($number)
@@ -58,5 +58,4 @@ class ArticleRepositoryImpl extends EloquentRepository implements ArticleReposit
             ->whereReactedBy($user, 'Star')
             ->get();
     }
-
 }

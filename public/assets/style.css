@@ -365,8 +365,14 @@ body {
     padding: 20px;
     justify-content: center;
 }
+<<<<<<< HEAD
 
 
+=======
+.tab-controllers a {
+    font-size: 20px;
+}
+>>>>>>> master
 /* left side */
 
 .left-side {
@@ -399,8 +405,21 @@ body {
     height: 300px;
     overflow: scroll;
 }
+<<<<<<< HEAD
 
 
+=======
+.tagscrolltag {
+    direction:rtl;
+    border: 3px;
+    width: 200px;
+    height: 300px;
+    overflow: scroll;
+}
+.tagscrolltag div{
+    direction:ltr;
+}
+>>>>>>> master
 /* detail-page */
 
 .post-card {
@@ -694,4 +713,13 @@ border: #444;
 width: 100%;
 
 } */
+<<<<<<< HEAD
 >>>>>>> af31e44ca47ba7b5a17cdf3283c5c50b7a57f16a
+=======
+.profile_user {
+    padding-left:20px ;
+}
+.profile_user a {
+   text-decoration: none;
+}
+>>>>>>> master

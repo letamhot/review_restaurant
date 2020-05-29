@@ -213,7 +213,6 @@ class PostController extends Controller
                 $posts[$key]['tag_name'] = implode(', ', $post->tag()->pluck('name')->toArray());
             }
         }
-        // dd($posts);
         return response()->json($posts, 200);
     }
 
@@ -233,7 +232,6 @@ class PostController extends Controller
     
             }
         }
-        // dd($posts);
         return response()->json( $posts, 200);
     }
 

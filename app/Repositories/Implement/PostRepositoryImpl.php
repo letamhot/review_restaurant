@@ -32,7 +32,6 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
     {
         try {
             $image =  $request->file('cover_image');
-            // dd($image);
             $title = $request->title;
             if (isset($image)) {
                 // tạo tên file duy nhất ko trùng lặp
@@ -44,7 +43,6 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
                 if (!File::exists($path)) {
                     File::makeDirectory($path, 0777, true);
                 }
-
                 // lưu ảnh
                 $image->move($path, $imageName);
             } else {
@@ -156,11 +154,6 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
         $result = $this->getPost()->onlyTrashed()->find($id);
         return $result;
     }
-
-
-    // public function getAll(){
-    //     return $this->getPost()->orderBy('created_at','desc')->get();
-    // }
 
     public function getAllCategory(){
         try {

@@ -29,9 +29,6 @@ class RoleRepositoryImpl extends EloquentRepository implements RoleRepository
     {
         try {
             $role = $this->findById($id);
-            // update new value for each post before delete category
-            // $role->posts()->whereUserId($id)->update(['user_id' => 1]);
-            // $role->posts()->detach();
 
             return $role->delete();
         } catch (\Exception $e) {

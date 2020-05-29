@@ -23,7 +23,7 @@
                 <a style="text-decoration:none" href="javascript:void(0)" class="" id="guest_like"><i
                         class="fa fa-heart fa-2x" style="color: red; padding:10px"></i>
                     <span class="badge badge-white">
-                        {{ $post_detail->totalLike }}</span></a>
+                        {{ $post_detail->totalLike + $post_detail->totalStar }}</span></a>
                 ​<br>
                 <a style="text-decoration:none" href="javascript:void(0)" class="btn btn-light btn-icon icon-left"
                     id="guest_star"><i style="color: green; padding:10px" class="fa fa-bookmark fa-2x"></i>
@@ -41,7 +41,7 @@
                 ​
                 <a style="text-decoration:none" href="javascript:void(0)" data-id='{{ $post_detail->id }}'
                     data-name="like" id="user_like"><i title="yêu thích"
-                        class=" {{ $post_detail->isLiked == true ? 'fa fa-heart fa-2x'  : 'fa fa-heart-o fa-2x' }}"
+                        class="{{ $post_detail->isLiked == false ? 'fa fa-heart fa-2x'  : 'fa fa-heart-o fa-2x' }}"
                         style="color: red; padding:10px "></i>
                     <span class="badge badge-white" id="like_count">
                         {{ $post_detail->totalLike }}</span></a>
@@ -51,10 +51,10 @@
                     data-name="star" id="user_star"><i
                         class=" {{ $post_detail->isStarred == false ? 'fa fa-bookmark fa-2x' : 'fa fa-bookmark-o fa-2x' }}"
                         title="Lưu lại" style="color: green; padding:10px"></i>
-                    <span class="badge badge-white" id="bookmark_count">
-                        {{ $post_detail->totalStar }}</span></a>
+                    <span class="badge badge-white" id="bookmark_count">{{ $post_detail->totalStar }}
+                    </span></a>
                 <br>
-                <a href="" class=""><i title="Lượt bình luận" style="color: blue;padding:10px "
+                <a href="#comment_place" class=""><i title="Lượt bình luận" style="color: blue;padding:10px "
                         class="fa fa-comments fa-2x"></i></a><span>{{ $post_detail->totalComment }}</span>
                 @endguest
             </div>
@@ -89,9 +89,10 @@
 
                         <div class="tweet-card__info">
                             <a class="tweet-card__user-name">{{ $post_detail->user->name }}</a>
-                            <span class=" tweet-card__date-post">May 2 '20</span>
+                            <span class=" tweet-card__date-post">{{ $post_detail->created_at }}</span>
                         </div>
                     </div>
+
 
                     <div class="tweet-card__tags-container">
                         @foreach ($post_detail->tag as $value)
@@ -107,16 +108,17 @@
                     </div>
 
                     <div class="tweet-card__actions-container">
-                        <div>
+                        <div id="comment_place">
                             <button class="linh-button button-md">
                                 <i class="fa fa-bell-o" aria-hidden="true"></i>
-                                {{ $post_detail->totalLike + $post_detail->totalStar }} reactions
+                                {{ $post_detail->totalLike + $post_detail->totalStar }} tương tác
                             </button>
                             <button class="linh-button button-md">
                                 <i class="fa fa-bell-o" aria-hidden="true"></i>
-                                {{ $post_detail->totalComment }} comments
+                                {{ $post_detail->totalComment }} bình luận
                             </button>
                         </div>
+<<<<<<< HEAD
                         <div id="social-links">
                             <ul>
                                 <li><a href="https://www.facebook.com/sharer/sharer.php?u={{ url()->current() }}" class="social-button " id=""><span class="fa fa-facebook-official"></span></a></li>
@@ -126,6 +128,9 @@
                             </ul>
                         </div>
                         ​
+=======
+
+>>>>>>> master
                         <div>
                             <span class="tweet-card__read-count">
                                 13 min read
@@ -189,12 +194,11 @@
 
     <script src="{{ asset('assets/backend/modules/izitoast/js/iziToast.min.js')}}"></script>
 
-    <script src="{{ asset('/vendor/laravelLikeComment/js/script.js') }}" type="text/javascript"></script>
     <script>
         var token = '{!! csrf_token() !!}';
     </script>
     <script src="{{ asset('js/ajax_reaction.js')}}"></script>
-    <script>
+    {{--  <script>
         $("#show_hide_bt").click(function(event) {
             $(this).find('i').toggleClass('fa fa-heart-o').toggleClass('fa fa-heart');
         });
@@ -209,7 +213,7 @@
             $("#test").show();
         });
         });
-    </script>
+    </script>  --}}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script src="{{ asset('/vendor/laravelLikeComment/js/script.js') }}" type="text/javascript"></script>
     @endsection
