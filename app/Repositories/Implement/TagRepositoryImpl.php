@@ -42,9 +42,7 @@ class TagRepositoryImpl extends EloquentRepository implements TagRepository
             ;
         } catch (\Exception $e) {
             return null;
-
         }
-
     }
 
     /**
@@ -85,7 +83,6 @@ class TagRepositoryImpl extends EloquentRepository implements TagRepository
                 ['id' => $tagId],
                 ['name' => $request->name, 'slug' => $request->name]
             );
-
         } catch (\Exception $e) {
             return null;
         }
@@ -124,19 +121,25 @@ class TagRepositoryImpl extends EloquentRepository implements TagRepository
     public function destroy($object)
     {
         try {
-            if ($object->name == 'other') {
-                return false;
-            }
-            // find Tag has name 'Other'
-            $defaultTag = $this->getTag()->whereName('other')->firstOrFail();
             // set new tag_id for related post before delete
-            $object->posts()->whereTagId($object->id)->update(['tag_id' => $defaultTag->id]);
-            $object->posts()->detach();
+            $object->posts()->whereTagId($object->id)->update(['tag_id' => 1]);
+            // $object->posts()->detach();
 
             return parent::destroy($object);
-
         } catch (\Exception $e) {
-            return null;
+            return $e->getMessage();
+        }
+    }
+
+    public function tagStatistic()
+    {
+        try {
+            $tagStatistic = [];
+            $tagStatistic['all_tags'] = $this->getTag()->count();
+            $tagStatistic['active_tags'] = $this->getTag()->whereNull('deleted_at')->count();
+            return $tagStatistic;
+        } catch (\Exception $e) {
+            return $e->getMessage();
         }
     }
 

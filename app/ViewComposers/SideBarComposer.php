@@ -11,14 +11,10 @@ class SideBarComposer
 {
 
     protected $articleService;
-    protected $categoryService;
-    protected $tagService;
 
-    public function __construct(ArticleService $articleService, CategoryService $categoryService, TagService $tagService)
+    public function __construct(ArticleService $articleService)
     {
         $this->articleService = $articleService;
-        $this->categoryService = $categoryService;
-        $this->tagService = $tagService;
     }
 
     public function compose(View $view)
@@ -29,10 +25,8 @@ class SideBarComposer
          * @param View $view
          */
 
-        $randomPosts = $this->articleService->getRandomPost(4);
-        $categories = $this->categoryService->getAll();
-        $tags = $this->tagService->getAll();
+        $random_posts = $this->articleService->getRandomPost(4);
 
-        $view->with(['randomPosts' => $randomPosts, 'categories' => $categories, 'tags' => $tags]);
+        $view->with(['random_posts' => $random_posts]);
     }
 }

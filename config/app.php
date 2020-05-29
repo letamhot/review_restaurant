@@ -158,6 +158,8 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         Yoeunes\Toastr\ToastrServiceProvider::class,
+        Jorenvh\Share\Providers\ShareServiceProvider::class,
+
 
         // Package Service Providers...
 
@@ -193,7 +195,7 @@ return [
 
         //Risul Like-comment
         risul\LaravelLikeComment\LikeCommentServiceProvider::class,
-        
+
         //Motification
         Mckenziearts\Notify\LaravelNotifyServiceProvider::class,
 
@@ -249,5 +251,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
+        'Share' => Jorenvh\Share\ShareFacade::class,
+
     ],
 ];

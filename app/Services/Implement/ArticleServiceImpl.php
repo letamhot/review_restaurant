@@ -57,12 +57,20 @@ class ArticleServiceImpl extends BaseServiceImpl implements ArticleService
 
     public function getLatestPost($number)
     {
-        return $this->makeRepo()->getLatestPost($number);
+        $latestPosts =  $this->makeRepo()->getLatestPost($number);
+        return response()->json($latestPosts);
+    }
+
+    public function getPostsByCategory($category_id)
+    {
+        $posts = $this->makeRepo()->getPostsByCategory($category_id);
+        return response()->json($posts);
     }
 
     public function getTopReactPost($days, $number, $sort_by)
     {
-        return $this->makeRepo()->getTopReactPost($days, $number, $sort_by);
+        $posts = $this->makeRepo()->getTopReactPost($days, $number, $sort_by);
+        return response()->json($posts);
     }
 
     public function getAllBookmarked($user)

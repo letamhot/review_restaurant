@@ -53,6 +53,12 @@
                 <br>
                 <a href="#comment_place" class=""><i title="Lượt bình luận" style="color: blue;padding:10px "
                         class="fa fa-comments fa-2x"></i></a><span>{{ $post_detail->totalComment }}</span>
+                <br>
+                <div id="social-links">
+                    <a style="padding-left:10px"
+                        href="https://www.facebook.com/sharer/sharer.php?u={{ url()->current() }}"
+                        class="social-button " id=""><i title="chia sẻ facebook" class="fa fa-share-alt fa-2x"></i></a>
+                </div>
                 @endguest
             </div>
             {{--  <a href="/login" class="linh-nav-icon-button"><i title="Lượt bình luận" style="color: blue"
@@ -107,6 +113,7 @@
 
                     <div class="tweet-card__actions-container">
                         <div id="comment_place">
+
                             <button class="linh-button button-md">
                                 <i class="fa fa-bell-o" aria-hidden="true"></i>
                                 {{ $post_detail->totalLike + $post_detail->totalStar }} tương tác
@@ -115,47 +122,18 @@
                                 <i class="fa fa-bell-o" aria-hidden="true"></i>
                                 {{ $post_detail->totalComment }} bình luận
                             </button>
-                        </div>
 
-                        <div>
-                            <span class="tweet-card__read-count">
-                                13 min read
-                            </span>
-                            ​
-                            <button class="linh-button button-md button-silver">
-                                Save
-                            </button>
                         </div>
                     </div>
-                    <div>
-                        {{-- @dump(Auth::user()) --}}
-                        {{--  @guest
-                        <a href="javascript:void(0)" class="btn btn-light btn-icon icon-left" id="guest_like"><i
-                                class=""></i> Like <span class="badge badge-white">
-                                {{ $post_detail->totalLike }}</span></a>
-                        ​
-                        <a href="javascript:void(0)" class="btn btn-light btn-icon icon-left" id="guest_star"><i
-                                class=""></i> Bookmark<span class="badge badge-white">
-                                {{ $post_detail->totalStar }}</span></a>
-                        ​
-                        @else
-                        ​
-                        <a href="javascript:void(0)" data-id='{{ $post_detail->id }}' data-name="like" id="user_like"><i
-                                class="{{ $post_detail->isLiked == true ? 'fa fa-heart' : 'fa fa-heart-o' }}"
-                                style="color: red;"></i>
-                            Like <span class="badge badge-white" id="like_count">
-                                {{ $post_detail->totalLike }}</span></a>
-                        ​
-                        <a href="javascript:void(0)" data-id='{{ $post_detail->id }}' data-name="star" id="user_star"><i
-                                class=" {{ $post_detail->isStarred == false ? 'fa fa-bookmark' : 'fa fa-bookmark-o' }}"></i>
-                            Bookmark<span class="badge badge-white" id="bookmark_count">
-                                {{ $post_detail->totalStar }}</span></a>
-                        @endguest --}}
-                        ​
-                        @include('laravelLikeComment::comment', ['comment_item_id' => $post_detail->id])
+                    <div class="tweet-card__actions-container">
+
                     </div>
                 </div>
+                <div>
+                    @include('laravelLikeComment::comment', ['comment_item_id' => $post_detail->id])
+                </div>
             </div>
+        </div>
         </div>
         </div>
 

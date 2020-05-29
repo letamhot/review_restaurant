@@ -10,12 +10,14 @@
 |
  */
 // DISABLE REGISTER
+
+
 Auth::routes([
     'register' => false,
     'reset' => false
 ]);
 Route::get('/', function () {
-    return view('front-end.landing-page');
+    return view('front-end.landingpage');
 });
 Route::get('/page-detail', function () {
     return view('front-end.page_detail');
@@ -52,8 +54,6 @@ Route::group(['middleware' => ['auth', 'can:isAdmin']], function () {
     Route::post('/post/check/{id}', 'PostController@check')->name('post.check');
 });
 
-
-
 Route::group(['middleware' => ['auth', 'can:isAdmin' || 'can:isUser']], function () {
 
     Route::get('/post', function () {
@@ -67,6 +67,11 @@ Route::group(['middleware' => ['auth', 'can:isAdmin' || 'can:isUser']], function
     Route::get('/post/all-category', 'PostController@getAllCategory')->name('post.getAllCategory');
     Route::get('/post/all-tag', 'PostController@getAllTag')->name('post.getAllTag');
     Route::get('/post/user-post', 'PostController@user_post')->name('post.user-post');
+    Route::post('post/delete/{id}', 'PostController@destroy');
+    Route::delete('/post/{post}/emptyTrash', 'PostController@emptyTrash')->name('post.emptyTrash');
+    Route::patch('/post/{post}/restoreTrash', 'PostController@restoreTrash')->name('post.restoreTrash');
+    Route::get('/post/trash/sd', 'PostController@getTrashRecords')->name('post.trash');
+
     Route::get('/post/postuser', 'PostController@postuser')->name('post.postuser');
 });
 Route::get('/api/category', 'CategoryController@Api_category')->name('api.category');
@@ -78,6 +83,11 @@ Route::get('/tag_detail/{id}', 'TagController@showdetailtag')->name('showdetailt
 Route::get('/listAll', 'ArticleController@index');
 Route::get('/post_web/{id}', 'ArticleController@show')->name('showpostdetail');
 Route::get('/api/categorypost/{id}', 'CategoryController@Api_find_post')->name('api.postcategory');
+
+//
+Route::get('/api/article/latest_post', "ArticleController@getLatestPost");
+Route::get('/api/article/top_week', "ArticleController@getTopReactPostWeek");
+Route::get('/api/article/top_month', "ArticleController@getTopReactPostMonth");
 
 // like_comment
 Route::post('/post/react', 'ReactionController@react')->name('post.reaction');

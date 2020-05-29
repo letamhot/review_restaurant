@@ -1,5 +1,5 @@
 <header>
-    <nav class="main-nav">
+    <nav class="main-nav" style="vertical-align:top; z-index:9999">
         <div>
             <a href="/" style="text-decoration:none" class="app-logo">
                 TLP
@@ -13,18 +13,22 @@
         </div>
         <div>
             @if(Auth::user())
-            <a style="text-decoration: none" href="/post" class="linh-button button-lg button-primary">
-                Đăng bài
-            </a>
+            <div href="javascript:;" class="linh-nav-icon-button-special" style="width:auto; ">
+                <img src="{{  Auth::user()->avatar }}" alt="John"
+                    style="width:30; height:30px; border-radius:50%; padding:0px 5px;">
+                <a style="text-decoration:none;line-height:2.5; font-size:14px; padding:0px 5px;"
+                    href="">{{ Auth::user()->name }}</a>
+                <a style="text-decoration: none" href="/post" class="linh-button button-lg button-primary"
+                    style="padding:0px 5px;">
+                    Đăng bài
+                </a>
+            </div>
+
             @else
             <a style="text-decoration: none" href="/login" class="linh-button button-lg button-primary">
                 Đăng bài
             </a>
             @endif
-            {{--  <a href="javascript:;" class="linh-nav-icon-button"><i title="Thông báo" style="color:rebeccapurple;"
-                    class="fa fa-bell-o" aria-hidden="true"></i></a>
-            <a href="javascript:;" class="linh-nav-icon-button"><i class="fa fa-bell-o" aria-hidden="true"></i></a>
-            <a href="javascript:;" class="linh-nav-icon-button"><i class="fa fa-bell-o" aria-hidden="true"></i></a>  --}}
         </div>
     </nav>
 </header>

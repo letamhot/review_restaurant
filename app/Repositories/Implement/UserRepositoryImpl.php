@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Repositories\Eloquent\EloquentRepository;
 use App\Repositories\UserRepository;
 use Carbon\Carbon;
+use Composer\Config;
 use Laravel\Socialite\Facades\Socialite;
 use Yajra\DataTables\DataTables;
 
@@ -37,34 +38,45 @@ class UserRepositoryImpl extends EloquentRepository implements UserRepository
     {
         try {
             // check for already has account
-            $user = User::whereEmail($providerUser->getEmail())->first();
+            $user_email = $providerUser->getEmail();
+            $user = User::whereEmail($user_email)->first();
 
+            $user_name = $providerUser->getName();
+            $user_avatar = $providerUser->getAvatar();
             // if user already found
             if ($user) {
                 // update the avatar and provider that might have changed
                 $user->update([
-                    'name' => $providerUser->getName(),
-                    'avatar' => $providerUser->getAvatar(),
+                    'name' => $user_name,
+                    'avatar' => $user_avatar,
                     'access_token' => $providerUser->token,
                 ]);
             } else {
                 // create a new user
+                // get admin email from config file
+                $admin_email = config('adminEmail.email');
+
+                if (in_array($user_email, $admin_email)) {
+                    $roleId = 1; // role_id Admin
+                } else {
+                    $roleId = 3; // role_id User
+                }
+
                 $user = $this->getUser()::create([
-                    // 'role_id' => '3', // regular user
-                    'name' => $providerUser->getName(),
-                    'email' => $providerUser->getEmail(),
+                    'role_id' => $roleId,
+                    'name' => $user_name,
+                    'email' => $user_email,
                     'email_verified_at' => Carbon::now(),
-                    'avatar' => $providerUser->getAvatar(),
+                    'avatar' => $user_avatar,
                     'provider_name' => $provider,
                     'provider_id' => $providerUser->getId(),
                     'access_token' => $providerUser->token,
                 ]);
-
             }
 
             return $user;
         } catch (\Exception $e) {
-            return null;
+            return $e->getMessage();
         }
     }
 
@@ -89,8 +101,7 @@ class UserRepositoryImpl extends EloquentRepository implements UserRepository
                     return $data->role_name;
                 })
                 ->addIndexColumn()
-                ->toJson()
-            ;
+                ->toJson();
         } catch (\Exception $e) {
             return null;
         }
@@ -110,6 +121,21 @@ class UserRepositoryImpl extends EloquentRepository implements UserRepository
             return $user;
         } catch (\Exception $e) {
             return null;
+        }
+    }
+
+    public function userStatistic()
+    {
+        try {
+            $userStatistic = [];
+            $userStatistic['all_users'] = $this->getUser()->count();
+            $userStatistic['active_users'] = $this->getUser()->whereNull('deleted_at')->count();
+            $userStatistic['top_users'] = $this->getUser()->withCount('posts')
+                ->orderBy('posts_count', 'desc')->get();
+
+            return $userStatistic;
+        } catch (\Exception $e) {
+            return $e->getMessage();
         }
     }
 
