@@ -26,6 +26,6 @@ class ViewComposerServiceProvider extends ServiceProvider
     public function boot()
     {
         // on specific view with wildcards
-        View::composer('frontend.partial.sidebar', SideBarComposer::class);
+        View::composer('front-end.random_posts', SideBarComposer::class);
     }
 }

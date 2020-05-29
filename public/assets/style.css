@@ -149,6 +149,19 @@ body {
 .linh-nav-icon-button:hover {
     background-color: silver;
 }
+.linh-nav-icon-button-special {
+    color: black;
+    font-size: 22px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    text-decoration: none;
+}
+
 
 
 /* Hot Tweet List */
@@ -661,6 +674,7 @@ a:hover {
     color: #444;
 }
 
+
 .test div {
     display: none;
     padding: 10px;
@@ -707,5 +721,44 @@ a:hover {
 }
 
 .profile_user a {
-    text-decoration: none;
+   text-decoration: none;
 }
+
+/* Drop Button */
+.dropdown {
+    padding-left: 10px;
+    position: relative;
+    display: inline-block;
+    z-index: 100000;
+  }
+
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 100000;
+  }
+
+  .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    z-index: 100000;
+  }
+
+  .dropdown-content a:hover {background-color: #f1f1f1}
+
+  .dropdown:hover .dropdown-content {
+    display: block;
+    z-index: 100000;
+  }
+
+  .dropdown:hover .dropbtn {
+    background-color: #3e8e41;
+  }
+
+
+

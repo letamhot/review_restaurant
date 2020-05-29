@@ -40,7 +40,18 @@ class ArticleRepositoryImpl extends EloquentRepository implements ArticleReposit
 
     public function getLatestPost($number)
     {
-        return $this->getPostModel()::latest()->approved(true)->take($number)->get();
+        $posts =  $this->getPostModel()::latest()->approved(true)->take($number)->get();
+
+        foreach ($posts as $post) {
+            $post->user_name = implode('', $post->user()->pluck('name')->toArray());
+            $post->user_avatar = implode('', $post->user()->pluck('avatar')->toArray());
+        }
+        return $posts;
+    }
+
+    public function getPostsByCategory($category_id)
+    {
+        return $this->getPostModel()::latest()->approved(true)->whereCategoryId($category_id)->get();
     }
 
     public function getPostsByCategory($category_id)
@@ -50,11 +61,20 @@ class ArticleRepositoryImpl extends EloquentRepository implements ArticleReposit
 
     public function getTopReactPost($days, $number, $sort_by = 'desc')
     {
-        return $this->getPostModel()::lastDays($days)->approved(true)
-            ->joinReactionTotal()
-            ->orderBy('reaction_total_weight', $sort_by)
+        $posts =  $this->getPostModel()::lastDays($days)->approved(true)
+            ->withCount('likers')
+            ->withCount('favoriters')
+            ->orderBy('likers_count', $sort_by)
+            ->orderBy('favoriters_count', $sort_by)
+            ->orderBy('created_at', $sort_by)
             ->take($number)
             ->get();
+
+        foreach ($posts as $post) {
+            $post->user_name = implode('', $post->user()->pluck('name')->toArray());
+            $post->user_avatar = implode('', $post->user()->pluck('avatar')->toArray());
+        }
+        return $posts;
     }
 
     public function getAllBookmarked($user)

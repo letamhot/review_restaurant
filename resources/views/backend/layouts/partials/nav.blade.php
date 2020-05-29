@@ -21,27 +21,25 @@
                     </div>
                 </div>
                 <div class="dropdown-list-content dropdown-list-icons">
-                        {{-- <div class="dropdown-item-icon bg-primary text-white">
-                            <i class="fas fa-code"></i>
-                        </div> --}}
-                        @if(Auth::user()->role_id == "1")
-                        <div class="dropdown-item-desc">
-                           @foreach (Auth::user()->unreadnotifications as $notify)
-                           <h3>{{$notify->data['post_name']}} waiting</h3>
-                           <div class="time text-dark" style="float: right"><h6>{{$notify->created_at}}</h6></div>
-                           @endforeach
-                           
+                    @if(Auth::user()->role_id == "1")
+                    <div class="dropdown-item-desc">
+                        @foreach (Auth::user()->unreadnotifications as $notify)
+                        <h3>{{$notify->data['post_name']}} waiting</h3>
+                        <div class="time text-dark" style="float: right">
+                            <h6>{{$notify->created_at}}</h6>
                         </div>
-                        @else
-                        <div class="dropdown-item-desc">
-                            @foreach (Auth::user()->unreadnotifications as $notify)
-                            <h3>{{$notify->data['post_name']}} has been approved</h3>
-                            <div class="time text-dark" style="float: right"><h6>{{$notify->created_at}}</h6></div>
-                            @endforeach
-                            
-                         </div>
-                         @endif
-                            
+                        @endforeach
+                    </div>
+                    @else
+                    <div class="dropdown-item-desc">
+                        @foreach (Auth::user()->unreadnotifications as $notify)
+                        <h3>{{$notify->data['post_name']}} has been approved</h3>
+                        <div class="time text-dark" style="float: right">
+                            <h6>{{$notify->created_at}}</h6>
+                        </div>
+                        @endforeach
+                    </div>
+                    @endif
                 </div>
                 {{-- <div class="dropdown-footer text-center">
                     <a href="#">View All <i class="fas fa-chevron-right"></i></a>
@@ -50,7 +48,7 @@
         </li>
         <li class="dropdown"><a href="#" data-toggle="dropdown"
                 class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-                
+
                 <img alt="{{ Auth::user()->name ?? 'image' }}" src="{{ Auth::user()->avatar ?? '' }}"
                     class="rounded-circle mr-1">
                 <div class="d-sm-none d-lg-inline-block">{{ Auth::user()->name ?? 'TLP'}}</div>

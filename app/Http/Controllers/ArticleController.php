@@ -42,8 +42,9 @@ class ArticleController extends Controller
         return view('front-end.page_detail', compact('post_detail'));
     }
 
-    public function getLatestPost($number)
+    public function getLatestPost()
     {
+        $number = 10;
         return $this->articleService->getLatestPost($number);
     }
 
@@ -52,8 +53,19 @@ class ArticleController extends Controller
      * $number: take how many posts
      * $sort_by: sort by ASC or DESC
      */
-    public function getTopReactPost($days, $number, $sort_by)
+    public function getTopReactPostWeek()
     {
+        $days = 7;
+        $number = 10;
+        $sort_by = 'desc';
+        return $this->articleService->getTopReactPost($days, $number, $sort_by);
+    }
+
+    public function getTopReactPostMonth()
+    {
+        $days = 30;
+        $number = 10;
+        $sort_by = 'desc';
         return $this->articleService->getTopReactPost($days, $number, $sort_by);
     }
 

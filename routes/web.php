@@ -11,16 +11,20 @@
  */
 // DISABLE REGISTER
 
+
 Auth::routes([
     'register' => false,
     'reset' => false
 ]);
+
 Route::get('/', function () {    
     return view('front-end.landing-page');
 });
+
 Route::get('/page-detail', function () {
     return view('front-end.page_detail');
 });
+
 // OAuth login
 Route::get('oauth/redirect/{driver}', 'SocialAuthController@redirect')->name('social.redirect');
 Route::get('oauth/callback/{driver}', 'SocialAuthController@callback')->name('social.callback');
@@ -71,10 +75,9 @@ Route::group(['middleware' => ['auth', 'can:isAdmin' || 'can:isUser']], function
     Route::delete('/post/{post}/emptyTrash', 'PostController@emptyTrash')->name('post.emptyTrash');
     Route::patch('/post/{post}/restoreTrash', 'PostController@restoreTrash')->name('post.restoreTrash');
     Route::get('/post/trash/sd', 'PostController@getTrashRecords')->name('post.trash');
-
-
     Route::get('/post/postuser', 'PostController@postuser')->name('post.postuser');
 });
+
 Route::get('/api/category', 'CategoryController@Api_category')->name('api.category');
 Route::get('/post/showTag', 'PostController@showTag')->name('post.showTag');
 Route::get('/', 'TagController@showAllTag');
@@ -84,6 +87,11 @@ Route::get('/tag_detail/{id}', 'TagController@showdetailtag')->name('showdetailt
 Route::get('/listAll', 'ArticleController@index');
 Route::get('/post_web/{id}', 'ArticleController@show')->name('showpostdetail');
 Route::get('/api/categorypost/{id}', 'CategoryController@Api_find_post')->name('api.postcategory');
+
+//
+Route::get('/api/article/latest_post', "ArticleController@getLatestPost");
+Route::get('/api/article/top_week', "ArticleController@getTopReactPostWeek");
+Route::get('/api/article/top_month', "ArticleController@getTopReactPostMonth");
 
 // like_comment
 Route::post('/post/react', 'ReactionController@react')->name('post.reaction');

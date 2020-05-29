@@ -63,13 +63,15 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
             } else {
                 $post->is_approved = 0;
             }
-            if(Auth::user()->role_id !== "1"){
+
+            if (Auth::user()->role_id !== "1") {
                 $adminUser = User::where("role_id", 1)->get();
                 $user = Auth::user();
-                foreach($adminUser as $admin){
-                $admin->notify(new InvoicePaid( $user, $post));
+                foreach ($adminUser as $admin) {
+                    $admin->notify(new InvoicePaid($user, $post));
                 }
-            }            
+            }
+
             $post->save();
             
             foreach ($request->tag as $tag) {
@@ -155,7 +157,15 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
         return $result;
     }
 
+
+
+    // public function getAll(){
+    //     return $this->getPost()->orderBy('created_at','desc')->get();
+    // }
+
+
     public function getAllCategory(){
+
         try {
             $data = Category::select('id', 'name');
 
@@ -176,8 +186,10 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
         }
     }
 
-
-    public function user_post(){
+    public function postStatistic()
+    { }
+    public function user_post()
+    {
         try {
             $data = Post::whereUserId(Auth::user()->id)->orderBy('created_at', 'DESC')->get();
 
@@ -187,7 +199,8 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
         }
     }
 
-    public function status(){
+    public function status()
+    {
         try {
             $data = Post::where("is_approved", false)->orderBy('created_at', 'DESC')->get();
             
@@ -202,7 +215,8 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
         $post = $this->getPost()::findOrFail($id);
         $post->is_approved = 1;
         $user = User::find($post->user_id);
-        $user->notify(new InvoicePaid( Auth::user(), $post));
+        $user->notify(new InvoicePaid(Auth::user(), $post));
+
         $post->update();
         return true;
     }

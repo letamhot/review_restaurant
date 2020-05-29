@@ -132,9 +132,7 @@ class TagController extends Controller
             if ($id == '1') {
                 return $this->errorFailMessage('Can not delete default resource!');
             }
-            return $this->errorFailMessage();
-        } catch (\Exception $e) {
-            return $this->errorMessage();
+          
             $tag = $this->tagService->findById($id);
             $result = $this->tagService->destroy($tag);
 
@@ -200,7 +198,6 @@ class TagController extends Controller
             return $this->errorExceptionMessage();
         }
     }
-
 
 
 

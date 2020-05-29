@@ -17,6 +17,18 @@
     <main class="main-container">
         <aside class="left-side">
             <ul>
+                @if(Auth::user())
+                <li>
+                    <a href="/post" class="tweet-item__title">
+                        <div class="tweet-item__bulletsizebar">
+                            <i class="fa fa-area-chart fa-2x" style="color: green" aria-hidden="true"></i>
+                        </div>
+                        <div class="tweet-item__content">
+                            Admin
+                        </div>
+                    </a>
+                </li>
+                @else
                 <li>
                     <a href="/login" class="tweet-item__title">
                         <div class="tweet-item__bulletsizebar">
@@ -27,34 +39,17 @@
                         </div>
                     </a>
                 </li>
-                @if(Auth::user())
-                <li>
-                    <div class="profile_user">
-                        <img src="{{  Auth::user()->avatar }}" alt="John"
-                            style="width:30; height:30px; border-radius:50%; display:inline">
-                        <a href="">{{ Auth::user()->name }}</a>
-                    </div>
 
-                </li>
                 <li>
-                    <a href="/contact" class="tweet-item__title">
+                    <a href="/login" class="tweet-item__title">
                         <div class="tweet-item__bulletsizebar">
-                            <i class="fa fa-bell fa-2x" style="color: red" aria-hidden="true"></i>
+                            <i class="fa fa-area-chart fa-2x" style="color: green" aria-hidden="true"></i>
                         </div>
                         <div class="tweet-item__content">
-                            Thông Báo
+                            Admin
                         </div>
                     </a>
                 </li>
-                @else
-                <a href="/login" class="tweet-item__title">
-                    <div class="tweet-item__bulletsizebar">
-                        <i class="fa fa-area-chart fa-2x" style="color: green" aria-hidden="true"></i>
-                    </div>
-                    <div class="tweet-item__content">
-                        Admin
-                    </div>
-                </a>
                 @endif
                 <li>
                     <a href="/fqa" class="tweet-item__title">
@@ -97,9 +92,15 @@
         <div class="main-content">
             <div class="tab-controllers" id="data-category">
                 {{-- phần các nút category --}}
-                <a onclick=latest.show(1); class="linh-bg-button active">Ngày</a>
-                <a onclick=latest.show(2); class="linh-bg-button active">Tuần</a>
-                <a onclick=latest.show(3); class="linh-bg-button active">Tháng</a>
+                <a style="text-decoration:none" href="javascript:void(0)" id="latest_post" data-name="latest_post"
+                    class="linh-bg-button active">Bài
+                    viết mới nhất</a>
+                <a style="text-decoration:none" href="javascript:void(0)" id="top_week" data-name="top_week"
+                    class="linh-bg-button active">Bài viết
+                    Tuần</a>
+                <a style="text-decoration:none" href="javascript:void(0)" id="top_month" data-name="top_month"
+                    class="linh-bg-button active">Bài viết
+                    Tháng</a>
             </div>
             <div id="data-content" class="tweet-card">
 
@@ -141,31 +142,8 @@
                 <h5 class="hot-tweet-list__title"><span class="newsicon">HOT</span> Có thể bạn quan
                     tâm </h5>
 
-                <ul>
-                    {{-- @foreach ($newsday as $day)
-                    <li>
-                        <a href="{{ route('showpostdetail', ['id' => $day->id ]) }}" class="tweet-item__title">
-                    <div class="tweet-item__bullet"></div>
-                    <div class="tweet-item__content">
-                        <span>{{$day->title}}</span>
-                        <div>
-                            <i class="fa fa-bell-o" aria-hidden="true"></i>
+                @include('front-end.random_posts')
 
-                            <span class="tweet-item__count">359</span>
-                        </div>
-                    </div>
-                    </a>
-                    </li>
-                    @endforeach--}}
-                    Các bài viết random bỏ vào đây
-                    <br>
-                    Các bài viết random bỏ vào đây
-                    <br>
-                    Các bài viết random bỏ vào đây
-                    <br>
-                    Các bài viết random bỏ vào đây
-
-                </ul>
                 <hr>
             </div>
 
@@ -208,12 +186,27 @@
         integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous">
     </script>
     <script>
-        var latest = latest || { }
-        latest.show = function(id) {
+        var latest = latest || { };
+        $("body").on("click", "#latest_post,#top_week,#top_month", function () {
+            article_url = $(this).data("name");
+            switch (article_url) {
+                case "top_week":
+                latest.show('top_week');
+                    break;
+                case "top_month":
+                latest.show('top_month');
+                    break;
+                default:
+                latest.show('latest_post');
+                    break;
+            }
+
+        });
+        latest.show = function(url) {
             // console.log(id);
             $.ajax({
                 type: "GET",
-                url: "/api/latestnews/" + id,
+                url: "/api/article/" + url,
                 dataType: 'json',
                 success: function(data) {
                     console.log(data)
@@ -223,11 +216,11 @@
                             `
                         <div class="tweet-card__avatar-wrapper">
                             <img
-                                src="${value.users_avatar}" />
+                                src="${value.user_avatar}" />
                         </div>
 
                         <div class="tweet-card__info">
-                            <a style="text-decoration:none" href="/post_user/${value.user_id}" class="tweet-card__user-name">${value.users_name}</a>
+                            <a style="text-decoration:none" href="/post_user/${value.user_id}" class="tweet-card__user-name">${value.user_name}</a>
                             <span class="tweet-card__date-post">${value.created_at}</span>
                         </div>
                     </div>
@@ -251,7 +244,7 @@
         };
     $(document).ready(function () {
             // category.drawdata();
-            latest.show(1);
+            latest.show("latest_post");
     });
 
     </script>

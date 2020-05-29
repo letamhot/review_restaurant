@@ -41,8 +41,15 @@
                     <span class="badge badge-white" id="bookmark_count">{{ $post_detail->totalStar }}
                     </span></a>
                 <br>
-                <a href="#comment_place" class=""><i title="Lượt bình luận" style="color: blue;padding:10px "
-                        class="fa fa-comments fa-2x"></i></a><span>{{ $post_detail->totalComment }}</span> @endguest
+                <a href="#comment_place" class=""><i title="Lượt bình luận" style="color: blue;padding:10px"
+                        class="fa fa-comments fa-2x"></i></a><span>{{ $post_detail->totalComment }}</span>
+                <br>
+                <div id="social-links">
+                    <a style="padding-left:10px"
+                        href="https://www.facebook.com/sharer/sharer.php?u={{ url()->current() }}"
+                        class="social-button " id=""><i title="chia sẻ facebook" class="fa fa-share-alt fa-2x"></i></a>
+                </div>
+                @endguest
             </div>
 
         </aside>
@@ -81,6 +88,7 @@
 
                     <div class="tweet-card__actions-container">
                         <div id="comment_place">
+
                             <button class="linh-button button-md">
                                 <i class="fa fa-bell-o" aria-hidden="true"></i>
                                 {{ $post_detail->totalLike + $post_detail->totalStar }} tương tác
@@ -90,28 +98,13 @@
                                 {{ $post_detail->totalComment }} bình luận
                             </button>
                         </div>
-                        <div id="social-links">
-                            <ul>
-                                <li><a href="https://www.facebook.com/sharer/sharer.php?u={{ url()->current() }}" class="social-button " id=""><span class="fa fa-facebook-official"></span></a></li>
-                                <li><a href="https://twitter.com/intent/tweet?text=my share text&amp;url={{ url()->current() }}" class="social-button " id=""><span class="fa fa-twitter"></span></a></li>
-                                <li><a href="http://www.linkedin.com/shareArticle?mini=true&amp;url=http://jorenvanhocht.be&amp;title=my share text&amp;summary=dit is de linkedin summary" class="social-button " id=""><span class="fa fa-linkedin"></span></a></li>
-                                <li><a href="https://wa.me/?text={{ url()->current() }}" class="social-button " id=""><span class="fa fa-whatsapp"></span></a></li>
-                            </ul>
-                        </div>
-                        <div>
-                            <span class="tweet-card__read-count">
-                                13 min read
-                            </span> ​
-                            <button class="linh-button button-md button-silver">
-                                Save
-                            </button>
-                        </div>
-                    </div>
-                    <div>
-                    ​ @include('laravelLikeComment::comment', ['comment_item_id' => $post_detail->id])
                     </div>
                 </div>
+                <div>
+                    @include('laravelLikeComment::comment', ['comment_item_id' => $post_detail->id])
+                </div>
             </div>
+        </div>
         </div>
         </div>
 
