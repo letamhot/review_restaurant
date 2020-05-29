@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Post;
 use App\Http\Requests\PostRequest;
-use App\Services\PostService;
-use Illuminate\Http\Request;
-use App\Models\User;
 use App\Models\Category;
-use App\Models\Post_Tag;
+use App\Models\Post;
 use App\Models\Tag;
+use App\Models\User;
+use App\Services\PostService;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
@@ -34,7 +33,6 @@ class PostController extends Controller
         // foreach($posts as $a){
         //     $a['tag_name'] = $a->tag()->pluck('name')->toArray();
         // }l
-
 
         foreach ($posts as $key => $post) {
             $posts[$key]['name'] = User::find($post['user_id'])->name;
@@ -223,16 +221,15 @@ class PostController extends Controller
     public function postuser()
     {
         $posts = $this->postService->user_post();
-        if ($posts){
+        if ($posts) {
             foreach ($posts as $key => $post) {
                 $posts[$key]['name'] = User::find($post['user_id'])->name;
                 $posts[$key]['category_name'] = $post->category->name;
-                $posts[$key]['tag_name'] = implode(', ',$post->tag()->pluck('name')->toArray());
+                $posts[$key]['tag_name'] = implode(', ', $post->tag()->pluck('name')->toArray());
 
-    
             }
         }
-        return response()->json( $posts, 200);
+        return response()->json($posts, 200);
     }
 
     public function check(Request $request, $id)

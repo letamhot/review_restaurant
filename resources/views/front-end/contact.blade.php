@@ -27,7 +27,7 @@
                     <h1 style="text-align: center">Mọi thắc mắc xin liên hệ</h1>
                     <div class="contact">
                         <div class="card">
-                            <img src="/posts/destop.jpg" alt="John" style="width:100%; height:250px">
+                            <img src="{{ asset('/posts/destop.jpg')}}" alt="John" style="width:100%; height:250px">
                             <h1>Nhật Linh</h1>
                             <p class="title">Chịu trách nhiệm nội dung và hình ảnh</p>
                             <p>Harvard University</p>
@@ -42,7 +42,7 @@
                     </div>
                     <div class="contact">
                         <div class="card">
-                            <img src="/posts/tamle.jpg" alt="John" style="width:100%; height:250px">
+                            <img src="{{ asset('/posts/tamle.jpg')}}" alt="John" style="width:100%; height:250px">
                             <h1>Tám LÊ</h1>
                             <p class="title">Chịu Trách Nhiệm Cờ Rịt Bảng Posts và các phần trong Admin</p>
                             <p>Harvard University</p>
@@ -57,10 +57,10 @@
                     </div>
                     <div class="contact">
                         <div class="card">
-                            <img " src="/posts/073930-lee-min-ho1.jpg" alt="John" style="width:100%; height:250px">
-                            <h1>A.Phương</h1>
+                            <img " src="" alt="John" style="width:100%; height:250px">
+                            <h1>Phương</h1>
                             <p class="title">Chịu trách nhiệm các phần trong Admin</p>
-                            <p>Harvard University</p>
+                            {{-- <p>Harvard University</p> --}}
                             <div style="margin: 24px 0;">
                                 <a href="#"><i class="fa fa-dribbble"></i></a>
                                 <a href="#"><i class="fa fa-twitter"></i></a>

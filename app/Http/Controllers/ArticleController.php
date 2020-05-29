@@ -5,13 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Services\ArticleService;
 use Carbon\Carbon;
-
 use Illuminate\Support\Facades\Auth;
 
 class ArticleController extends Controller
 {
     protected $articleService;
-
 
     public function __construct(ArticleService $articleService)
     {
@@ -25,7 +23,7 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $allpost =  $this->articleService->getAll();
+        $allpost = $this->articleService->getAll();
         return view('front-end.allpost', compact('allpost'));
     }
 
@@ -37,7 +35,7 @@ class ArticleController extends Controller
      */
     public function show($id)
     {
-        $post_detail =  $this->articleService->showDetail($id);
+        $post_detail = $this->articleService->showDetail($id);
         // dd($post_detail);
         return view('front-end.page_detail', compact('post_detail'));
     }

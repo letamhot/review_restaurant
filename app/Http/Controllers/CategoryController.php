@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
-use App\Models\Post;
 use App\Services\CategoryService;
 use Illuminate\Http\Request;
 
@@ -216,8 +215,7 @@ class CategoryController extends Controller
      *
      * @param bool $result
      */
-    function goto($result)
-    {
+    function goto ($result) {
         if ($result) {
             // Toastr::success('Successfully! :)', 'Success');
 

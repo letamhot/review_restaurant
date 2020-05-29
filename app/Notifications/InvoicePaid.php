@@ -2,12 +2,11 @@
 
 namespace App\Notifications;
 
-
-use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
 use App\Models\User;
+use Illuminate\Bus\Queueable;
+use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
+
 class InvoicePaid extends Notification
 {
     use Queueable;
@@ -19,7 +18,7 @@ class InvoicePaid extends Notification
      *
      * @return void
      */
-    public function __construct($user , $post)
+    public function __construct($user, $post)
     {
         $this->user = $user;
         $this->post = $post;
@@ -34,7 +33,7 @@ class InvoicePaid extends Notification
      */
     public function via($notifiable)
     {
-        return ['database' , 'mail'];
+        return ['database'];
     }
 
     /**
@@ -46,9 +45,9 @@ class InvoicePaid extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+            ->line('The introduction to the notification.')
+            ->action('Notification Action', url('/'))
+            ->line('Thank you for using our application!');
     }
 
     /**
