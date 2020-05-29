@@ -65,16 +65,13 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
             } else {
                 $post->is_approved = 0;
             }
-
             if(Auth::user()->role_id !== "1"){
                 $adminUser = User::where("role_id", 1)->get();
                 $user = Auth::user();
                 foreach($adminUser as $admin){
                 $admin->notify(new InvoicePaid( $user, $post));
                 }
-    
             }            
-
             $post->save();
             
             foreach ($request->tag as $tag) {
@@ -211,14 +208,8 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
     {
         $post = $this->getPost()::findOrFail($id);
         $post->is_approved = 1;
-
-           
-            $user = User::find($post->user_id);
-
-            $user->notify(new InvoicePaid( Auth::user(), $post));
-
-
-
+        $user = User::find($post->user_id);
+        $user->notify(new InvoicePaid( Auth::user(), $post));
         $post->update();
         return true;
     }
