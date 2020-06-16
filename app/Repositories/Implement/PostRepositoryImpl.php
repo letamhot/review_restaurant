@@ -230,6 +230,6 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
 
     public function search($query)
     {
-        return $this->getPost()::whereRaw('LOWER(`title`) LIKE ? ', ['%' . trim(strtolower($query)) . '%'])->approved(true)->get();
+        return $this->getPost()::whereRaw('LOWER('title') LIKE ? ', ['%' . trim(strtolower($query)) . '%'])->approved(true)->get();
     }
 }
