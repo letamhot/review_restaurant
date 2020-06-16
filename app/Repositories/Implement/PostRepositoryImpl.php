@@ -77,7 +77,6 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
             foreach ($request->tag as $tag) {
                 $post->tag()->attach($tag);
             }
-
         } catch (\Exception $e) {
             dd($e->getMessage());
             // return null;
@@ -227,5 +226,10 @@ class PostRepositoryImpl extends EloquentRepository implements PostRepository
     protected function getPost()
     {
         return app()->make($this->getModel());
+    }
+
+    public function search($query)
+    {
+        return $this->getPost()::where('title', 'LIKE', "%{$query}%")->approved(true)->get();
     }
 }

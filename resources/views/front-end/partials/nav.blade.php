@@ -4,8 +4,9 @@
             <a href="{{ url('/') }}" style="text-decoration:none" class="app-logo">
                 TLP
             </a>
-            <form action="" style="display:inline-block">
-                <input type="text" style="width: 300px; height: 20px;" placeholder="Bạn Muốn Tìm Gì?" />
+        <form method="POST" action="{{ route('guest.search') }}" style="display:inline-block">
+                @csrf
+                <input type="text" name="query" style="width: 300px; height: 20px;" placeholder="Bạn Muốn Tìm Gì?" />
                 <button type="submit" class="linh-button button-sm">
                     Tìm Kiếm
                 </button>

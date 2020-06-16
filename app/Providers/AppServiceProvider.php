@@ -28,7 +28,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         view()->composer([
-            'front-end.tagdetail', 'front-end.categories', 'front-end.landing-page', 'front-end.latest-news', 'front-end.tagdetail', 'front-end.post_user'
+            'front-end.tagdetail', 'front-end.categories', 'front-end.landing-page', 'front-end.latest-news', 'front-end.search', 'front-end.tagdetail', 'front-end.post_user'
         ], function ($view) {
             $tags = Tag::all();
             $categories = Category::all();

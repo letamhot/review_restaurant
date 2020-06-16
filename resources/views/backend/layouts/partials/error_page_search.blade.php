@@ -1,6 +1,6 @@
 <div class="page-search">
   <!-- Search Form-->
-  <form action="" method="post">
+  <form action="" method="post" hidden >
       @csrf
       <div class="form-group floating-addon floating-addon-not-append">
           <div class="input-group">
@@ -19,6 +19,6 @@
       </div>
   </form>
   <div class="mt-3">
-      <a href="#">Back to Home</a>
+    <a href="{{ url('/') }}">Back to Home</a>
   </div>
 </div>

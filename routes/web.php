@@ -119,3 +119,6 @@ Route::get('/detailcategory/{id}', 'CategoryController@showdetailcategory')->nam
 
 // ADMIN - Dashboard
 Route::get('/admin/dashboard', 'DashboardController@statistic')->name('admin.dashboard');
+
+// SEARCH
+Route::post('/search', 'SearchController')->name('guest.search');
