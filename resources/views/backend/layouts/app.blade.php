@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
+    <link rel="icon" href="{{ asset('/favicon.ico')}}" type="image/icon">
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -15,7 +15,7 @@
     <!-- General CSS Files -->
     <link rel="stylesheet" href="{{ asset('assets/backend/modules/bootstrap/css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{ asset('assets/backend/modules/fontawesome/css/all.min.css')}}">
-  
+
 
     <!-- CSS for specific page -->
     @stack('css')
@@ -24,10 +24,10 @@
     <!-- Template CSS -->
     <link rel="stylesheet" href="{{ asset('assets/backend/css/style.min.css')}}">
     <link rel="stylesheet" href="{{ asset('assets/backend/css/components.min.css')}}">
-    
+
     <!-- Custom JS in header for specific page -->
     @stack('head_js')
-    
+
 
 </head>
 
@@ -76,7 +76,7 @@
                     </div>
                 </section>
             </div>
-           
+
             <!-- Modal Bootstrap Dialog -->
             @yield('modal_content')
 
@@ -86,7 +86,7 @@
             </div>
         </div>
     </div> <!-- End App -->
-    
+
     <!-- General JS Scripts -->
     <script src="{{ asset('assets/backend/modules/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/backend/modules/popper.js') }}"></script>
@@ -96,7 +96,7 @@
     <script src="{{ asset('assets/backend/js/stisla.js') }}"></script>
     <!-- Template JS File -->
     <script src="{{ asset('assets/backend/js/scripts.js') }}"></script>
-  
+
     @endif
 
     <!-- Custom JS File -->
@@ -105,7 +105,7 @@
     @stack('js-posts')
 
     @stack('js-role')
-    @stack('js-tag') 
+    @stack('js-tag')
     @stack('js-userPost')
 </body>
 

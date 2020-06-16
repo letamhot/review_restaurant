@@ -30,13 +30,12 @@ class ArticleServiceImpl extends BaseServiceImpl implements ArticleService
         // get post instance
         $post = $this->makeRepo()->getDetail($id);
         $user = Auth::user();
+        // get total reaction of this post
+        $totalReaction = $this->reactionService->getTotalReactionOneReactant($post);
+
+        $post->totalLike = $totalReaction['totalLikes'];
+        $post->totalStar = $totalReaction['totalFavorites'];
         if ($user) {
-            // get total reaction of this post
-            $totalReaction = $this->reactionService->getTotalReactionOneReactant($post);
-
-            $post->totalLike = $totalReaction['totalLikes'];
-            $post->totalStar = $totalReaction['totalFavorites'];
-
             // can check through AJAX call isUserReacted() method
             $user_reaction = $this->reactionService->isUserReacted($user, $post);
             $post->isUserLiked = $user_reaction['isLiked'];

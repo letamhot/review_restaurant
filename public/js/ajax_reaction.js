@@ -12,7 +12,7 @@ $(function () {
 });
 
 // #guest_like, #guest_star ID of clicked button
-$("body").on('click', '#guest_like,#guest_star', function () {
+$("body").on('click', '#guest_like,#guest_star,#guest_comment', function () {
     console.log('click');
     $.msgLoginFirst();
 });
@@ -54,9 +54,9 @@ $("body").on('click', '#user_like,#user_star', function (e) {
             }
 
             if (data.type == 'favorite') {
-                  if (data.status.favorite) {
-                $('#user_star i').removeClass("fa-bookmark-o");
-                $('#user_star i').addClass("fa-bookmark");
+                if (data.status.favorite) {
+                    $('#user_star i').removeClass("fa-bookmark-o");
+                    $('#user_star i').addClass("fa-bookmark");
                 } else if (data.status.favorite == false) {
                     $('#user_star i').removeClass("fa-bookmark");
                     $('#user_star i').addClass("fa-bookmark-o");
