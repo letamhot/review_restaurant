@@ -40,11 +40,15 @@ class ArticleRepositoryImpl extends EloquentRepository implements ArticleReposit
 
     public function getLatestPost($number)
     {
-        $posts =  $this->getPostModel()::latest()->approved(true)->take($number)->get();
+        $posts = $this->getPostModel()::latest()->approved(true)
+            ->withCount('likers')
+            ->take($number)->get();
 
         foreach ($posts as $post) {
             $post->user_name = implode('', $post->user()->pluck('name')->toArray());
             $post->user_avatar = implode('', $post->user()->pluck('avatar')->toArray());
+            $allPostComment = \risul\LaravelLikeComment\Models\Comment::where('item_id', $post->id)->count();
+            $post->totalComment = $allPostComment;
         }
         return $posts;
     }
@@ -54,14 +58,9 @@ class ArticleRepositoryImpl extends EloquentRepository implements ArticleReposit
         return $this->getPostModel()::latest()->approved(true)->whereCategoryId($category_id)->get();
     }
 
-    public function getPostsByCategory($category_id)
-    {
-        return $this->getPostModel()::latest()->approved(true)->whereCategoryId($category_id)->get();
-    }
-
     public function getTopReactPost($days, $number, $sort_by = 'desc')
     {
-        $posts =  $this->getPostModel()::lastDays($days)->approved(true)
+        $posts = $this->getPostModel()::lastDays($days)->approved(true)
             ->withCount('likers')
             ->withCount('favoriters')
             ->orderBy('likers_count', $sort_by)
@@ -73,6 +72,8 @@ class ArticleRepositoryImpl extends EloquentRepository implements ArticleReposit
         foreach ($posts as $post) {
             $post->user_name = implode('', $post->user()->pluck('name')->toArray());
             $post->user_avatar = implode('', $post->user()->pluck('avatar')->toArray());
+            $allPostComment = \risul\LaravelLikeComment\Models\Comment::where('item_id', $post->id)->count();
+            $post->totalComment = $allPostComment;
         }
         return $posts;
     }

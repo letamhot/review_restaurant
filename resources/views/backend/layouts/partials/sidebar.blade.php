@@ -34,8 +34,8 @@
             </li>
         </ul>
         <div class="mt-4 mb-4 p-3 hide-sidebar-mini">
-            <a href="#" class="nav-link">
-                <i class="fas fa-rocket"></i> Homepage
+            <a href="{{ url('/') }}" class="nav-link">
+                <i class="fas fa-home" aria-hidden="true"></i> Homepage
             </a>
         </div>
     </aside>

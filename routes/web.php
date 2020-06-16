@@ -11,13 +11,12 @@
  */
 // DISABLE REGISTER
 
-
 Auth::routes([
     'register' => false,
-    'reset' => false
+    'reset' => false,
 ]);
 
-Route::get('/', function () {    
+Route::get('/', function () {
     return view('front-end.landing-page');
 });
 
@@ -117,3 +116,9 @@ Route::get('/restaurants', function () {
 // category
 Route::get('/', 'CategoryController@showAllCategory');
 Route::get('/detailcategory/{id}', 'CategoryController@showdetailcategory')->name('showdetailcategory');
+
+// ADMIN - Dashboard
+Route::get('/admin/dashboard', 'DashboardController@statistic')->name('admin.dashboard');
+
+// SEARCH
+Route::post('/search', 'SearchController')->name('guest.search');

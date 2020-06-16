@@ -30,7 +30,7 @@ class TagController extends Controller
                 return $this->tagService->getAllAJAX();
             }
 
-            return view($this->path.'index');
+            return view($this->path . 'index');
         } catch (\Exception $e) {
             return $this->errorExceptionMessage();
         }
@@ -118,6 +118,15 @@ class TagController extends Controller
         // USING store() METHOD - createOrUpdate
     }
 
+    public function showdetailtag($id)
+    {
+
+        $tagdetail = $this->tagService->findById($id);
+        
+
+        return view('front-end.tagdetail', compact('tagdetail'));
+    }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -132,7 +141,7 @@ class TagController extends Controller
             if ($id == '1') {
                 return $this->errorFailMessage('Can not delete default resource!');
             }
-          
+
             $tag = $this->tagService->findById($id);
             $result = $this->tagService->destroy($tag);
 
@@ -198,8 +207,6 @@ class TagController extends Controller
             return $this->errorExceptionMessage();
         }
     }
-
-
 
     /**
      * Display validation errors of request.

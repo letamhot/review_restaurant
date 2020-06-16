@@ -6,76 +6,9 @@
     </header>
     @section('content')
     <main style="padding-top: 50px " class="main-container">
-        <aside class="left-side">
-            <ul>
-                <li>
-                    <a href="/login" class="tweet-item__title">
-                        <div class="tweet-item__bulletsizebar">
-                            <i class="fa fa-user fa-2x" style="color: blue" aria-hidden="true"></i>
-                        </div>
-                        <div class="tweet-item__content">
-                            Đăng Kí/ Đăng Nhập
-                        </div>
-                    </a>
-                </li>
-                @if(Auth::user())
-                <li>
-                    <a href="/post" class="tweet-item__title">
-                        <div class="tweet-item__bulletsizebar">
-                            <i class="fa fa-area-chart fa-2x" style="color: green" aria-hidden="true"></i>
-                        </div>
-                        <div class="tweet-item__content">
-                            Admin
-                        </div>
-                    </a>
-                </li>
-                @else
-                <a href="/login" class="tweet-item__title">
-                    <div class="tweet-item__bulletsizebar">
-                        <i class="fa fa-area-chart fa-2x" style="color: green" aria-hidden="true"></i>
-                    </div>
-                    <div class="tweet-item__content">
-                        Admin
-                    </div>
-                </a>
-                @endif
-                <li>
-                    <a href="/fqa" class="tweet-item__title">
-                        <div class="tweet-item__bulletsizebar">
-                            <i class="fa fa-file-text fa-2x" style="color: purple" aria-hidden="true"></i>
-                        </div>
-                        <div class="tweet-item__content">
-                            FQA
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="" class="tweet-item__title">
-                        <div class="tweet-item__bulletsizebar">
-                            <i class="fa fa-volume-control-phone fa-2x" style="color: orange" aria-hidden="true"></i>
-                        </div>
-                        <div class="tweet-item__content">
-                            Liên Hệ
-                        </div>
-                    </a>
-                </li>
-            </ul>
-            <ul>
-                <p style="text-align:center; color:blue"><i class="fa fa-tags" style="color: red"
-                        aria-hidden="true"></i> #HashTag</p>
-                <div class="tagscroll">
-                    @foreach ($tags as $tag )
-                    <li>
-                        <a href="{{ route('showdetailtag', ['id' => $tag->id ]) }}" class="tweet-item__title">
-                            <div class="tweet-item__content">
-                                {{ $tag->name }}
-                            </div>
-                        </a>
-                    </li>
-                    @endforeach
-                </div>
-            </ul>
-        </aside>
+         <!-- Left side-bar -->
+         @include('front-end.sidebar_left')
+         <!-- /Left side-bar -->
 
         <div class="main-content">
             <div class="tab-controllers">

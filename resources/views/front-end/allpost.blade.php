@@ -11,77 +11,9 @@
     </header>
     @section('content')
     <main class="main-container">
-        <aside class="left-side">
-            <ul>
-                <li>
-                    <a href="/login" class="tweet-item__title">
-                        <div class="tweet-item__bulletsizebar">
-                            <i class="fa fa-user fa-2x" style="color: blue" aria-hidden="true"></i>
-                        </div>
-                        <div class="tweet-item__content">
-                            Đăng Kí/ Đăng Nhập
-                        </div>
-                    </a>
-                </li>
-                @if(Auth::user())
-                <li>
-                    <a href="/post" class="tweet-item__title">
-                        <div class="tweet-item__bulletsizebar">
-                            <i class="fa fa-area-chart fa-2x" style="color: green" aria-hidden="true"></i>
-                        </div>
-                        <div class="tweet-item__content">
-                            Admin
-                        </div>
-                    </a>
-                </li>
-                @else
-                <a href="/post" class="tweet-item__title">
-                    <div class="tweet-item__bulletsizebar">
-                        <i class="fa fa-area-chart fa-2x" style="color: green" aria-hidden="true"></i>
-                    </div>
-                    <div class="tweet-item__content">
-                        Admin
-                    </div>
-                </a>
-                @endif
-                <li>
-                    <a href="/fqa" class="tweet-item__title">
-                        <div class="tweet-item__bulletsizebar">
-                            <i class="fa fa-file-text fa-2x" style="color: purple" aria-hidden="true"></i>
-                        </div>
-                        <div class="tweet-item__content">
-                            FQA
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="/contact" class="tweet-item__title">
-                        <div class="tweet-item__bulletsizebar">
-                            <i class="fa fa-volume-control-phone fa-2x" style="color: orange" aria-hidden="true"></i>
-                        </div>
-                        <div class="tweet-item__content">
-                            Liên Hệ
-                        </div>
-                    </a>
-                </li>
-            </ul>
-            <ul>
-                <p style="text-align:center; color:blue"><i class="fa fa-tags" style="color: red"
-                        aria-hidden="true"></i> Các Loại Nhà Hàng</p>
-                <div class="tagscroll">
-                    @foreach ($categories as $category )
-                    <li>
-                        <a href="{{ route('showdetailcategory', ['id' => $category->id ]) }}" class="tweet-item__title">
-                            <div class="tweet-item__content">
-                                {{ $category->name }}
-                            </div>
-
-                        </a>
-                    </li>
-                    @endforeach
-                </div>
-            </ul>
-        </aside>
+        <!-- Left side-bar -->
+        @include('front-end.sidebar_left')
+        <!-- /Left side-bar -->
 
         <div class="main-content">
             <div class="tweet-card">
@@ -129,60 +61,15 @@
             </div>
         </div>
 
-
-
-
         <aside class="right-side">
             <div class="hot-tweet-list">
-                <a href="#" style="text-decoration: none; color: brown; text-align: justify " href=""><i
-                        style="color: brown" class="fa fa-hand-o-right fa-3x" aria-hidden="true"></i>Xem tất cả các bài
-                    viết tại đây</a>
                 <h5 class="hot-tweet-list__title"><span class="newsicon">HOT</span> Có thể bạn quan
                     tâm </h5>
-
-                <ul>
-                    {{-- @foreach ($newsday as $day)
-                    <li>
-                        <a href="{{ route('showpostdetail', ['id' => $day->id ]) }}" class="tweet-item__title">
-                    <div class="tweet-item__bullet"></div>
-                    <div class="tweet-item__content">
-                        <span>{{$day->title}}</span>
-                        <div>
-                            <i class="fa fa-bell-o" aria-hidden="true"></i>
-
-                            <span class="tweet-item__count">359</span>
-                        </div>
-                    </div>
-                    </a>
-                    </li>
-                    @endforeach--}}
-                    Các bài viết random bỏ vào đây
-                    <br>
-                    Các bài viết random bỏ vào đây
-                    <br>
-                    Các bài viết random bỏ vào đây
-                    <br>
-                    Các bài viết random bỏ vào đây
-
-                </ul>
+                @include('front-end.random_posts')
                 <hr>
             </div>
 
-            <div class="hot-tweet-list">
-                <p style="text-align:center; color:blue"><i class="fa fa-tags" style="color: red"
-                        aria-hidden="true"></i> #Hashtag</p>
-                <div class="tagscrolltag">
-                    @foreach ($tags as $tag )
-                    <li style="list-style:none; font-weight: bolder">
-                        <a href="{{ route('showdetailtag', ['id' => $tag->id ]) }}" class="tweet-item__title">
-                            <div style="color:purple" class="tweet-item__content">
-                                <span style="color:red">#</span>{{ $tag->name }}
-                            </div>
-                        </a>
-                    </li>
-                    @endforeach
-                </div>
-            </div>
+            @include('front-end.sidebar_right')
         </aside>
     </main>
     <script src="https://code.jquery.com/jquery-3.5.1.js"

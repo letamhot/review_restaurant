@@ -15,6 +15,6 @@ interface PostRepository extends BaseRepository
     public function postStatistic();
 
     public function user_post();
+
+    public function search($query);
 }
-
-

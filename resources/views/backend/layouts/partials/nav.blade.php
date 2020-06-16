@@ -5,11 +5,11 @@
             <li><a href="#" data-toggle="search" class="nav-link nav-link-lg d-sm-none"><i
                         class="fas fa-search"></i></a></li>
         </ul>
-        <div class="search-element">
+        {{-- <div class="search-element">
             <input class="form-control" type="search" placeholder="Search" aria-label="Search" data-width="250">
             <button class="btn" type="submit"><i class="fas fa-search"></i></button>
             <div class="search-backdrop"></div>
-        </div>
+        </div> --}}
     </form>
     <ul class="navbar-nav navbar-right">
         <li class="dropdown dropdown-list-toggle"><a href="#" data-toggle="dropdown"
@@ -22,23 +22,29 @@
                 </div>
                 <div class="dropdown-list-content dropdown-list-icons">
                     @if(Auth::user()->role_id == "1")
-                    <div class="dropdown-item-desc">
                         @foreach (Auth::user()->unreadnotifications as $notify)
-                        <h3>{{$notify->data['post_name']}} waiting</h3>
-                        <div class="time text-dark" style="float: right">
-                            <h6>{{$notify->created_at}}</h6>
-                        </div>
+                        <a href="javascript:void(0)" class="dropdown-item">
+                            <div class="dropdown-item-icon bg-info text-white">
+                              <i class="far fa-info"></i>
+                            </div>
+                            <div class="dropdown-item-desc">
+                              <p>{{ $notify->data['post_name'] }}</p>
+                              <div class="time">{{$notify->created_at}}</div>
+                            </div>
+                        </a>
                         @endforeach
-                    </div>
                     @else
-                    <div class="dropdown-item-desc">
                         @foreach (Auth::user()->unreadnotifications as $notify)
-                        <h3>{{$notify->data['post_name']}} has been approved</h3>
-                        <div class="time text-dark" style="float: right">
-                            <h6>{{$notify->created_at}}</h6>
-                        </div>
+                        <a href="javascript:void(0)" class="dropdown-item">
+                            <div class="dropdown-item-icon bg-info text-white">
+                              <i class="far fa-info"></i>
+                            </div>
+                            <div class="dropdown-item-desc">
+                              <p>{{ $notify->data['post_name'] }}</p>
+                              <div class="time">{{ $notify->created_at->diffForHumans() }}</div>
+                            </div>
+                        </a>
                         @endforeach
-                    </div>
                     @endif
                 </div>
                 {{-- <div class="dropdown-footer text-center">
